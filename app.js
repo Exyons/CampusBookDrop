@@ -15,7 +15,7 @@ const User = require("./db_models/user");
 const mongoSanitize = require('express-mongo-sanitize');
 const MongoStore = require('connect-mongo');
 const wrapAsync = require("./utils/WrapAsync");
-// const bodyParser = require('body-parser');
+const helmet = require('helmet');
 
 const sessionSecrete = process.env.SESSION_SECRET || "NotSoNiceScectetIGuess";
 
@@ -24,7 +24,8 @@ const sessionSecrete = process.env.SESSION_SECRET || "NotSoNiceScectetIGuess";
 // If they know it then ok, otherwise tell them to change password, probably someone else accessed their account
 
 // Connecting MongoDB database
-const dbUrl = process.env.DB_URL || "mongodb://127.0.0.1:27017/BookSellingApp";
+// const dbUrl = process.env.DB_URL 
+const dbUrl = "mongodb://127.0.0.1:27017/BookSellingApp";
 mongoose.connect(dbUrl)
     .then(() => {
         console.log("DB Connected");
@@ -67,7 +68,42 @@ const sessionOptions = {
     }
 }
 
-// app.use(bodyParser.json());
+
+// Using helmet to secure website more
+app.use(helmet())
+
+const scriptSrcUrls = [
+    "https://stackpath.bootstrapcdn.com/",
+    "https://cdn.jsdelivr.net/"
+];
+const styleSrcUrls = [
+    // "https://kit-free.fontawesome.com/",
+    "https://stackpath.bootstrapcdn.com/",
+    "https://fonts.googleapis.com/",
+    // "https://use.fontawesome.com/",
+    "https://cdn.jsdelivr.net"
+];
+
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            defaultSrc: [],
+            connectSrc: ["'self'"],
+            scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+            styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+            workerSrc: ["'self'", "blob:"],
+            objectSrc: [],
+            imgSrc: [
+                "'self'",
+                "blob:",
+                "data:",
+                `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/`, //SHOULD MATCH YOUR CLOUDINARY ACCOUNT! 
+            ],
+            fontSrc: ["'self'"],
+        },
+    })
+);
+
 
 app.use(session(sessionOptions));
 
