@@ -1,0 +1,23 @@
+const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+
+
+const toastText = document.querySelector('.toast-body-text')
+const toast = document.querySelector('.toast')
+const toastLive = document.getElementById('liveToastBody')
+const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLive);
+
+const showToast = (message) => {
+    if (message.success){
+        toast.classList.remove("text-bg-danger");
+        toast.classList.add("text-bg-success");
+        toastText.innerText = message.success;
+        toastBootstrap.show();
+    }
+    if (message.error){
+        toast.classList.remove("text-bg-success");
+        toast.classList.add("text-bg-danger");
+        toastText.innerText = message.error;
+        toastBootstrap.show();
+    }
+}

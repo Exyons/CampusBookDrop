@@ -1,0 +1,66 @@
+<% layout("layouts/boilerplate") -%>
+
+<%- include("partials/addressFormModal")  %> 
+<%- include("partials/bookFormModal")  %>
+
+    <h2 class="text-center">Dashboard</h2>
+    <div class="container">
+        <div class="dashboard-container">
+            <div class="dashboard-navbar">
+                <a class="dashboard-lnk account selected">Account</a>
+                <a class="dashboard-lnk orders">Orders</a>
+                <a class="dashboard-lnk addresses">Addresses</a>
+                <% if (currentUser.user_type === "seller") { %>
+                    <!-- <a class="dashboard-lnk analytics">Analytics</a> -->
+                    <a class="dashboard-lnk books">Your Books</a>
+                    <a class="dashboard-lnk received-orders">Received Orders</a>
+                <% } %>
+                <% if (currentUser.user_type === "delivery") { %>
+                    <a class="dashboard-lnk deliveries">Deliveries</a>
+                <% } %>
+            </div>
+        </div>
+
+        <div class="content-container shadow my-3 rounded-5">
+            <div class="content account">
+                <%- include("partials/account") %>
+            </div>
+            <div class="content orders">
+                <%- include("partials/orders") %>
+            </div>
+            <div class="content addresses">
+                <button class="btn btn-primary add-new-address mt-4" data-bs-target="#addressFormModal"
+                    data-bs-toggle="modal">Add New</button>
+                <div class="container-fluid d-flex flex-wrap justify-content-evenly address-container">
+                    <%- include("partials/addresses") %>
+                </div>
+            </div>
+            <% if (currentUser.user_type === "seller") { %>
+                <!-- <div class="content analytics"> -->
+                    <%# include("partials/analytics") %>
+                <!-- </div> -->
+                <div class="content books">
+                    <button class="btn btn-primary add-new-book mt-4" data-bs-toggle="modal"
+                        data-bs-target="#bookFormModal">Add New Book</button>
+                    <div class="container-fluid d-flex flex-wrap justify-content-evenly seller-book-container">
+                        <%- include("partials/your_books") %>
+                    </div>
+                </div>
+                <div class="content received-orders">
+                    <div class="container-fluid d-flex flex-wrap justify-content-evenly received-orders-container">
+                        <%- include("partials/received_orders") %>
+                    </div>
+                </div>
+            <% } %>
+            <% if (currentUser.user_type === "delivery") { %>
+                <div class="content deliveries">
+                    <div class="container-fluid d-flex flex-wrap justify-content-evenly deliveries-container">
+                        <%- include("partials/your_deliveries") %>
+                    </div>
+                </div>
+            <% } %> 
+        </div>
+    </div>
+
+    <script src="/js/user_dashboard.js"></script>
+    <script src="/js/address_page.js"></script>

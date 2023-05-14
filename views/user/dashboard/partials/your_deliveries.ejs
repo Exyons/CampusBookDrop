@@ -1,0 +1,87 @@
+<% if(userDeliveryOrders.length > 0) { %> 
+    <div class="row my-3">
+        <div class="col-12">
+            <h4 class="text-center my-3">All Open Deliveries</h4>
+        </div>
+    </div>
+    <% userDeliveryOrders.forEach(order => { %> 
+        <div class="constiner-fluid delivery-order-container my-3">
+            <div class="card">
+                <div class="header d-flex justify-content-between">
+                    <div class="d-flex flex-column card-body"> 
+                        <div class="d-flex flex-column">
+                            <h6 class="card-title order-id">Order Id: </h6>
+                            <p class="card-text mt-0 mb-1"><%= order.order_id %></p> 
+                        </div>
+                        <div class="d-flex flex-column">
+                            <h6 class="card-title order-status">Delivery Status: </h6>
+                            <p class="card-text mt-0 mb-1"><%= order.delivery_status[0].toUpperCase() + order.delivery_status.slice(1) %></p> 
+                        </div>
+                    </div>
+                    <div class="show-delivery-options my-2 mx-2">
+                        <button class="show-delivery-options-btn btn btn-secondary" id="<%=order.order_id%>">
+                            Set Status
+                        </button>
+                        <div class="show-delivery-options-body shadow rounded-2 mt-2" id="<%=order.order_id%>">
+                            <div class="d-flex flex-column justify-content-center" id="<%=order.order_id%>">
+                                <button class="btn btn-sm lock-order-btn" id="<%= order._id %>">Lock</button>
+                                <button class="btn btn-sm pickedup-btn"   id="<%= order._id %>">Pickedup</button>
+                                <button class="btn btn-sm delivered-btn"  id="<%= order._id %>">Delivered</button>
+                                <!-- <button class="btn btn-sm failed-btn" id="<%# order._id %>">Delivery Failed</button> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% order.products.forEach((product, index) => { %> 
+                    <div class="card-body">
+                        <div class="card mb-3">
+                            <div class="row g-0">
+                                <div class="col-sm-4">
+                                    <% if (product.product.image) { %>
+                                        <img src="<%= product.product.image.url %> " class="img-fluid rounded-start" alt="...">
+                                    <% } else {%>
+                                        <img src="/resources/photo.avif" class="img-fluid rounded-start" alt="...">
+                                    <% } %> 
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title"><%= product.product.title %></h5>
+                                        <p class="card-text"><%= product.product.description %></p>
+                                        <p class="card-text"><b>Pickup Qty:</b> <%= product.pickup_qty %></p>
+                                        
+                                        <p> <b>Pickup Address: </b> </p>
+                                        <div class="d-flex flex-wrap">
+                                            <p class="ms-1"> <%= order.pickup_addresses[index].name %>,</p>
+                                            <p class="ms-1"> <%= order.pickup_addresses[index].mobile %>,</p>
+                                            <p class="ms-1"> <%= order.pickup_addresses[index].room %></p>
+                                            <% hostel = {TH: "Tilak Hostel", PH: "Patel Hostel", MH:"Malviya Hostel"} %> 
+                                            <p class="ms-1"> <%= hostel[order.pickup_addresses[index].hostel] %></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+                <div class="card-body">
+                    <p> <b>Shipping Address: </b></p>
+                    <div class="d-flex flex-wrap">
+                        <p class="ms-1"> <%= order.shipping_address.name %>,</p>
+                        <p class="ms-1"> <%= order.shipping_address.mobile %>,</p>
+                        <p class="ms-1"> <%= order.shipping_address.room %></p>
+                        <% hostel = {TH: "Tilak Hostel", PH: "Patel Hostel", MH:"Malviya Hostel"} %> 
+                        <p class="ms-1"> <%= hostel[order.shipping_address.hostel] %></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% }) %> 
+<% } else { %>
+    <div class="row my-3">
+        <div class="col-12">
+            <h4 class="text-center my-3">Currently There Are No Orders That Need To Be Delivered</h4>
+        </div>
+    </div>
+<% } %> 
+
+

@@ -1,0 +1,42 @@
+<% if(sellerBooks.length > 0) { %> 
+    <% sellerBooks.forEach(book => { %>
+        <div class="card my-2 seller-book-card" id="<%=book._id%>" style="width: 18em;">
+            <% if (book.image) { %>
+                <img src="<%=book.image.url%>" class="card-img-top ratio ratio-4x3" alt="...">
+            <% } else { %>
+                <img src="/resources/photo.avif"  class="card-img-top ratio ratio-4x3" alt="">
+            <% } %>
+            <div class="card-body" id="bookDetails">
+                <h5 class="card-title" id="bookTitle"><%= book.title %> </h5>
+                <p class="card-text" id="bookDescription"><%= book.description %></p>
+
+                <p>Price: </p>
+                <p id="bookPrice"><%= book.price %> </p>
+
+                <p>Quantity Available: </p>
+                <p id="bookQty"><%= book.qty %> </p>
+
+                <p>For Year: </p>
+                <p id="bookYear"><%= book.year %> </p>
+
+                <p>For Semester: </p>
+                <p id="bookSemester"><%= book.semester %> </p>
+
+                <p>For Programme: </p>
+                <p id="bookProgramme"><%= book.programme %> </p>
+
+                <p>For Branch: </p>
+                <p id="bookBranch"><%= book.branch %> </p>
+
+                <div class="d-flex justify-content-between" id="bookCardButtons">
+                    <button class="btn btn-sm btn-primary edit-seller-book-btn" data-bs-toggle="modal" data-bs-target="#bookFormModal">Edit</button>
+                    <button class="btn btn-sm btn-danger delete-seller-book-btn">Delete</button>
+                </div>
+            </div>
+        </div>
+    <% }) %>
+<% } else { %> 
+    <div class="my-4 text-center fs-3">
+		<p>You have not added any books yet</p>
+	</div>
+<% } %> 

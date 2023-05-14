@@ -1,0 +1,27 @@
+<% layout("layouts/boilerplate") -%>
+
+<div class="container sticky-top d-flex justify-content-center">
+<%- include("partials/filter_navbar") %>
+</div>
+
+<% if (products.length > 0) { %>
+
+    <div class="container">
+        <div class="row custom-row">
+            <% products.forEach(function(product){  %>
+                <%- include("partials/product_card", {product}); %>
+            <% }) %>
+        </div>
+
+    </div>
+    <div class="d-flex justify-content-center my-5">
+        <div class="spinner-grow text-secondary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+<% } else { %>
+    <h1 class="text-white text-center">No Prodcuts Available</h1>
+<% } %>
+
+<script src="/js/books.js"></script>

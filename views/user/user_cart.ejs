@@ -1,0 +1,78 @@
+<% layout("layouts/user_cart_boilerplate") -%>
+
+    <div class="container-fluid cart-container">
+        <div class="container cart-container main-container d-flex flex-column-reverse justify-content-end justify-content-lg-center flex-lg-row min-vh-100 my-3">
+            <div class="container product-container">
+
+             <% let itemTotalPrice = 0 %>
+             <% let deliveryCharge = 30 %>
+             <script>
+                let productsLength = <%=products.length%>;
+             </script>
+                <% if (products.length > 0) { %>
+                    <% products.forEach(product => { %>
+                        <%- include("partials/cart_product", { product }) %> 
+                        <% itemTotalPrice += product.product.price %>
+                    <% }) %>
+                <% } %>
+
+                <div class="card mt-2 mb-3 cart-empty-card shadow">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">Cart Empty</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="container mb-3 cart-total">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h3 class="card-title">Summary</h3>
+                        <div class="d-flex justify-content-between">
+                            <p class="card-text">Subtotal</p>
+                            <p class="item-total-price">&#8377; <%= itemTotalPrice %>
+                            </p>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <p class="card-text">Delivery Charge</p>
+                            <p class="item-total-price">&#8377; <%= deliveryCharge *= products.length %>
+                            </p>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h3 class="card-text">Total Amount</h3>
+                            <h4 class="item-total-price">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-currency-rupee rupee-icon-lg" viewBox="0 0 16 16">
+                                    <path d="M4 3.06h2.726c1.22 0 2.12.575 2.325 1.724H4v1.051h5.051C8.855 7.001 8 7.558 6.788 7.558H4v1.317L8.437 14h2.11L6.095 8.884h.855c2.316-.018 3.465-1.476 3.688-3.049H12V4.784h-1.345c-.08-.778-.357-1.335-.793-1.732H12V2H4v1.06Z"/>
+                                </svg>
+                                <%= itemTotalPrice + deliveryCharge %>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container sticky-bottom text-center">
+            <div class="container p-3">
+                <!-- <div class="card-body"> -->
+                    <h5 class="card-title mb-3"> <span class="no-of-products"></span> item(s) to order</h5>
+                    <div class="place-order-login-btn-container">
+                        <% if (currentUser) { %>
+                            <button class="btn btn-warning mb-2" id="placeOrder">Place Order</button>
+                        <% } else {%>
+                            <a href="/user/log_in" class=" btn btn-info mb-2" id="logIn">Log In</a>
+                        <% } %> 
+                    </div>
+                    <div class="add-books-btn-container">
+                        <a href="/books" class="btn btn-success mb-2" id="addBooks">Add Some Books</a>
+                    </div>
+                <!-- </div> -->
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/user_cart.js"></script>

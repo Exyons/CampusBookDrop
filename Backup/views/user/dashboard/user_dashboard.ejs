@@ -1,0 +1,37 @@
+<% layout("layouts/boilerplate") -%>
+
+    <h2 class="text-center">Dashboard</h2>
+    <div class="container">
+        <div class="dashboard-container">
+            <div class="dashboard-navbar">
+                <a href="#" class="dashboard-lnk account selected">Account</a>
+                <a href="#" class="dashboard-lnk orders">Orders</a>
+                <a href="#" class="dashboard-lnk addresses">Addresses</a>
+                <!-- Analytic option will only be there if the user has joined either as seller or 
+                    helping with delivery-->
+                <a href="#" class="dashboard-lnk analytics">Analytics</a>
+            </div>
+        </div>
+
+        <div class="content-container my-3">
+            <div class="content account p-4">
+                <!-- <h4 class="text-white text-center my-2">Your Account</h4> -->
+                <%- include(`partials/account`) %>
+            </div>
+            <div class="content orders">
+                <h4 class="text-white text-center my-3">All Orders</h4>
+                <% for( let i = 0; i < 4; i++ ) { %>
+                    <%- include(`partials/orders`) %>
+                <% } %>
+            </div>
+            <div class="content addresses">
+                <a class="btn btn-primary add-new-address my-4">Add New</a>
+                <!-- <h4 class="text-white text-center my-2">Saved Addresses</h4> -->
+                <% for( let i = 0; i < 4; i++ ) { %>
+                    <%- include(`partials/addresses`, { i }) %>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/user_dashboard.js"></script>

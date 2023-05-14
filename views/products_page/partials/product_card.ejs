@@ -1,0 +1,46 @@
+<div class="card shadow-sm">
+    <!-- <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg> -->
+    <a href="/books/<%= product.product._id %>" style="text-decoration: none; color: black;">
+        <% if (product.product.image) { %>
+            <img src="<%=product.product.image.url%>" class="card-img-programme ratio ratio-4x3" alt="">
+        <% } else {%>
+            <img src="/resources/photo.avif"  class="card-img-programme ratio ratio-4x3" alt="">
+        <% } %>
+        <div class="card-body">
+            <h5 class="card-title">
+                <% if(product.product.title.length > 25) { %>
+                    <%= product.product.title.slice(0, 25)%>...
+                <% } else { %> 
+                    <%= product.product.title %> 
+                <% } %> 
+            </h5>
+            <p class="card-text mb-2" id="price">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-currency-rupee" viewBox="0 0 16 16">
+                    <path d="M4 3.06h2.726c1.22 0 2.12.575 2.325 1.724H4v1.051h5.051C8.855 7.001 8 7.558 6.788 7.558H4v1.317L8.437 14h2.11L6.095 8.884h.855c2.316-.018 3.465-1.476 3.688-3.049H12V4.784h-1.345c-.08-.778-.357-1.335-.793-1.732H12V2H4v1.06Z"/>
+                </svg>
+                <span class="fs-4"><%= product.product.price %></span>
+            </p>
+            <p class="card-text" id="description"><%= product.product.description.slice(0, 32) %>...</p>
+            <p class="card-text" id="tags"> 
+                <span class="badge text-bg-secondary" id="branchTag"> <%= product.product.branch %> </span> 
+                <span class="badge text-bg-secondary" id="programmeTag"> <%= product.product.programme %> </span>
+            </p>
+        </div>
+    </a>
+    <div class="card-body">
+        <div class="d-flex justify-content-evenly align-items-center">
+            <% if ((!currentUser) || (currentUser._id.toString() !== product.product.user.toString())) { %>
+                <button class="btn buy-now-btn btn-sm btn-outline-success" id="<%= product.product._id %>">Buy Now</button>
+                <% if(product.in_cart) { %> 
+                    <div class="go-to-cart-btn-container" id="<%= product.product._id %>">
+                        <a href="/user_cart" class="btn btn-sm btn-outline-secondary go-to-cart-btn">Go To Cart</a>
+                    </div>
+                <% } else { %> 
+                    <div class="add-to-cart-btn-container">
+                        <button class="btn add-to-cart-btn btn-sm btn-outline-secondary" id="<%= product.product._id %>">Add To Cart</button>
+                    </div>
+                <% } %> 
+            <% } %>
+        </div>
+    </div>
+</div>

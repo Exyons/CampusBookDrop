@@ -1,0 +1,43 @@
+<% if (user.addresses.length > 0) { %>
+	<div class="my-4 text-center fs-3">
+		<p>Your first address will serve as the pickup location for your listed books.</p>
+	</div>
+  <% user.addresses.forEach(address => { %>
+        <div class="card text-bg-light mb-3 address-card" style="max-width: 18rem;" id="<%=address._id%>">
+            <div class="card-header">
+                <button class="btn btn-sm btn-primary edit-address-btn" data-bs-toggle="modal" data-bs-target="#addressFormModal">Edit</button>
+                <button class="btn btn-sm btn-danger delete-address-btn" id="<%=address._id%>">Delete</button>
+            </div>
+            <div class="card-body" id="addressDetails">
+				<h5 class="card-title" id="name"><%= address.name %></h5>
+				<div class="card-text" id="mobileContainer">
+					Mobile <b id="mobile"><%= address.mobile %></b>
+				</div>
+				<div class="card-text" id="roomContainer">
+					Room <b id="room"><%= address.room %></b>
+				</div>
+				<% if (address.hostel === "TH") {%> 
+					<div class="card-text" id="hostel">
+						Hostel <b id="TH">Tilak Hostel</b>
+					</div>
+				<% } %> 
+				<% if (address.hostel === "MH") {%> 
+					<div class="card-text" id="hostel">
+						Hostel <b id="MH">Malviya Hostel</b>
+					</div>
+				<% } %> 
+				<% if (address.hostel === "PH") {%> 
+					<div class="card-text" id="hostel">
+						Hostel <b id="PH">Patel Hostel</b>
+					</div>
+				<% } %> 
+            </div>
+        </div>
+    <% }) %>
+<% } else { %>
+	<div class="my-4 text-center fs-3">
+		<p>You Have not saved any address yet</p>
+	</div>
+<% } %> 
+
+

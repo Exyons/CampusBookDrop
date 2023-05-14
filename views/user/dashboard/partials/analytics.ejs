@@ -1,0 +1,23 @@
+<div class="container">
+    <script src="https://code.jscharting.com/3.4.0/jscharting.js"></script>
+    <div class="product-sales-section my-3">
+        <% if (currentUser.user_type === "seller") { %>
+            <h4>Total Products Sold</h4>
+            <div class="container-fluid my-3">
+                <div id="sellerTotalProductsSoldChart" style="max-width: 740px;height: 350px;margin: 0px auto;"></div>
+            </div>
+            <div>
+                <h4>Total Earnings</h4>
+                <p class="text-secondary fs-6">For every Book you sell we will charge 12%</p>
+                <p class="text-secondary fs-6">If one of your book costs Rs.500, and customer places an order for your book</p>
+                <p class="text-secondary fs-6">After we deliver it successfully and the customer does not returns it within the given time you will get</p>
+                <p class="text-secondary fs-6">We will charge 12 % of Rs. 500 = Rs. 60 and you will receive Rs. 440</p>
+                <p class="text-secondary fs-6">The amount after deducing our charge will be transfered to your saved bank account details</p>
+            </div>
+            <div class="container-fluid my-3">
+                <div id="sellerTotalEarningsChart" style="max-width: 740px;height: 350px;margin: 0px auto;"></div>
+            </div>
+        <% } %> 
+    </div>
+</div>
+<script src="/js/seller_analytics.js"></script>

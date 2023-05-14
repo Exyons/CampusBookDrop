@@ -1,0 +1,67 @@
+<div class="d-grid my-3">
+    <!-- <p class="text-center">Thumbnail</p> -->
+    <div class="container d-flex justify-content-center">
+        <% if (user.user_icon) { %>
+            <img src="<%= user.user_icon.url %>" class="account-thumbnail mb-1" alt="">
+        <% } else {%>
+            <img src="/resources/thumbnail.jpg" class="account-thumbnail mb-1" alt="">
+        <% } %> 
+    </div>
+    <form class="mt-2 d-none" id="userThumbnailForm" enctype="multipart/form-data">
+        <div class="input-group">
+            <input type="file" class="form-control" id="userThumbnail" name="userThumbnail">
+        </div>
+    </form>
+    <div class="account-progress-bar-container d-none">
+        <p class="upload-status-info"></p>
+        <div class="progress" role="progressbar" aria-label="Info Animated striped example"
+            aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-info"
+                style="width: 100%"></div>
+        </div>
+    </div>
+    <button class="btn btn-primary edit-thumbnail-btn my-4" id="<%= user._id%>">Change</button>
+</div>
+
+<div class="container" id="accountDetailsContainer">
+    <form class="needs-validation account-details-form" novalidate enctype="multipart/form-data">
+        <div class="row username-container mb-4">
+            <div class="col-12 col-sm-6 offset-sm-3 form-floating">
+                <input type="text" id="username" name="username" class="form-control account-inputs"
+                    value="<%= user.username %>" disabled required>
+                <label for="username" class="col-form-label ms-3 ">Username</label>
+            </div>
+        </div>
+
+        <div class="row name-container mb-4">
+            <div class="col-12 col-sm-3 offset-sm-3 form-floating">
+                <input type="text" id="firstname" name="firstname" class="form-control account-inputs mb-4 mb-sm-0"
+                    value="<%= user.firstname %>" disabled required>
+                <label for="firstname" class="col-form-label ms-3">First Name</label>
+            </div>
+            <div class="col-12 col-sm-3 form-floating">
+                <input type="text" id="lastname" name="lastname" class="form-control account-inputs"
+                    value="<%= user.lastname %>" disabled required>
+                <label for="lastname" class="col-form-label ms-3">Last Name</label>
+            </div>
+        </div>
+
+        <div class="row email-mobile-btn-container mb-4">
+            <div class="col-12 col-sm-6 offset-sm-3 mb-4 form-floating">
+                <input type="email" id="email" name="email" class="form-control account-inputs"
+                    value="<%= user.email %>" disabled required>
+                <label for="email" class="col-form-label ms-3 ">Email</label>
+            </div>
+
+            <div class="col-12 col-sm-6 offset-sm-3 mb-4 form-floating">
+                <input required type="tel" name="mobile" class="form-control account-inputs" id="InputNumber"
+                    pattern="[0-9]{10}" minlength="10" maxlength="10" value="<%= user.mobile %>" disabled required>
+                <label for="mobile" class="col-form-label ms-3 ">Mobile</label>
+            </div>
+
+            <div class="col-12 d-flex justify-content-center">
+                <button class="btn btn-primary edit-account-details-btn" id="<%= user._id%>">Edit Details</button>
+            </div>
+        </div>
+    </form>
+</div>

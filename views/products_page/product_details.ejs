@@ -1,0 +1,66 @@
+<% layout("layouts/boilerplate") -%>
+    <div class="container mt-2">
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                <% if(product.product.image) {%>
+                    <img src="<%= product.product.image.url %> " class="img-fluid" alt="">
+                <% } else { %>
+                    <img src="/resources/photo.avif" class="img-fluid" alt="">
+                <% } %>
+            </div>
+            
+            <div class="col-12 col-lg-6 p-3 d-flex flex-column justify-content-between">
+                <div>
+                    <h2> <%= product.product.title %> </h2>
+                    <p>Price &#8377; <%= product.product.price %></p>
+                    <p>For Semester <%= product.product.semester %></p>
+                    <p>For Year <%= product.product.year %></p>
+                    <% branch = {CE: "Civil  Engineering", CSE: "Computer Science Engineering", BT: "Biotechnology", ME: "Mechanical Engineering", EE:"Electrical Engineering", ECE:"Electronics Engineering", PE:"Production Engineering", IT:"Information Technology"} %> 
+                    <p>For <%= product.product.programme %>, <%= branch[product.product.branch] %></p>
+                    <% if (product.product.qty > 0) { %>
+                        <p>Available Quantity: <%= product.product.qty %></p>
+                    <% } %>
+                </div>
+                <% if (product.product.qty > 0) { %>
+                    <div>
+                        <% if ((!currentUser) || (currentUser._id.toString() !== product.product.user.toString())) { %>
+                            <div class="d-flex justify-content-between">
+                                <button class="btn buy-now-btn btn-success" id="<%= product.product._id %>">Buy Now</button>
+                                <% if(product.in_cart) { %> 
+                                    <div class="go-to-cart-btn-container" id="<%= product.product._id %>">
+                                        <a href="/user_cart" class="btn btn-secondary go-to-cart-btn">Go To Cart</a>
+                                    </div>
+                                <% } else { %> 
+                                    <div class="add-to-cart-btn-container">
+                                        <button class="btn add-to-cart-btn btn-danger" id="<%= product.product._id %>">Add To Cart</button>
+                                    </div>
+                                <% } %> 
+                            </div>
+                        <% } %>
+                    </div>
+                <% } else { %>
+                    <div class="d-flex justify-content-center">
+                        <button type="button" class="btn out-of-stock-btn btn-danger rounded-pill">Out Of Stock</button> 
+                    </div>
+                <% } %> 
+            </div>
+        </div>
+    </div>
+
+    <div class="container my-4 ">
+        <h3>About This Book</h3>
+        <div class="row">
+            <div class="col-12 mb-2">
+                <h5>Description:</h5> <%= product.product.description %>
+            </div>
+            <div class="col-12 mb-2">
+                <h5>Current Condition:</h5> <%= product.product.condition %>
+            </div>
+            <div class="col-12 mb-2">
+                <h5>Damages:</h5> <%= product.product.damages %>
+            </div>
+        </div>
+    </div>
+    
+
+    <script src="/js/product_details.js"></script>

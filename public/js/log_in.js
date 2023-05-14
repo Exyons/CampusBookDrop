@@ -1,0 +1,8 @@
+function togglePasswordVisibility() {
+    const password = document.querySelector("#InputPassword");
+    if (password.type === "password") {
+        password.type = "text";
+    } else {
+        password.type = "password";
+    }
+}

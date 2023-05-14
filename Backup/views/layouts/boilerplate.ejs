@@ -1,0 +1,10 @@
+<%- include("../common_partials/header", {title, page_styles}) %>
+<%- include("../common_partials/navbar") %>
+
+    <%- body -%>
+
+<% if (no_footer) { %>
+    <%- include("../common_partials/no_footer") %>
+<% } else { %>
+    <%- include("../common_partials/footer") %>
+<% } %>

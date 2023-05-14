@@ -1,0 +1,33 @@
+<% layout("layouts/boilerplate") -%>
+
+    <div class="container cart-container">
+        <div class="container cart-container main-container d-flex flex-column-reverse justify-content-end justify-content-lg-center flex-lg-row min-vh-100 my-3">
+            <div class="container product-container">
+                <% for( let i = 0; i < 6; i++ ) { %>
+                    <%- include("partials/cart_product") %> 
+                <% } %>
+            </div>
+            <div class="container cart-container mb-3 cart-total">
+                <div class="card ">
+                    <div class="card-body">
+                        <h5 class="card-title">Cart Details <p class="card-text d-inline"><b>(No of Items)</b></p>
+                        </h5>
+                        <p class="card-text my-2"><b>Item Total</b> <span>34</span> </p>
+                        <p class="card-text"><b>Delivery Charge</b> <span>34</span> </p>
+                        <p class="my-5"><b>Total Amount</b> <span>34</span> </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid sticky-bottom d-flex justify-content-bet text-center">
+            <div class="card col-12">
+                <div class="card-body">
+                    <h5 class="card-title">12 Item(s) selected for order</h5>
+                    <a href="/address_details" class="col-5 col-md-4 btn btn-warning mb-2">Place Order</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/user_cart.js"></script>

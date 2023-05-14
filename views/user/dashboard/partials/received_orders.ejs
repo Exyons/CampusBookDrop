@@ -1,0 +1,39 @@
+<% if (sellerOrders.length) { %>
+    <div class="received-order-info container-fluid text-center fs-5">
+        <p>Just keep the below book(s) handy, and someone from Campus Book Drop will swing by to pick it up and deliver it for you.</p>
+        <p>So sit back, relax, and let us handle the rest!</p>
+    </div>
+    <div class="container my-3 d-flex justify-content-between flex-wrap">
+        <% sellerOrders.forEach(order => { %>
+            <div class="row" style="border: 1px solid red;">
+                <div class="col-6">
+                    <h6 class="card-title">Order Id: <%= order.order_id %></h6>
+                </div>
+                <div class="col-6">
+                    <div class="card mb-3" style="width: 18rem;">
+                        <% if (order.product.image) { %>
+                            <img src="<%=order.product.product.image.url%>" class="card-img-programme ratio ratio-4x3" alt="">
+                        <% } else {%>
+                            <img src="/resources/photo.avif"  class="card-img-programme ratio ratio-4x3" alt="">
+                        <% } %> 
+                        <div class="card-body">
+                            
+                            <div class="product-details">
+                                <h5 class="card-title"> <%= order.product.product.title %> </h5>
+                                <p class="card-text mb-2"><%= order.product.product.description %></p>
+                                <p class="card-text mb-2" id="price">Ordered Price: <%= order.product.product.price %></p>
+                                <p class="card-text" id="tags">Ordered Qty: <%= order.product.order_qty %> </p>
+                                <p class="card-text" id="tags">Current Status: <%= order.status[0].toUpperCase() + order.status.slice(1) %> </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+<% } else { %>
+    <div class="container-fluid text-center fs-3">
+        <p>Once a user purchases one of your books and the payment is confirmed, you'll receive the product details right here.</p>
+    </div>
+<% } %> 
+

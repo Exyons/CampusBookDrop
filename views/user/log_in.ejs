@@ -1,0 +1,49 @@
+<% layout("layouts/boilerplate") -%>
+
+	<div class="container d-flex justify-content-center">
+		<div class="row">
+			<div class="col-12" style="max-width: 30em;">
+				<div class="card shadow">
+					<h1 class="text-center my-3">Log In</h1>
+					<div class="card-body">
+						<form action="/user/log_in" method="POST" class="needs-validation" novalidate>
+							<div class="row">
+								<div class="col-12 mb-4 form-floating">
+									<input type="text" name="username" class="form-control" id="inputusername"
+										aria-describedby="usernameHelp" placeholder="username" required>
+									<label for="inputusername" class="form-label ms-3">Username</label>
+								</div>
+								<div class="col-12 mb-1 form-floating password-container">
+									<input type="password" name="password" id="InputPassword" class="form-control"
+										aria-labelledby="passwordHelpInline" placeholder="Password" required>
+									<button type="button"  onclick="togglePasswordVisibility()"><svg
+											xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+											fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+											<path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+											<path
+												d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+										</svg>
+									</button>
+									<label for="InputPassword" class="form-label ms-3">Password</label>
+								</div>
+								<div id="passwordFeedback" class="text-center mb-4"></div>
+							</div>
+							<div class="mb-4 d-flex justify-content-center">
+								<a href="/user/forgot_password">Forgot Password?</a>
+							</div>
+							<div class="d-grid gap-2">
+								<button class="btn" style="background-color: #0077b6; color: white;">Log In</button>
+							</div>
+
+							<div class="mt-5 mb-3 d-flex justify-content-center">
+								<span>Don't have an account?</span>
+								<a href="/user/sign_up" class="mx-2">Sign Up</a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="/js/log_in.js"></script>
+	<script src="/js/validation_form.js"></script>

@@ -1,0 +1,76 @@
+<% layout("layouts/boilerplate") -%>
+
+	<%- include("partials/otpFormModal") %>
+		<div class="container d-flex justify-content-center align-items-center">
+			<div class="row">
+				<div class="col-12" style="max-width: 30em;">
+					<div class="card shadow">
+						<h1 class="text-center my-3">Create Account</h1>
+						<div class="card-body">
+							<form action="/user/sign_up" method="POST" class="needs-validation" id="signUpForm"
+								novalidate>
+								<div class="row">
+									<div class="col-12 mb-4 form-floating">
+										<input required type="text" name="firstname" class="form-control"
+											id="InputFirstName" placeholder="First Name">
+										<label for="InputFirstName" class="form-label ms-2">First Name</label>
+									</div>
+
+									<div class="col-12 mb-4 form-floating">
+										<input required type="text" name="lastname" class="form-control"
+											id="InputLastName" placeholder="Last Name">
+										<label for="InputLastName" class="form-label ms-2">Last Name</label>
+									</div>
+
+									<div class="col-12 mb-4 form-floating">
+										<input required type="text" name="username" class="form-control"
+											id="InputUsername" placeholder="username">
+										<label for="InputUsername" class="form-label ms-2">Username</label>
+										<div id="usernameFeedback" class="text-center mt-2"></div>
+									</div>
+
+									<div class="col-12 mb-4 form-floating">
+										<input required type="email" name="email" class="form-control" id="InputEmail"
+											placeholder="Email">
+										<label for="InputEmail" class="form-label ms-2">Email</label>
+										<div id="emailFeedback" class="text-center mt-2"></div>
+									</div>
+
+									<div class="col-12 mb-4 form-floating">
+										<input required type="tel" name="mobile" class="form-control" id="InputNumber"
+											pattern="[0-9]{10}" minlength="10" maxlength="10"
+											placeholder="Mobile Number">
+										<label for="InputNumber" class="form-label ms-2">Mobile Number</label>
+									</div>
+
+									<div class="col-12 mb-1 form-floating password-container">
+										<input required type="password" name="password" id="InputPassword"
+											class="form-control" minlength="8" placeholder="Create Password">
+										<button type="button"  onclick="togglePasswordVisibility()"><svg
+												xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+												fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+												<path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+												<path
+													d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+											</svg>
+										</button>
+										<label for="InputPassword" class="form-label ms-2">Create Password</label>
+									</div>
+									<div id="passwordFeedback" class="text-center mb-4"></div>
+								</div>
+								<div class="d-grid gap-2">
+									<button class="btn sign-up-btn" style="background-color: #0077b6; color: white;">Sign Up</button>
+								</div>
+
+								<div class="mt-5 mb-3 d-flex justify-content-center">
+									<span>Already have an account?</span>
+									<a href="/user/log_in" class="mx-2">Log In</a>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="/js/sign_up.js"></script>
+		<script src="/js/validation_form.js"></script>

@@ -1,0 +1,122 @@
+<div class="modal fade book-form-modal" id="bookFormModal" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header mb-3">
+                    <h1 class="modal-title book-modal-title fs-5" id="staticBackdropLabel"></h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <form class="book-image-form" enctype="multipart/form-data">
+                                <div class="mb-4">
+                                    <label for="image" class="form-label">Select Book Image</label>
+                                    <div class="input-group mb-3">
+                                        <input type="file" class="form-control" name="image" id="bookImage"
+                                            aria-describedby="bookImage" aria-label="Upload">
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="progress-bar-container mb-3">
+                                <p class="upload-status-info"></p>
+                                <div class="progress" role="progressbar" aria-label="Info Animated striped example"
+                                    aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-info"
+                                        style="width: 100%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <form class="needs-validation book-details-form" novalidate enctype="multipart/form-data">
+                                <div class="mb-4 form-floating">
+                                    <input type="text" name="title" class="form-control" id="inputBookTitle"
+                                        placeholder="title" required>
+                                    <label for="inputBookTitle" class="form-label">Book title</label>
+                                </div>
+                                <div class="mb-4 form-floating">
+                                    <input type="number" name="price" class="form-control" id="inputBookPrice" step="0.01"
+                                        placeholder="price" required>
+                                    <label for="inputBookPrice" class="form-label">Book price</label>
+                                </div>
+                                <div class="mb-4 form-floating">
+                                    <select class="form-select" name="programme" id="selectProgramme" required
+                                        placeholder="Slect Programme">
+                                        <option value="BTech">BTech</option>
+                                        <option value="MTech">MTech</option>
+                                        <option value="PhD">PhD</option>
+                                    </select>
+                                    <label for="selectProgramme" class="form-label">Select Programme</label>
+                                </div>
+                                <div class="mb-4 form-floating">
+                                    <select class="form-select" name="branch" id="selectBranch" required
+                                        placeholder="Select Branch">
+                                        <option value="CE">Civil Engineering</option>
+                                        <option value="ME">Mechanical Engineering</option>
+                                        <option value="BT">Biotechnology</option>
+                                        <option value="CSE">Computer Science Engineering</option>
+                                        <option value="PE">Production Engineering</option>
+                                        <option value="CHE">Chemical Engineering</option>
+                                        <option value="IT">Information Technology</option>
+                                        <option value="EE">Electrical Engineering</option>
+                                        <option value="ECE">Electronics & Communication Engineering</option>
+                                    </select>
+                                    <label for="selectBranch" class="form-label">Select Branch</label>
+                                </div>
+                                <div class="mb-4 form-floating">
+                                    <select class="form-select" name="semester" id="selectSemester" required
+                                        placeholder="Slect Semester">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                    </select>
+                                    <label for="selectSemester" class="form-label">Select Semester</label>
+                                </div>
+                                <div class="mb-4 form-floating">
+                                    <select class="form-select" name="year" id="selectYear" required
+                                        placeholder="Slect Year">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                    </select>
+                                    <label for="selectYear" class="form-label">Select Year</label>
+                                </div>
+                                <div class="mb-4 form-floating">
+                                    <input type="number" name="qty" class="form-control" id="inputBookQty"
+                                        placeholder="qty" required>
+                                    <label for="inputBookQty" class="form-label">Quantity you have</label>
+                                </div>
+                                <div class="mb-4 form-floating">
+                                    <textarea class="form-control" name="description"
+                                        placeholder="Write book description here" id="inputBookDescription" style="height: 100px"
+                                        required></textarea>
+                                    <label for="inputBookDescription">Book Description</label>
+                                </div>
+                                <div class="mb-4 form-floating">
+                                    <textarea class="form-control" name="condition"
+                                        placeholder="What is the current condition of the book?" id="inputBookCondition" style="height: 100px"
+                                        required></textarea>
+                                    <label for="inputBookCondition">Book Condition</label>
+                                </div>
+                                <div class="mb-4 form-floating">
+                                    <textarea class="form-control" name="damages"
+                                        placeholder="Is there any damagae to the book?" id="inputBookDamages" style="height: 100px"
+                                        required></textarea>
+                                    <label for="inputBookDamages">Any damage?</label>
+                                </div>
+                                <div class="d-flex justify-content-center">
+                                    <button type="button" class="btn btn-primary book-submit-btn">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
