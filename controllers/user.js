@@ -632,8 +632,8 @@ const sendPasswordResetLink = async (req, res) => {
             port: 465,
             secure: true, // true for 465, false for other ports
             auth: {
-                user: "no-reply@campusbookdrop.store",
-                pass: "ThisEmailSendsNoReplyContent69#"
+                user: process.env.HOSTINGER_NOREPLY_EMAIL,
+                pass: process.env.HOSTINGER_NOREPLY_PASSWORD
             },
         });
         const emailBody = "<h1>Campus Book Drop</h1>" +
@@ -716,8 +716,8 @@ const sendThankYouEmail = async (req, res) => {
             port: 465,
             secure: true, // true for 465, false for other ports
             auth: {
-                user: "founder@campusbookdrop.store",
-                pass: "#Check#Length#GTE#0#"
+                user: process.env.HOSTINGER_FOUNDER_EMAIL,
+                pass: process.env.HOSTINGER_FOUNDER_PASSWORD
             },
         });
         const emailBody = `<p>Dear ${req.user.firstname + " " + req.user.lastname},</p>` +
