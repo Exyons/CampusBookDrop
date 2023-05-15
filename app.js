@@ -1,5 +1,10 @@
+let dbUrl = "";
 if (process.env.NODE_ENV !== "production") {
     require("dotenv").config()
+    dbUrl = "mongodb://127.0.0.1:27017/BookSellingApp";
+}
+else {
+    dbUrl = process.env.DB_URL 
 }
 
 const express = require("express")
@@ -24,8 +29,7 @@ const sessionSecrete = process.env.SESSION_SECRET || "NotSoNiceScectetIGuess";
 // If they know it then ok, otherwise tell them to change password, probably someone else accessed their account
 
 // Connecting MongoDB database
-// const dbUrl = process.env.DB_URL 
-const dbUrl = "mongodb://127.0.0.1:27017/BookSellingApp";
+
 mongoose.connect(dbUrl)
     .then(() => {
         console.log("DB Connected");
