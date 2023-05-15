@@ -851,8 +851,8 @@ const sendOtpToEmail = async (req, res) => {
             port: 465,
             secure: true, // true for 465, false for other ports
             auth: {
-                user: process.env.HOSTINGER_NOREPLY_EMAIL || "no-reply@campusbookdrop.store",
-                pass: process.env.HOSTINGER_NOREPLY_PASSWORD || "ThisEmailSendsNoReplyContent69#"
+                user: process.env.HOSTINGER_NOREPLY_EMAIL,
+                pass: process.env.HOSTINGER_NOREPLY_PASSWORD
             },
         });
         const otp = req.app.locals.otps[email].code;
