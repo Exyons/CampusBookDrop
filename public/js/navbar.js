@@ -44,12 +44,12 @@ function ModifyNavbar() {
 
 function ShowSearchBar() {
     if (searchBarContainer.classList.contains("hidden")) {
-        this.classList.add("pressed");
+        // this.classList.add("pressed");
         searchBarContainer.classList.remove("hidden");
         searchBar.focus();
     }
     else {
-        this.classList.remove("pressed");
+        // this.classList.remove("pressed");
         searchBarContainer.classList.add("hidden");
     }
 }

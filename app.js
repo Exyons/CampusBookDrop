@@ -24,8 +24,8 @@ const sessionSecrete = process.env.SESSION_SECRET || "NotSoNiceScectetIGuess";
 // If they know it then ok, otherwise tell them to change password, probably someone else accessed their account
 
 // Connecting MongoDB database
-const dbUrl = process.env.DB_URL 
-// const dbUrl = "mongodb://127.0.0.1:27017/BookSellingApp";
+// const dbUrl = process.env.DB_URL 
+const dbUrl = "mongodb://127.0.0.1:27017/BookSellingApp";
 mongoose.connect(dbUrl)
     .then(() => {
         console.log("DB Connected");
@@ -37,8 +37,8 @@ mongoose.connect(dbUrl)
 const app = express();
 const root = __dirname;
 
-const programmes = ["B.Tech.", "M.Tech.", "PhD"];
-const branches = ["CE", "ME", "BT", "CSE", "PE", "CHE", "IT"];
+// const programmes = ["B.Tech.", "M.Tech.", "PhD"];
+// const branches = ["CE", "ME", "BT", "CSE", "PE", "CHE", "IT", "EE", "ECE"];
 
 app.locals.user_dashboard_styles = "user_dashboard_styles.css";
 app.locals.user_cart_styles = "user_cart_styles.css";
@@ -147,6 +147,7 @@ passport.deserializeUser(User.deserializeUser());
 app.use(wrapAsync(async (req, res, next) => {
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
+    // res.locals.message = req.flash("message");
     res.locals.currentUser = req.user;
     // console.log(req.user.populate("orders").populate("addresses"));
     // You must always write next in a middleware

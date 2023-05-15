@@ -1,12 +1,21 @@
 <% if (user.addresses.length > 0) { %>
-	<div class="my-4 text-center fs-3">
-		<p>Your first address will serve as the pickup location for your listed books.</p>
-	</div>
-  <% user.addresses.forEach(address => { %>
-        <div class="card text-bg-light mb-3 address-card" style="max-width: 18rem;" id="<%=address._id%>">
-            <div class="card-header">
+	<!-- <div class="alert alert-info container-fluid text-center fs-5 rounded-5 mt-3 alert-dismissible fade show" role="alert">
+        <p>Your First Address Will Be Used As Your PickUp Address</p>
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div> -->
+  <% user.addresses.forEach((address, index) => { %>
+        <div class="card text-bg-light my-3 address-card" style="max-width: 18rem;" id="<%=address._id%>">
+            <div class="card-header hstack">
                 <button class="btn btn-sm btn-primary edit-address-btn" data-bs-toggle="modal" data-bs-target="#addressFormModal">Edit</button>
-                <button class="btn btn-sm btn-danger delete-address-btn" id="<%=address._id%>">Delete</button>
+				<% if (user.user_type !== "seller") { %>
+					<button class="btn btn-sm btn-danger delete-address-btn ms-5" id="<%= address._id %>">Delete</button>
+				<% } else { %>
+					<% if (index === 0) { %>
+						<p class="ms-2 fs-6">Pickup Address</p>
+					<% } else { %>
+						<button class="btn btn-sm btn-danger delete-address-btn ms-5" id="<%= address._id %>">Delete</button>
+					<% } %> 
+				<% } %> 
             </div>
             <div class="card-body" id="addressDetails">
 				<h5 class="card-title" id="name"><%= address.name %></h5>
@@ -35,9 +44,20 @@
         </div>
     <% }) %>
 <% } else { %>
-	<div class="my-4 text-center fs-3">
-		<p>You Have not saved any address yet</p>
-	</div>
+	<div class="row my-3">
+        <div class="col-12 alert alert-info container-fluid text-center rounded-5 mt-3 alert-dismissible fade show" role="alert">
+			<% if (user.user_type === "seller" ) { %>
+				<% if (!user.addresses.length) { %>
+					<h4 class="text-center my-3">You First Need To Add An Address From Where Your Books Will Be PickedUp!</h4>
+				<% } else { %>
+					<h4 class="text-center my-3">Your First Address Will Be Used As Your PickUp Address</h4>
+				<% } %> 
+			<% } else { %>
+				<h4 class="text-center my-3">You Have Not Saved Any Address Yet!</h4>
+			<% } %> 
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+    </div>
 <% } %> 
 
 

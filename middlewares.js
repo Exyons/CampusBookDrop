@@ -32,13 +32,15 @@ module.exports.deleteImages = async (req, res, next) => {
         await cloudinary.uploader.destroy(req.session.bookImage.filename);
         delete req.session.bookImage
     }
-    if (req.session.receiptImage) {
-        await cloudinary.uploader.destroy(req.session.receiptImage.filename);
-        delete req.session.receiptImage
+    if (res.app.locals.receiptImage) {
+        await cloudinary.uploader.destroy(res.app.locals.receiptImage.filename);
+        delete res.app.locals.receiptImage
     }
     if (req.session.userThumbnail) {
         await cloudinary.uploader.destroy(req.session.userThumbnail.filename);
         delete req.session.userThumbnail
     }
+    // Setitng the otp object to be empty at every response request
+    req.app.locals.otps = {}
     next();
 }

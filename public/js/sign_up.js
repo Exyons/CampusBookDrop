@@ -47,9 +47,13 @@ verifyOtpBtn.addEventListener("click", (event) => {
 
 
 signUpBtn.addEventListener("click", async () => {
+    const signUpBtnText = document.querySelector("#signUpBtnText")
+    const signUpBtnSpinner = document.querySelector("#signUpBtnSpinner")
     if (signUpForm.checkValidity()) {
         try {
-            const otpRes = await axios.post("/user/send_otp", { mobileNumber: signUpForm.elements["mobile"].value });
+            signUpBtnText.classList.add("d-none")
+            signUpBtnSpinner.classList.replace("d-none", "d-block")        
+            const otpRes = await axios.post("/user/send_otp", { email: signUpForm.elements["email"].value });
             if (otpRes.data.success) {
                 signUpBtn.disabled = true;
                 otpFormBootstrapModal.show();
@@ -58,6 +62,7 @@ signUpBtn.addEventListener("click", async () => {
                 showToast(otpRes.data);
             }
         } catch (error) {
+            // console.log(error)
             showToast({ error: "Cannot contact Server!" });
         }
     }
@@ -88,7 +93,7 @@ verifyOtpBtn.addEventListener("click", async () => {
 })
 resendOtpBtn.addEventListener("click", async () => {
     try {
-        const res = await axios.post("/user/resend_otp", { mobileNumber: signUpForm.elements["mobile"].value });
+        const res = await axios.post("/user/resend_otp", { email: signUpForm.elements["email"].value });
         showToast(res.data);
     } catch (error) {
         showToast({ error: "Cannot Contact Server! Try Again!" });

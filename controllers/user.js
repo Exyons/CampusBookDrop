@@ -8,6 +8,7 @@ const { Readable } = require('stream');
 const nodemailer = require("nodemailer");
 const moment = require('moment');
 const bcrypt = require("bcrypt");
+const crypto = require('crypto');
 // import fetch from 'node-fetch';
 // const upload = multer({ storage })
 
@@ -117,7 +118,7 @@ const checkUsername = async (req, res) => {
             }
             else {
                 res.app.locals.isValidUsername = true;
-                res.json({ success: "Username available!" });
+                res.json({ success: "Valid username!" });
             }
         }
         else {
@@ -140,7 +141,7 @@ const checkEmail = async (req, res) => {
         }
         else {
             res.app.locals.isValidEmail = true;
-            res.json({ success: "Unique email!" });
+            res.json({ success: "Valid email!" });
         }
     } catch (error) {
         console.log(error)
@@ -266,7 +267,6 @@ const renderUserDashboard = async (req, res) => {
     // Find all the books listed by user who is seller
     // And also the books that were ordered by other users
     let sellerBooks = [];
-    // let sellerOrderProducts = [];
     let sellerOrders = [];
     if (user.user_type === "seller") {
         sellerBooks = await Product.find({ user: user._id });
@@ -278,11 +278,15 @@ const renderUserDashboard = async (req, res) => {
         })
         if (orders.length) {
             orders.forEach(order => {
+                const products = []
                 for (const product of order.products) {
                     if (product.product.user.toString() === user._id.toString()) {
-                        sellerOrders.push({ product: product, order_id: order.order_id, status: order.status })
+                        products.push(product);
                     }
                 }
+                // At client we need to check the length of products array in order to know if that user is the seller
+                // If he is not the products array length will be zero
+                sellerOrders.push({ products, orderId: order.order_id, status: order.status });
             })
         }
     }
@@ -302,7 +306,6 @@ const renderUserDashboard = async (req, res) => {
                 userDeliveryOrders.push(order);
             }
         })
-
     }
     const { user_dashboard_styles } = req.app.locals;
     const title = "Dashboard";
@@ -372,6 +375,7 @@ const saveThumbnail = async (req, res) => {
         res.json({ error: "Error Saving Image!" });
     }
 }
+
 const saveNewAddress = async (req, res) => {
     const id = req.user._id;
     try {
@@ -379,6 +383,9 @@ const saveNewAddress = async (req, res) => {
         const user = await User.findById(id)
         if (!user) {
             return res.json({ error: "User does not exist! Cannot add address!" });
+        }
+        if (user.addresses.length >= 3) {
+            return res.json({ error: "You Cannot Add More Than 3 Addresses!" });
         }
         const address = new Address(req.body)
         user.addresses.push(address);
@@ -408,13 +415,19 @@ const updateAddressDetails = async (req, res) => {
 const destroyAddress = async (req, res) => {
     const { addressId } = req.params;
     try {
-        const user = await User.findById(req.user._id);
-        const address = await Address.findByIdAndDelete(addressId);
-        if (!user || !address) {
-            // req.flash("error", "Erro in deleteing address, either user or address does not exist")
-            return res.json({ error: "Error! Either user or address not found!" });
+        const user = await User.findById(req.user._id)
+        if (!user) {
+            return res.json({ error: "Error! User Not Found!" });
         }
-        await user.updateOne({ $pull: { addresses: { _id: addressId } } })
+        if (user.user_type === "seller" && user.addresses[0].toString() === addressId) {
+            return res.json({ error: "You Cannot Delete Pickup Address!" });
+        }
+        const address = await Address.findByIdAndDelete(addressId);
+        if (!address) {
+            // req.flash("error", "Erro in deleteing address, either user or address does not exist")
+            return res.json({ error: "Error! Address Not Found!" });
+        }
+        await user.updateOne({ $pull: { addresses: address._id } });
         res.json({ success: "Deleted Address Successfully!" });
 
     } catch (error) {
@@ -424,6 +437,14 @@ const destroyAddress = async (req, res) => {
 
 const addNewBookDetails = async (req, res) => {
     const { bookImage } = req.session;
+    try {
+        const user = await User.findById(req.user._id).populate("addresses")
+        if (!user.addresses.length) {
+            return res.json({ error: "First Add An Address From Where The Book(s) Will Be Picked Up!" });
+        }
+    } catch (error) {
+        return res.json({ error: "User Not Found!" });
+    }
     if (!bookImage) {
         return res.json({ error: "Upload a book Image" });
     }
@@ -744,6 +765,116 @@ const sendThankYouEmail = async (req, res) => {
     }
 }
 
+const generateOTP = (req, res, next) => {
+    const { email } = req.body;
+    req.session.email = email;
+    if (!email) {
+        return res.json({ error: "Email Is Required To Send OTP!" });
+    }
+
+    if (req.app.locals.otps[email]) {
+        // delete req.app.locals.otps
+        return res.json({ error: "Sign Up Again!" })
+    }
+    // const uuid = uuidv4();
+
+    // Generate a 6-digit OTP
+    const otp = crypto.randomInt(100000, 999999);
+
+    // Store the OTP and its expiry time (5 minutes from now)
+    // also store resend in to know when to resend the otp
+    req.app.locals.otps[email] = {
+        code: otp,
+        expiresAt: moment().add(10, 'minutes'),
+        resendIn: moment().add(1, 'minutes')
+    };
+    // console.log(req.app.locals.otps);
+    next();
+}
+
+const regenerateOTP = (req, res, next) => {
+    const { email } = req.body;
+    req.session.email = email;
+    if (!email) {
+        return res.json({ error: "Email Is Required To Resend OTP!" });
+    }
+
+    // Check if there is an existing OTP for this mobile number
+    const isExistingOtp = Object.keys(req.app.locals.otps).find(key => key === email)
+
+    if (isExistingOtp && moment().isBefore(req.app.locals.otps[email].resendIn)) {
+        // An OTP already exists and hasn't expired yet, so we can't resend it
+        return res.json({ error: "Wait 1 min before sending another OTP!" });
+    }
+
+    // Generate a new OTP and store it
+    const otp = crypto.randomInt(100000, 999999);
+
+    req.app.locals.otps[email] = {
+        code: otp,
+        expiresAt: moment().add(5, 'minutes'),
+        resendIn: moment().add(1, 'minutes')
+    };
+    next();
+}
+
+const verifyOTP = (req, res) => {
+    const { code } = req.body;
+    const { email } = req.session;
+    // Check if the OTP exists and hasn't expired
+    if (!email) {
+        return res.json({ error: "Email Is Required To Verify OTP!" });
+    }
+    if (!code) {
+        return res.json({ error: "OTP Is Required!" });
+    }
+    if (req.app.locals.otps[email] &&
+        req.app.locals.otps[email].code === parseInt(code) &&
+        moment().isBefore(req.app.locals.otps[email].expiresAt)) {
+        // Delete the OTP from the store to prevent reuse
+        delete req.app.locals.otps[email];
+        delete req.session.email;
+        res.json({ success: 'OTP verified successfully' });
+    } else {
+        res.json({ error: 'Invalid or expired OTP' });
+    }
+}
+
+const sendOtpToEmail = async (req, res) => {
+    const { email } = req.session;
+    if (!email){
+        return res.json({ error: "Email Is Required To Send OTP!" });
+    }
+    try {
+        const transporter = nodemailer.createTransport({
+            host: "smtp.hostinger.com",
+            port: 465,
+            secure: true, // true for 465, false for other ports
+            auth: {
+                user: process.env.HOSTINGER_NOREPLY_EMAIL || "no-reply@campusbookdrop.store",
+                pass: process.env.HOSTINGER_NOREPLY_PASSWORD || "ThisEmailSendsNoReplyContent69#"
+            },
+        });
+        const otp = req.app.locals.otps[email].code;
+        const emailBody = "<h1>Campus Book Drop</h1>" +
+            "<p>Here is your OTP to verify your email. It is valid only for 5 minutes</p>" +
+            `<h3 style="text-align: center;">${otp}</h3>` +
+            "<p>-Team Campus Book Drop</p>";
+
+        // send mail with defined transport object
+        const info = await transporter.sendMail({
+            from: "Email Verification no-reply@campusbookdrop.store", // sender address
+            to: email, // list of receivers
+            subject: "Your Email Verfication OTP",
+            html: emailBody, // html body
+        });
+        res.json({ success: "OTP Sent!" });
+    } catch (error) {
+        console.log(error);
+        res.json({ error: "Server Error! Unable to send OTP!" });
+    }
+}
+
 module.exports = {
     renderSignUpForm,
     signUpUser,
@@ -770,6 +901,10 @@ module.exports = {
     renderResetUserPasswordPage,
     resetUserPassword,
     uploadUserThumbnail,
-    saveThumbnail
+    saveThumbnail,
+    generateOTP,
+    regenerateOTP,
+    verifyOTP,
+    sendOtpToEmail
     // downloadReceipt
 }

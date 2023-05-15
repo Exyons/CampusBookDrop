@@ -261,11 +261,11 @@ editThumbnailBtn.addEventListener("click", async () => {
                 showToast(res.data);
             } catch (error) {
                 console.log(error);
-                showToast({error: "Cannot Contact Server to save thumbnail!"})
+                showToast({ error: "Cannot Contact Server to save thumbnail!" })
             }
         }
-        else{
-            showToast({error: "Upload an Image First!"});
+        else {
+            showToast({ error: "Upload an Image First!" });
         }
     }
     else {
@@ -333,14 +333,16 @@ if (addressCards) {
             addressFormSubmitBtn.addressCard = addressCard;
 
         })
-        deleteAddressBtn.addEventListener("click", async () => {
-            try {
-                const res = await axios.delete(`/user/address/${addressCard.id}`)
-                showToast(res.data);
-            } catch (error) {
-                showToast({ error: "Cannot Contact Server! Error when deleting the address Try Again" });
-            }
-        })
+        if (deleteAddressBtn) {
+            deleteAddressBtn.addEventListener("click", async () => {
+                try {
+                    const res = await axios.delete(`/user/address/${addressCard.id}`)
+                    showToast(res.data);
+                } catch (error) {
+                    showToast({ error: "Cannot Contact Server! Error when deleting the address Try Again" });
+                }
+            })
+        }
     })
 }
 
@@ -406,12 +408,13 @@ const editBook = async (evt) => {
 
 if (sellerBookCards) { // Because there can be zero books added by seller, I dont want an error
     sellerBookCards.forEach(bookCard => {
-        const editBookBtn = bookCard.children["bookDetails"].children["bookCardButtons"].children[0];
-        const deleteBookBtn = bookCard.children["bookDetails"].children["bookCardButtons"].children[1];
+        const editBookBtn = bookCard.children["bookDetails"].children["bookConfigBtns"].children[0];
+        const deleteBookBtn = bookCard.children["bookDetails"].children["bookConfigBtns"].children[1];
 
         editBookBtn.addEventListener("click", () => {
             bookModalTitle.innerText = "Edit Book";
-
+            bookDetailsForm.elements["inputBookCondition"].value = bookCard.children["bookDetails"].children["bookCondition"].innerText
+            bookDetailsForm.elements["inputBookDamages"].value = bookCard.children["bookDetails"].children["bookDamages"].innerText
             bookDetailsForm.elements["inputBookTitle"].value = bookCard.children["bookDetails"].children["bookTitle"].innerText
             bookDetailsForm.elements["inputBookDescription"].value = bookCard.children["bookDetails"].children["bookDescription"].innerText
             bookDetailsForm.elements["inputBookPrice"].value = bookCard.children["bookDetails"].children["bookPrice"].innerText

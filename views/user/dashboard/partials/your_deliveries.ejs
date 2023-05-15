@@ -15,11 +15,11 @@
                         </div>
                         <div class="d-flex flex-column">
                             <h6 class="card-title order-status">Delivery Status: </h6>
-                            <p class="card-text mt-0 mb-1"><%= order.delivery_status[0].toUpperCase() + order.delivery_status.slice(1) %></p> 
+                            <p class="card-text mt-0 mb-1 text-capitalize"><%= order.delivery_status %></p> 
                         </div>
                     </div>
                     <div class="show-delivery-options my-2 mx-2">
-                        <button class="show-delivery-options-btn btn btn-secondary" id="<%=order.order_id%>">
+                        <button class="show-delivery-options-btn btn btn-sm btn-secondary" id="<%=order.order_id%>">
                             Set Status
                         </button>
                         <div class="show-delivery-options-body shadow rounded-2 mt-2" id="<%=order.order_id%>">
@@ -78,8 +78,9 @@
     <% }) %> 
 <% } else { %>
     <div class="row my-3">
-        <div class="col-12">
+        <div class="col-12 alert alert-info container-fluid text-center rounded-5 mt-3 alert-dismissible fade show" role="alert">
             <h4 class="text-center my-3">Currently There Are No Orders That Need To Be Delivered</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     </div>
 <% } %> 

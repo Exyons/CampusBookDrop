@@ -130,6 +130,7 @@ router.post("/order_placing/save_address", isLoggedIn, upload.none(), wrapAsync(
         user.addresses.push(address)
         await user.save()
         await address.save()
+        res.app.locals.address = address
         res.json({ success: "Address Saved!" })
     } catch (error) {
         // console.log(error);
@@ -146,7 +147,7 @@ router.post("/order_placing/select_address", isLoggedIn, wrapAsync(async (req, r
     // const { name, mobile, room, hostel } = req.body;
     try {
         const address = await Address.findById(addressId);
-        req.session.address = address
+        res.app.locals.address = address
         res.json({ success: true })
     } catch (error) {
         // console.log(error);
@@ -156,7 +157,7 @@ router.post("/order_placing/select_address", isLoggedIn, wrapAsync(async (req, r
 
 router.post("/order_placing/payment", isLoggedIn, wrapAsync(async (req, res) => {
     // console.log(req.body);
-    if (!req.session.address) {
+    if (!res.app.locals.address) {
         return res.json({ error: "Address is needed before payment!" })
     }
     res.json({ success: "Payment Done!" });
@@ -167,7 +168,7 @@ router.post("/order_placing/recieptImageUpload", isLoggedIn, upload.single("reci
     // This deletes the uploaded image if user uploads another image
     if (receiptImage) {
         await cloudinary.uploader.destroy(receiptImage.filename);
-        delete req.session.receiptImage;
+        delete res.app.locals.receiptImage;
     }
 
     if (req.file) {
@@ -180,7 +181,7 @@ router.post("/order_placing/recieptImageUpload", isLoggedIn, upload.single("reci
         try {
             const uploadStream = await cloudinaryUploadStream(bufferStream, `${req.user.username}/receipts`);
             // console.log(uploadStream);
-            req.session.receiptImage = {
+            res.app.locals.receiptImage = {
                 url: uploadStream.secure_url,
                 filename: uploadStream.public_id
             }
@@ -195,10 +196,9 @@ router.post("/order_placing/recieptImageUpload", isLoggedIn, upload.single("reci
 router.post("/order_placing/confirmation", isLoggedIn, wrapAsync(async (req, res) => {
     //TODO
     // If the order is not placed, delete the receipt image from cloudinary
-
     const { books } = res.app.locals;
-    const { receiptImage } = req.session;
-    const { address } = req.session;
+    const { receiptImage } = res.app.locals;
+    const { address } = req.app.locals;
     const user = await User.findById(req.user._id);
     if (!address) {
         return res.json({ error: "Order cannot be placed! Address is required!" });
@@ -262,7 +262,8 @@ router.post("/order_placing/confirmation", isLoggedIn, wrapAsync(async (req, res
         await newDeliveryOrder.save();
         res.json({ success: "Huurray! Order Placed!" })
         delete res.app.locals.books;
-        delete req.session.receiptImage;
+        delete res.app.locals.receiptImage;
+        delete res.app.locals.address;
     } catch (error) {
         console.log(error);
         res.json({ error: "Server Error! Cannot Place Order" })

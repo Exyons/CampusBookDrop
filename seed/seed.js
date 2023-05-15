@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 require("dotenv").config()
-const dbUrl = process.env.DB_URL || "mongodb://127.0.0.1:27017/BookSellingApp";
+// const dbUrl = process.env.DB_URL
+const dbUrl = "mongodb://127.0.0.1:27017/BookSellingApp";
 mongoose.connect(dbUrl)
     .then(data => {
         console.log("Connected");
@@ -26,9 +27,9 @@ const getRandomElement = (array) => {
 }
 
 const save = async () => {
-    // await Product.deleteMany({});
+    await Product.deleteMany({});
     // await Order.deleteMany({});
-    const userId = "6457347be2900f9bb95226a1";
+    const userId = "6461c2f00b534e99f1f48705";
     for (let i = 0; i < 40; i++) {
         const { element, index } = getRandomElement(branchNames);
         const product = new Product(

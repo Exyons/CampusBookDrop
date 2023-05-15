@@ -10,7 +10,7 @@
                         </div>
                         <div class="d-flex flex-column flex-sm-row">
                             <h6 class="card-title order-status">Order Status: </h6>
-                            <p class="card-text mt-0 mb-1 ms-2"><%= order.status[0].toUpperCase() + order.status.slice(1) %></p> 
+                            <p class="card-text mt-0 mb-1 ms-2 text-capitalize"><%= order.status %></p> 
                         </div>
                     </div>
                     <div class="show-receipt-btn my-2 mx-2">
@@ -31,28 +31,29 @@
                         <% } %>
                     </div>
                 </div>
-                <% order.products.forEach(product => { %> 
-                    <div class="card-body">
-                        <div class="card mb-3">
-                            <div class="row g-0">
-                                <div class="col-sm-4">
-                                    <% if (product.product.image) { %>
-                                        <img src="<%= product.product.image.url %> " class="img-fluid rounded-start" alt="...">
-                                    <% } else {%>
-                                        <img src="/resources/photo.avif" class="img-fluid rounded-start" alt="...">
-                                    <% } %> 
-                                </div>
-                                <div class="col-sm-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title"><%= product.product.title %></h5>
-                                        <p class="card-text"><%= product.product.description %></p>
+                <div class="container d-flex justify-content-evenly flex-wrap">
+                    <% order.products.forEach(product => { %>
+                        <a href="/books/<%= product.product._id %>" style="text-decoration: none; color: black;">
+                            <div class="card mb-3" style="max-width: 20em;">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <% if (product.product.image) { %>
+                                                <img src="<%= product.product.image.url %> " class="img-fluid ratio ratio-4x3" alt="...">
+                                            <% } else {%>
+                                                <img src="/resources/photo.avif" class="img-fluid ratio ratio-4x3" alt="...">
+                                            <% } %> 
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <h5 class="card-title mt-2"><%= product.product.title %></h5>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                <% }) %>
-                <div class="accordion p-2" id="orderDetailsAccordian" >
+                        </a> 
+                    <% }) %>
+                </div>
+                <div class="accordion p-2" id="orderDetailsAccordian">
                     <div class="accordion-item">
                         <h2 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#<%=order.order_id%>AccordianBody" aria-expanded="true" aria-controls="collapseOne">
@@ -63,16 +64,22 @@
                     <div id="<%=order.order_id%>AccordianBody" class="accordion-collapse collapse" data-bs-parent="#orderDetailsAccordian">
                         <div class="accordion-body">
                             <% order.products.forEach(product => { %> 
-                                <h5 class="card-title"><%= product.product.title %></h5>
-                                <p class="card-text"><small>Price: <%= product.product.price %></small></p>
-                                <p class="card-text"><small>Quantity: <%= product.order_qty %></small></p>
+                                <div class="container d-flex flex-wrap justify-content-between">
+                                    <h5 class="card-title"><%= product.product.title %></h5>
+                                    <div class="d-flex flex-wrap">
+                                        <p class="card-text fs-6 p-2">Qty: <%= product.order_qty %></p>
+                                        <p class="card-text fs-6 p-2">&#8377;<%= product.product.price %></p>
+                                    </div>
+                                </div>
+                                
                             <% }) %> 
+                            <p class="text-end">Delivery Charge: &#8377; 30</p>
+                            <h4 class="text-end">Total Amount: &#8377; 3000</h4>
                             <div class="order-address">
                                 <h6 class="card-title">Shipping Address:</h6>
-                                <div class="d-flex flex-wrap">
-                                    <p class="card-text ms-2"><%= order.address.name %>,</p>
-                                    <p class="card-text ms-2"><%= order.address.mobile %>,</p>
-                                    <p class="card-text ms-2"><%= order.address.room %>,
+                                <div class="">
+                                    <p class="card-text fw-semibold ms-2 m-0"><%= order.address.name %> | <span><%= order.address.mobile %></span></p>
+                                    <p class="card-text ms-2 mb-2"><%= order.address.room %>,
                                         <% if(order.address.hostel === "TH") {%> 
                                             <span>Tilak Hostel</span>
                                         <% } %> 
@@ -98,11 +105,12 @@
     <% }) %> 
 <% } else { %> 
     <div class="row my-3">
-        <div class="col-12">
-            <h4 class="text-center my-3">You have not Made any orders yet.</h4>
-        </div>
         <div class="col-12 text-center">
             <a class="btn btn-success rounded-5" href="/books">Buy Books</a>
+        </div>
+        <div class="col-12 alert alert-info container-fluid text-center rounded-5 mt-3 alert-dismissible fade show" role="alert">
+            <h4 class="text-center my-3">You Have Not Made Any Orders Yet!</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     </div>
 <% } %> 

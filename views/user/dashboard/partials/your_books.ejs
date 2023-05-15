@@ -1,42 +1,41 @@
 <% if(sellerBooks.length > 0) { %> 
     <% sellerBooks.forEach(book => { %>
-        <div class="card my-2 seller-book-card" id="<%=book._id%>" style="width: 18em;">
+        <div class="card my-4 seller-book-card" id="<%= book._id %>" style="max-width: 20em;">
             <% if (book.image) { %>
-                <img src="<%=book.image.url%>" class="card-img-top ratio ratio-4x3" alt="...">
+                <img src="<%= book.image.url %>" class="card-img-top ratio ratio-4x3" alt="...">
             <% } else { %>
                 <img src="/resources/photo.avif"  class="card-img-top ratio ratio-4x3" alt="">
             <% } %>
-            <div class="card-body" id="bookDetails">
-                <h5 class="card-title" id="bookTitle"><%= book.title %> </h5>
+            <div class="card-body d-flex flex-column justify-content-between" id="bookDetails">
+                <h5 class="card-title" id="bookTitle"><%= book.title %></h5>
                 <p class="card-text" id="bookDescription"><%= book.description %></p>
-
-                <p>Price: </p>
-                <p id="bookPrice"><%= book.price %> </p>
-
-                <p>Quantity Available: </p>
-                <p id="bookQty"><%= book.qty %> </p>
-
-                <p>For Year: </p>
-                <p id="bookYear"><%= book.year %> </p>
-
-                <p>For Semester: </p>
-                <p id="bookSemester"><%= book.semester %> </p>
-
-                <p>For Programme: </p>
-                <p id="bookProgramme"><%= book.programme %> </p>
-
-                <p>For Branch: </p>
-                <p id="bookBranch"><%= book.branch %> </p>
-
-                <div class="d-flex justify-content-between" id="bookCardButtons">
-                    <button class="btn btn-sm btn-primary edit-seller-book-btn" data-bs-toggle="modal" data-bs-target="#bookFormModal">Edit</button>
-                    <button class="btn btn-sm btn-danger delete-seller-book-btn">Delete</button>
+                <div class="container-fluid my-2" id="bookDetailsAccordianBtn"> 
+                    <p>Price: <span id="bookPrice">&#8377; <%= book.price %> </span></p>
+                    <p>Quantity Available: <span id="bookQty"><%= book.qty %> </span></p>
+                    <p>For Year: <span id="bookYear"><%= book.year %> </span></p>
+                    <p>For Semester: <span id="bookSemester"><%= book.semester %> </span></p>
+                    <p>For Programme: <span id="bookProgramme"><%= book.programme %> </span></p>
+                    <p>For Branch: <span id="bookBranch"><%= book.branch %> </span></p>
+                    <p>Current Condition: <span id="bookCondition"><%= book.condition %> </span></p>
+                    <p>Damages: <span id="bookDamages"><%= book.damages %> </span></p>
+                </div>
+                
+                <div class="d-flex justify-content-center" id="bookConfigBtns">
+                    <button class="btn btn-sm btn-outline-secondary edit-seller-book-btn" data-bs-toggle="modal" data-bs-target="#bookFormModal">Edit</button>
+                    <button class="btn btn-sm btn-outline-warning delete-seller-book-btn ms-3">Delete</button>
                 </div>
             </div>
         </div>
     <% }) %>
 <% } else { %> 
-    <div class="my-4 text-center fs-3">
-		<p>You have not added any books yet</p>
-	</div>
+    <div class="row my-3">
+        <div class="col-12 alert alert-info container-fluid text-center rounded-5 mt-3 alert-dismissible fade show" role="alert">
+            <% if (user.user_type === "seller" && !user.addresses.length) { %>
+                <h4 class="text-center my-3">You First Need To Add An Address From Where Your Books Will Be PickedUp!</h4>
+            <% } else {%>
+                <h4 class="text-center my-3">You Have Not Added Any Books Yet!</h4>
+            <% } %> 
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+    </div>
 <% } %> 

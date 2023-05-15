@@ -1,6 +1,7 @@
 <% layout("layouts/boilerplate") -%>
 
-	<%- include("partials/otpFormModal") %>
+<%- include("partials/otpFormModal") %>
+
 		<div class="container d-flex justify-content-center align-items-center">
 			<div class="row">
 				<div class="col-12" style="max-width: 30em;">
@@ -59,7 +60,12 @@
 									<div id="passwordFeedback" class="text-center mb-4"></div>
 								</div>
 								<div class="d-grid gap-2">
-									<button class="btn sign-up-btn" style="background-color: #0077b6; color: white;">Sign Up</button>
+									<button class="btn sign-up-btn d-flex justify-content-center" style="background-color: #0077b6; color: white;">
+										<span id="signUpBtnText">Sign Up</span>
+										<div class="spinner-border d-none" role="status" id="signUpBtnSpinner">
+											<span class="visually-hidden">Loading...</span>
+										</div>
+									</button>
 								</div>
 
 								<div class="mt-5 mb-3 d-flex justify-content-center">
