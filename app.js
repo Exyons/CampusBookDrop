@@ -166,42 +166,25 @@ app.use(home_route);
 const books_route = require("./routes/books.js");
 app.use(books_route);
 
-// Product details route
-// const product_details_route = require("./routes/product_details.js");
-// app.use(product_details_route);
-
 // Order placing route
 const order_placing_route = require("./routes/order_placing.js");
 app.use(order_placing_route);
-
-// Page to be shown after payment done
-// Show payment failed or succeded
-// const order_placed_route = require("./routes/order_placed_page.js");
-// app.use(order_placed_route);
 
 // About Us route
 const about_us_route = require("./routes/about_us.js");
 app.use(about_us_route);
 
+// Help route
+const help_route = require("./routes/help.js");
+app.use("/help", help_route);
+
 // join Us route
 const join_us_route = require("./routes/join_us.js");
 app.use(join_us_route);
 
-// Thank you for helping page
-// const thank_you_route = require("./routes/thank_you.js");
-// app.use(thank_you_route);
-
 // User route
 const userRoute = require("./routes/user.js");
 app.use("/user", userRoute);
-
-// Get One Time Password route
-// const get_otp_route = require("./routes/get_otp.js");
-// app.use(get_otp_route);
-
-// Get Address Details route
-// const address_details_route = require("./routes/address_details.js");
-// app.use(address_details_route);
 
 // User Cart route
 const user_cart_route = require("./routes/user_cart.js");

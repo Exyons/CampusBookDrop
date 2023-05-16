@@ -186,10 +186,6 @@ const updateUserCart = async (req, res) => {
     const redirectUrl = res.locals.returnTo || "/";
     const id = req.user._id;
     const sessionCart = res.locals.cart || [];
-    // Save the cart data to the MongoDB database
-    // This will be done when either user logs in or register
-    // TODO 
-    // implement this when user register
     const user = await User.findById(id);
     if (user.cart.length >= 15) {
         req.flash("success", "We are glad to have you back!");
@@ -201,10 +197,9 @@ const updateUserCart = async (req, res) => {
         let isExisting = false;
         let isAuthor = false;
         if (foundProduct.user.toString() !== req.user._id.toString()) {
-            // console.log("Not author")
             for (const item of user.cart) {
                 // Add the products from session to user cart if he/she is not the same user who
-                // added that product
+                // listed that product
                 // const product = await Product.findById(item.product)
                 if (sessionItem.product.toString() === item.product._id.toString()) {
                     item.cart_qty += sessionItem.cart_qty;
@@ -218,25 +213,16 @@ const updateUserCart = async (req, res) => {
         }
         else {
             isAuthor = true;
-            // console.log("Yes author")
         }
-
         if (!isAuthor && !isExisting) {
-            // console.log("Yes Added", isAuthor, isExisting);
             user.cart.push(sessionItem);
         }
-        // else {
-        //     // console.log("Yes Flash");
-        //     req.flash("error", "You cannot add the products that you listed!");
-        // }
-        // }
     }
     try {
         await user.save();
         // Clear the cart data from the session
         delete res.locals.cart;
         delete req.session.cart;
-        // req.flash("success", 'Cart data saved! ');
         req.flash("success", "We are glad to have you back!");
         res.redirect(redirectUrl);
     }
@@ -747,8 +733,7 @@ const sendThankYouEmail = async (req, res) => {
             "<p>If you ever have any questions or feedback, don't hesitate to reach out to us. We're always eager to hear from our users and improve our services based on their needs.</p>" +
             "<p>Thanks again for joining Campus Book Drop! We look forward to helping you make the most of your college experience.</p>" +
             "<p>Best regards,</p>" +
-            "Ankur Pratap Singh<br>" +
-            "Founder, Campus Book Drop and the Campus Book Drop team</p>";
+            "<p>Ankur Pratap Singh, Founder of Campus Book Drop and the Campus Book Drop team</p>";
 
         // send mail with defined transport object
         let info = await transporter.sendMail({
@@ -757,11 +742,8 @@ const sendThankYouEmail = async (req, res) => {
             subject: "Thank You for Registering with Campus Book Drop!",
             html: emailBody, // html body
         });
-        // req.flash("success", "Password Reset Link Has Been Sent To Your Email!");
-        // res.redirect("/");
     } catch (error) {
-        // req.flash("error", "Server Error! Unable to send link!");
-        // res.redirect("/user/forgot_password");
+        // I dont want to send any response from here.
     }
 }
 
@@ -858,7 +840,7 @@ const sendOtpToEmail = async (req, res) => {
         const otp = req.app.locals.otps[email].code;
         const emailBody = "<h1>Campus Book Drop</h1>" +
             "<p>Here is your OTP to verify your email. It is valid only for 5 minutes</p>" +
-            `<h3 style="text-align: center;">${otp}</h3>` +
+            `<h3">${otp}</h3>` +
             "<p>-Team Campus Book Drop</p>";
 
         // send mail with defined transport object

@@ -111,7 +111,6 @@ addressFormModal.addEventListener('shown.bs.modal', () => {
     addressFormInput.focus();
 })
 
-
 addressFormModal.addEventListener("hide.bs.modal", () => {
     // After the modal is closed I am removing the validations done in form
     addressForm.classList.remove('was-validated');
@@ -133,6 +132,7 @@ function ChangeStyles() {
 function AddBottomBorder(ref) {
     ref.classList.add("selected");
     ref.style.borderBottom = "solid 4px " + color;
+    // ref.classList.add("btn","btn-info","rounded-pill");
     for (let child of dashboardNavbar.children) {
         if (child !== ref) {
             child.style.borderBottom = "";
@@ -165,6 +165,7 @@ function PerformActions() {
 for (let link of dashboardLinks) {
     if (link.classList.contains("selected")) {
         link.style.borderBottom = "solid 4px " + color;
+        // link.classList.add("btn", "btn-info","rounded-pill");
 
         for (let content of contents) {
             if (content.classList[1] === link.classList[1]) {

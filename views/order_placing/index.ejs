@@ -1,44 +1,7 @@
 <% layout("layouts/boilerplate") -%>
-
-    <div class="container mt-3">
-        <div class="current-order-position d-flex justify-content-between">
-            <div class="address-position position-bar hstack">
-                <div class="check-icon-container">
-                    <svg id="addressCheckIcon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#06d6a0"
-                        class="bi bi-check-circle-fill" viewBox="0 0 16 16">
-                        <path
-                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 
-                            9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-                    </svg>
-                </div>
-                <div class="position-text">Address</div>
-            </div>
-
-            <div class="payment-position position-bar hstack">
-                <div class="check-icon-container">
-                    <svg id="paymentCheckIcon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#06d6a0"
-                        class="bi bi-check-circle-fill" viewBox="0 0 16 16">
-                        <path
-                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-                    </svg>
-                </div>
-                <div class="position-text">Payment</div>
-            </div>
-
-            <div class="confirmation-position position-bar hstack">
-                <div class="check-icon-container">
-                    <svg id="confirmationCheckIcon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#06d6a0"
-                        class="bi bi-check-circle-fill" viewBox="0 0 16 16">
-                        <path
-                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-                    </svg>
-                </div>
-                <div class="position-text">Confirmation</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container shadow position-content-container d-flex justify-content-center mb-3 rounded-5">
+    <h2 class="text-center mb-3">Place Order</h2>
+<div class="container-fluid bg-body-tertiary">
+    <div class="container position-content-container d-flex justify-content-center mb-3">
         <div class="address-position-container row my-3 w-75 p-3">
             <%- include("partials/address") %>
         </div>
@@ -58,5 +21,5 @@
             with us today.</p>
         <p class="lead text-center">We can't wait to work together with you!</p>
     </div>
-
+</div>
 <script src="/js/order_placing.js"></script>

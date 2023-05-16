@@ -1,16 +1,16 @@
 <% if(user.orders.length > 0) {%> 
     <% user.orders.forEach(order => {%> 
-        <div class="container order-container my-3">
-            <div class="card">
+        <div class="container order-container my-3 shadow p-3">
+            <div class="container">
                 <div class="header d-flex justify-content-between">
                     <div class="d-flex flex-column card-body"> 
                         <div class="d-flex flex-column flex-sm-row">
-                            <h6 class="card-title order-id">Order Id: </h6>
-                            <p class="card-text mt-0 mb-1 ms-2"><%= order.order_id %></p> 
+                            <h6 class="card-title order-id">Order Id </h6>
+                            <p class="card-text ms-2"><%= order.order_id %></p> 
                         </div>
                         <div class="d-flex flex-column flex-sm-row">
-                            <h6 class="card-title order-status">Order Status: </h6>
-                            <p class="card-text mt-0 mb-1 ms-2 text-capitalize"><%= order.status %></p> 
+                            <h6 class="card-title order-status">Order Status </h6>
+                            <p class="card-text ms-2 text-capitalize"><%= order.status %></p> 
                         </div>
                     </div>
                     <div class="show-receipt-btn my-2 mx-2">
@@ -22,13 +22,6 @@
                         <div class="teen-bindi-body shadow rounded-3" id="<%=order.order_id%>">
                             <a href="<%=order.receiptImage.url%>" class="btn btn-sm show-receipt-btn">Receipt</a>
                         </div>
-                        
-                        <% if (order.status === "confirmed") { %>
-                            <button class="btn btm-sm btn-danger cancel-order-btn" >Cancel</button>
-                        <% } %>
-                        <% if (order.status === "delivered") { %>
-                            <button class="btn btm-sm btn-info return-order-btn" >Return</button>
-                        <% } %>
                     </div>
                 </div>
                 <div class="container d-flex justify-content-evenly flex-wrap">
@@ -53,50 +46,56 @@
                         </a> 
                     <% }) %>
                 </div>
-                <div class="accordion p-2" id="orderDetailsAccordian">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#<%=order.order_id%>AccordianBody" aria-expanded="true" aria-controls="collapseOne">
-                            Show Details
-                            </button>
-                        </h2>
-                    </div>
-                    <div id="<%=order.order_id%>AccordianBody" class="accordion-collapse collapse" data-bs-parent="#orderDetailsAccordian">
-                        <div class="accordion-body">
-                            <% order.products.forEach(product => { %> 
-                                <div class="container d-flex flex-wrap justify-content-between">
-                                    <h5 class="card-title"><%= product.product.title %></h5>
-                                    <div class="d-flex flex-wrap">
-                                        <p class="card-text fs-6 p-2">Qty: <%= product.order_qty %></p>
-                                        <p class="card-text fs-6 p-2">&#8377;<%= product.product.price %></p>
-                                    </div>
-                                </div>
-                                
-                            <% }) %> 
-                            <p class="text-end">Delivery Charge: &#8377; 30</p>
-                            <h4 class="text-end">Total Amount: &#8377; 3000</h4>
-                            <div class="order-address">
-                                <h6 class="card-title">Shipping Address:</h6>
-                                <div class="">
-                                    <p class="card-text fw-semibold ms-2 m-0"><%= order.address.name %> | <span><%= order.address.mobile %></span></p>
-                                    <p class="card-text ms-2 mb-2"><%= order.address.room %>,
-                                        <% if(order.address.hostel === "TH") {%> 
-                                            <span>Tilak Hostel</span>
-                                        <% } %> 
-                                        <% if(order.address.hostel === "MH") {%> 
-                                            <span>Malviya Hostel</span>
-                                        <% } %> 
-                                        <% if(order.address.hostel === "PH") {%> 
-                                            <span>Patel Hostel</span>
-                                        <% } %> 
-                                    </p>
+                <div class="container d-flex mb-3 justify-content-center">
+                    <% if (["processing", "confirmed", "pickedup"].includes(order.status)) { %>
+                        <button class="btn btm-sm cancel-order-btn mx-3 mx-md-4 border rounded-0 shadow-sm">Cancel</button>
+                    <% } %>
+                    <% if (order.status === "delivered") { %>
+                        <button class="btn btm-sm return-order-btn mx-3 mx-md-4 border rounded-0 shadow-sm">Return</button>
+                    <% } %>
+                </div>
+                <div class="container">
+                    <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#<%=order.order_id%>" aria-expanded="false" aria-controls="collapseExample">
+                        Show More 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down" viewBox="0 0 16 16">
+                            <path d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="container mb-2">
+                    <div class="collapse" id="<%=order.order_id%>">
+                        <% order.products.forEach(product => { %> 
+                            <div class="container d-flex flex-wrap justify-content-between">
+                                <h5 class="card-title"><%= product.product.title %></h5>
+                                <div class="d-flex flex-wrap">
+                                    <p class="card-text fs-6 p-2">Qty: <%= product.order_qty %></p>
+                                    <p class="card-text fs-6 p-2">&#8377;<%= product.product.price %></p>
                                 </div>
                             </div>
-                            <div class="order-date">
-                                <h6 class="card-title">Ordered On: </h6>
-                                <% month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]%>
-                                <p class="card-text ms-2"><%= month[order.date.getMonth()] %>-<%= order.date.getDate() %>-<%=order.date.getFullYear() %></p>
+                        <% }) %> 
+                        <p class="text-end">Delivery Charge: &#8377; 30</p>
+                        <h4 class="text-end">Total Amount: &#8377; 3000</h4>
+                        <div class="order-address">
+                            <h6 class="card-title">Shipping Address:</h6>
+                            <div class="">
+                                <p class="card-text fw-semibold ms-2 m-0"><%= order.address.name %> | <span><%= order.address.mobile %></span></p>
+                                <p class="card-text ms-2 mb-2"><%= order.address.room %>,
+                                    <% if(order.address.hostel === "TH") {%> 
+                                        <span>Tilak Hostel</span>
+                                    <% } %> 
+                                    <% if(order.address.hostel === "MH") {%> 
+                                        <span>Malviya Hostel</span>
+                                    <% } %> 
+                                    <% if(order.address.hostel === "PH") {%> 
+                                        <span>Patel Hostel</span>
+                                    <% } %> 
+                                </p>
                             </div>
+                        </div>
+                        <div class="order-date">
+                            <h6 class="card-title">Ordered On: </h6>
+                            <% month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]%>
+                            <p class="card-text ms-2"><%= month[order.date.getMonth()] %>-<%= order.date.getDate() %>-<%=order.date.getFullYear() %></p>
                         </div>
                     </div>
                 </div>

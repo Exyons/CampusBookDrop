@@ -1,16 +1,16 @@
 <% if (user.addresses.length) { %>
-    <h3 class="text-center">Select an address</h3>
+    <h3 class="text-center mb-3">Select an address</h3>
     <% user.addresses.forEach(address => { %>
-        <div class="col-12 mb-3">
+        <div class="col-12 col-md-6 offset-md-3 mb-3">
             <div class="card order-address-card" id="<%= address._id %>">
                 <div class="card-header">
-                    <!-- <a href="#" class="btn btn-primary">Select this Address</a> -->
                     <input class="form-check-input address-select-radio" type="radio" name="selectedAddress" id="<%= address._id %>">
                 </div>
                 <div class="card-body">
                     <h5 class="card-title"><%= address.name %></h5>
                     <p class="card-text"><%= address.mobile %></p>
-                    <p class="card-text"><%= address.room %>, <%= address.hostel %></p>
+                    <% hostel = {TH: "Tilak Hostel", PH: "Patel Hostel", MH:"Malviya Hostel"} %> 
+                    <p class="card-text"><%= address.room %>, <%= hostel[address.hostel] %></p>
                 </div>
             </div>
         </div>
@@ -20,7 +20,7 @@
     </div>
 <% } else { %>
     <div class="row">
-        <h1 class="text-center">Add Address</h1>
+        <h1 class="text-center mb-3">Add Address</h1>
         <p class="lead text-center">Where would you like us to deliver your order?</p>
         <form class="needs-validation" id="newOrderAddressForm" novalidate enctype="multipart/form-data">
             <div class="col-12 col-md-6 offset-md-3">

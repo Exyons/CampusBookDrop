@@ -12,8 +12,11 @@
                 <a href="/join_us" class="nav-link lnk joinus">Join Us</a>
             </div>
             <div class="navbar-brand-logo">
-                <a href="/" class="lnk">
-                    <img src="/resources/another_logo.svg" class="brand-logo" width="40" height="40">
+                <a href="/" class="lnk d-none d-sm-block">
+                    <img src="/images/CampusBookDrop_Logo_Small.png" class="brand-logo">
+                </a>
+                <a href="/" class="lnk d-block d-sm-none">
+                    <img src="/images/CampusBookDrop_Icon_Cropped.png" class="brand-logo">
                 </a>
             </div>
         </div>
@@ -40,21 +43,21 @@
             </button>
 
             <a href="/user_cart" class="cart-icon position-relative">
-                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-cart"
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
+                    id="cartItemCount" style="background-color: #EF2346;">
+                    <span class="visually-hidden">cart length</span>
+                </span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-cart mt-2"
                     viewBox="0 0 16 16">
                     <path
                         d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
                 </svg>
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
-                    id="cartItemCount" style="background-color: #ff4d6d;">
-                    <span class="visually-hidden">cart length</span>
-                </span>
             </a>
         </div>
     </nav>
 </div>
 
-<div class="search-bar-container hidden mb-3">
+<div class="search-bar-container hidden mb-5">
     <div class="row">
         <div class="col-6 offset-3">
             <form action="/books" class="search-bar-form">
@@ -79,14 +82,14 @@
     <div class="offcanvas-body">
         <% if(!currentUser) {%>
             <div class="d-grid gap-2 col-6 mx-auto">
-                <a href="/user/log_in" class="btn rounded-pill mb-3" style="background-color: #ade8f4;">Log In</a>
-                <a href="/user/sign_up" class="btn rounded-pill mb-3" style="background-color: #ade8f4;">Sign Up</a>
+                <a href="/user/log_in" class="btn rounded-pill mb-3" id="userLogInBtn">Log In</a>
+                <a href="/user/sign_up" class="btn rounded-pill mb-3" id="userSignUpBtn">Sign Up</a>
             </div>
         <% } else {%>
             <div class="d-grid gap-2 col-6 mx-auto">
-                <a href="/user/dashboard" class="btn rounded-pill mb-3" style="background-color: #8d99ae; color: white;">Your Dashboard</a>
+                <a href="/user/dashboard" class="btn rounded-pill mb-3" id="userDashboardBtn">Your Dashboard</a>
                 <form action="/user/log_out" method="POST" class="d-flex justify-content-center">
-                    <button class="btn rounded-pill mb-3" style="background-color:#ff595e; width: 100%; color: white;">Log out</button>
+                    <button class="btn rounded-pill mb-3" id="userLogOutBtn">Log out</button>
                 </form>
             </div>
         <% } %>

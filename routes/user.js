@@ -80,7 +80,7 @@ router.get("/log_in", deleteImages, renderLogInForm)
 router.post("/log_in",
     storeReturnTo,
     storeSessionCart,
-    passport.authenticate("local", { failureMessage: "Invalid Credentials!", failureRedirect: "/user/log_in" }),
+    passport.authenticate("local", { failureFlash: true, failureRedirect: "/user/log_in" }),
     wrapAsync(updateUserCart)
 )
 

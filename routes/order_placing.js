@@ -47,6 +47,12 @@ router.get("/order_placing", isLoggedIn, deleteImages, wrapAsync(async (req, res
         req.flash("error", "You First Need To Login!")
         return res.redirect("/books");
     }
+    
+    if(res.app.locals.orderPlacingToken){
+        delete res.app.locals.orderPlacingToken;
+        return res.redirect("/books");
+    }
+
     const id = req.user._id;
     const user = await User.findById(id).populate("addresses");
     const { books } = res.app.locals;

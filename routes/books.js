@@ -62,17 +62,18 @@ router.get("/books", deleteImages, wrapAsync(async (req, res) => {
     else {
         // console.log(search);
         const title = `You Searched for: ${search}`;
-        // const products = await Product.find({ title: search.trim() });
         // Sanitize the search term before finding books
+        // Using mongosanitize to sanitize the query string
         const products = await Product.find({
             qty: { $gt: 0 },
             $or: [
                 { title: { $regex: search.trim(), $options: 'i' } },
-                { description: { $regex: search.trim(), $options: 'i' } },
-                { programme: { $regex: search.trim(), $options: 'i' } },
-                { branch: { $regex: search.trim(), $options: 'i' } }
+                { description: { $regex: search.trim(), $options: 'i' } }
+                // { programme: { $regex: search.trim(), $options: 'i' } },
+                // { branch: { $regex: search.trim(), $options: 'i' } }
             ]
         });
+        console.log(products)
         if (!req.user) {
             if (req.session.cart) {
                 pageProducts = checkIfProductsAreInCart(req.session.cart, products);
@@ -85,6 +86,7 @@ router.get("/books", deleteImages, wrapAsync(async (req, res) => {
             const user = await User.findById(req.user._id);
             pageProducts = checkIfProductsAreInCart(user.cart, products);
         }
+        
         res.render("products_page/books", { title, btech_programmes, page_styles: books_page_styles, pageProducts });
     }
 }))

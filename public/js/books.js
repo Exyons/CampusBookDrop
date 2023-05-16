@@ -157,7 +157,8 @@ const addEventListenerToAddToCartBtns = () => {
                         setCartItemCount();
                     }
                     showToast(res.data);
-                } catch (err) {
+                } catch (error) {
+                    console.log(error)
                     showToast({ error: "Error Adding Product to Cart!" });
                 }
             })

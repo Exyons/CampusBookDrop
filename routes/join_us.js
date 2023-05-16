@@ -8,11 +8,10 @@ const user_types = ["seller", "delivery"];
 
 router.get("/join_us", deleteImages, (req, res) => {
     const title = "Join Us | CampusBookDrop";
-    const page_styles = "";
     // TODO
     // Show pricing details that you will charge if they sell their books but seller wont deliver their books
 
-    res.render("join_us", { title, page_styles });
+    res.render("join_us", { title, page_styles:"join_us_styles.css" });
 })
 
 router.post("/join_us", isLoggedIn, wrapAsync(async (req, res) => {
