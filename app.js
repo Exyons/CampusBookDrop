@@ -1,6 +1,7 @@
 let dbUrl = "mongodb+srv://REDACTED:REDACTED@REDACTED.mongodb.net/?retryWrites=true&w=majority";
-// if (process.env.NODE_ENV !== "production") {
-//     require("dotenv").config()
+if (process.env.NODE_ENV !== "production") {
+    require("dotenv").config()
+}
 //     dbUrl = "mongodb://127.0.0.1:27017/BookSellingApp";
 // }
 // else {
