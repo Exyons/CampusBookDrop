@@ -1,11 +1,11 @@
-let dbUrl = "";
-if (process.env.NODE_ENV !== "production") {
-    require("dotenv").config()
-    dbUrl = "mongodb://127.0.0.1:27017/BookSellingApp";
-}
-else {
-    dbUrl = process.env.MONGODB_URL
-}
+let dbUrl = "mongodb+srv://REDACTED:REDACTED@REDACTED.mongodb.net/?retryWrites=true&w=majority";
+// if (process.env.NODE_ENV !== "production") {
+//     require("dotenv").config()
+//     dbUrl = "mongodb://127.0.0.1:27017/BookSellingApp";
+// }
+// else {
+//     dbUrl = process.env.MONGODB_URL
+// }
 
 const express = require("express")
 const path = require("path")
