@@ -4,7 +4,7 @@ if (process.env.NODE_ENV !== "production") {
     dbUrl = "mongodb://127.0.0.1:27017/BookSellingApp";
 }
 else {
-    dbUrl = process.env.DB_URL 
+    dbUrl = process.env.MONGODB_URL 
 }
 
 const express = require("express")
@@ -210,6 +210,6 @@ app.use((err, req, res, next) => {
 
 const port = process.env.PORT || 3000;
 
-app.listen(() => {
-    console.log("Listening on port ");
+app.listen(port, () => {
+    console.log("Listening on port ", port);
 })
