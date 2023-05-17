@@ -4,7 +4,7 @@ if (process.env.NODE_ENV !== "production") {
     dbUrl = "mongodb://127.0.0.1:27017/BookSellingApp";
 }
 else {
-    dbUrl = process.env.DB_URL 
+    dbUrl = process.env.DB_URL
 }
 
 const express = require("express")

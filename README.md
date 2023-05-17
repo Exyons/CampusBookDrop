@@ -1,4 +1,4 @@
 # CampusBookDrop
 This is my website that helps college students sell their used books to other students.
 
-# Deploying On Hostinger VPS 
+# Deploying io On Hostinger VPS 
