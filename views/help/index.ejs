@@ -1,0 +1,47 @@
+<% layout("layouts/boilerplate") -%>
+    <div class="container my-auto d-flex flex-column flex-lg-row">
+        <div class="container navbar-expand-lg mb-3">
+            <div class="continer-fluid d-flex flex-row-reverse">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#sidebarContent" aria-controls="sidebarContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                        <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse me-0" id="sidebarContent">
+                <nav id="sidebarNavbar" class="h-100 flex-column">
+                    <nav class="nav nav-pills flex-column">
+                        <a class="nav-link" href="#forBuyers">For Buyers</a>
+                        <nav class="nav nav-pills flex-column">
+                            <a class="nav-link ms-3 my-1" href="#how2buy">How To Buy?</a>
+                            <a class="nav-link ms-3 my-1" href="#how2order">How To Place Order?</>
+                            <a class="nav-link ms-3 my-1" href="#forDetails">Where to Find Your Details?</a>
+                        </nav>
+                        <a class="nav-link" href="#forSellers">For Sellers</a>
+                        <nav class="nav nav-pills flex-column">
+                            <a class="nav-link ms-3 my-1" href="#listBooks">How to List Your Books?</a>
+                            <a class="nav-link ms-3 my-1" href="#receiveBookOrders">Receiving Orders</a>
+                            <a class="nav-link ms-3 my-1" href="#payYou">How will you receive your earnings?</a>
+                        </nav>
+                        <a class="nav-link" href="#forDelivery">For Book Heroes</a>
+                        <nav class="nav nav-pills flex-column">
+                            <a class="nav-link ms-3 my-1" href="#receiveDeliveryOrder">Receiving Orders</a>
+                            <a class="nav-link ms-3 my-1" href="#deliverOrder">Delivering Orders</a>
+                        </nav>
+                        <a class="nav-link" href="#facingIssues">Facing Issues?</a>
+                    </nav>
+                </nav>
+            </div>
+        </div>
+        <div class="container" style="flex-grow: 2;">
+            <div data-bs-spy="scroll" data-bs-target="#sidebarNavbar" data-bs-smooth-scroll="true"
+                class="scrollspy-example-2" tabindex="0">
+                <%- include("partials/buyer_help") %>
+                <%- include("partials/seller_help") %>
+                <%- include("partials/book_hero_help") %>
+                <%- include("partials/facing_issues") %>
+            </div>
+        </div>
+    </div>

@@ -27,9 +27,9 @@ else {
 
 if (productCards) {
     productCards.forEach(card => {
-        const incBtn = card.children[0].children[1].children[0].children[2].children[1];
-        const qty = card.children[0].children[1].children[0].children[2].children[2];
-        const decBtn = card.children[0].children[1].children[0].children[2].children[3];
+        const incBtn = card.children[0].children[1].children[0].children[1].children[1].children[0];
+        const qty = card.children[0].children[1].children[0].children[1].children[1].children[1];
+        const decBtn = card.children[0].children[1].children[0].children[1].children[1].children[2];
         const removeBtn = card.children[0].children[1].children[1].children[0];
 
         incBtn.addEventListener("click", async () => {

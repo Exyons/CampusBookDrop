@@ -11,14 +11,13 @@
             
             <div class="col-12 col-lg-6 p-3 d-flex flex-column justify-content-between">
                 <div>
-                    <h2> <%= product.product.title %> </h2>
-                    <p>Price &#8377; <%= product.product.price %></p>
-                    <p>For Semester <%= product.product.semester %></p>
-                    <p>For Year <%= product.product.year %></p>
+                    <h2 class="mb-3"> <%= product.product.title %> &#8377; <%= product.product.price %></h2>
+                    <p class="fs-5">For Semester <span class="fw-bold"><%= product.product.semester %></span></p>
+                    <p class="fs-5">For Year <span class="fw-bold"><%= product.product.year %></span></p>
                     <% branch = {CE: "Civil  Engineering", CSE: "Computer Science Engineering", BT: "Biotechnology", ME: "Mechanical Engineering", EE:"Electrical Engineering", ECE:"Electronics Engineering", PE:"Production Engineering", IT:"Information Technology"} %> 
-                    <p>For <%= product.product.programme %>, <%= branch[product.product.branch] %></p>
+                    <p class="fs-5">For <span class=""><%= product.product.programme %>, <%= branch[product.product.branch] %></span></p>
                     <% if (product.product.qty > 0) { %>
-                        <p>Available Quantity: <%= product.product.qty %></p>
+                        <p class="fs-5">Qty: <%= product.product.qty %></p>
                     <% } %>
                 </div>
                 <% if (product.product.qty > 0) { %>

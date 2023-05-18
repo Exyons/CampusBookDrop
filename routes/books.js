@@ -44,51 +44,30 @@ const checkIfProductsAreInCart = (cartArray, productsArray) => {
 }
 
 router.get("/books", deleteImages, wrapAsync(async (req, res) => {
-    // console.log(req.session.bookChunkSentCount);
-    // TODO
-    // Take hold of which chunk is sent and donot send any data once all chunks are send
-    // Do not send data if the main page is not loaded
-    const { search } = req.query;
-
-    const { btech_programmes, books_page_styles } = req.app.locals;
-
     let pageProducts = [];
-    if (!search) {
-        const title = "Buy Books";
-        // When page loads there is no chunk transferred
-        res.app.locals.bookChunkSentCount = 0;
-        res.render("products_page/books", { title, btech_programmes, page_styles: books_page_styles });
-    }
-    else {
-        // console.log(search);
-        const title = `You Searched for: ${search}`;
-        // Sanitize the search term before finding books
-        // Using mongosanitize to sanitize the query string
-        const products = await Product.find({
-            qty: { $gt: 0 },
-            $or: [
-                { title: { $regex: search.trim(), $options: 'i' } },
-                { description: { $regex: search.trim(), $options: 'i' } }
-                // { programme: { $regex: search.trim(), $options: 'i' } },
-                // { branch: { $regex: search.trim(), $options: 'i' } }
-            ]
-        });
-        console.log(products)
-        if (!req.user) {
-            if (req.session.cart) {
-                pageProducts = checkIfProductsAreInCart(req.session.cart, products);
-            }
-            else {
-                pageProducts = checkIfProductsAreInCart([], products);
-            }
-        }
-        else {
-            const user = await User.findById(req.user._id);
-            pageProducts = checkIfProductsAreInCart(user.cart, products);
-        }
-        
-        res.render("products_page/books", { title, btech_programmes, page_styles: books_page_styles, pageProducts });
-    }
+    const title = "Buy Books";
+    // Taking note of how many chunks are sent
+    res.app.locals.bookChunkSentCount = 0;
+    // try {
+    // const products = await Product.find({ qty: { $gt: 0 } })
+    // if (!req.user) {
+    //     if (req.session.cart) {
+    //         pageProducts = checkIfProductsAreInCart(req.session.cart, products);
+    //     }
+    //     else {
+    //         pageProducts = checkIfProductsAreInCart([], products);
+    //     }
+    // }
+    // else {
+    //     const user = await User.findById(req.user._id);
+    //     pageProducts = checkIfProductsAreInCart(user.cart, products);
+    // }
+    res.render("products_page/books", { title, page_styles: "books.css" });
+    // } catch (error) {
+    //     req.flash("error", "Server Error!")
+    //     res.redirect("/");
+    // }
+
 }))
 
 router.get("/books/loadBooks", wrapAsync(async (req, res) => {
@@ -111,8 +90,8 @@ router.get("/books/loadBooks", wrapAsync(async (req, res) => {
         pageProducts = checkIfProductsAreInCart(user.cart, products);
     }
     // Chunking the data into 6 units
-    const numberOfChunks = 6;
-    const chunkedData = chunk(pageProducts, numberOfChunks);
+    const numberOfProductsInChunk = 6;
+    const chunkedData = chunk(pageProducts, numberOfProductsInChunk);
     const count = res.app.locals.bookChunkSentCount++;
     if (count < chunkedData.length) {
         try {
@@ -128,6 +107,74 @@ router.get("/books/loadBooks", wrapAsync(async (req, res) => {
             res.send(templateStringArray);
         } catch (error) {
             res.json({ error: "Server Error!" });
+        }
+    }
+    else {
+        res.json({ success: "Thats All We Have For Now!" });
+    }
+}))
+
+router.get("/books/search", wrapAsync(async (req, res) => {
+    const { q } = req.query;
+
+    res.app.locals.bookChunkSentCount = 0;
+    const title = `You Searched for: ${q}`;
+    res.render("products_page/search_books", { title, query: q, page_styles: "books.css" });
+}))
+
+router.get("/books/search/loadbooks", wrapAsync(async (req, res) => {
+    const { q } = req.query;
+    // console.log(q);
+    // Only show books qty greater than 0
+    let pageProducts = []
+    try {
+        const products = await Product.find({
+            qty: { $gt: 0 },
+            $or: [
+                { title: { $regex: q.trim(), $options: 'i' } },
+                { description: { $regex: q.trim(), $options: 'i' } },
+                { programme: { $regex: q.trim(), $options: 'i' } },
+                { branch: { $regex: q.trim(), $options: 'i' } }
+            ]
+        });
+        // console.log(products.length)
+        // Check if the books are already present in cart
+        // If yes disable the addToCart button on the html page using in_cart key
+
+        if (!req.user) {
+            if (req.session.cart) {
+                pageProducts = checkIfProductsAreInCart(req.session.cart, products);
+            }
+            else {
+                pageProducts = checkIfProductsAreInCart([], products);
+            }
+        }
+        else {
+            const user = await User.findById(req.user._id);
+            pageProducts = checkIfProductsAreInCart(user.cart, products);
+        }
+    } catch (error) {
+        return res.json({ error: "Server Error!" });
+    }
+
+    // Chunking the data into 6 units
+    const numberOfProductsInChunk = 6;
+    const chunkedData = chunk(pageProducts, numberOfProductsInChunk);
+    const count = res.app.locals.bookChunkSentCount++;
+    if (count < chunkedData.length) {
+        try {
+            let templateStringArray = [];
+            for (const book of chunkedData[count]) {
+                const templateString = await ejs.renderFile('views/products_page/partials/product_card.ejs',
+                    {
+                        product: book,
+                        currentUser: res.locals.currentUser
+                    });
+                templateStringArray.push(templateString);
+            }
+            res.send(templateStringArray);
+        } catch (error) {
+            return res.json({ error: "Server Error!" });
         }
     }
     else {

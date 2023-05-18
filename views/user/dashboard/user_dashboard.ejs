@@ -12,16 +12,20 @@
                 <a class="dashboard-lnk addresses">Addresses</a>
                 <% if (currentUser.user_type === "seller") { %>
                     <!-- <a class="dashboard-lnk analytics">Analytics</a> -->
+                    <a class="dashboard-lnk payment-detials">Payment Details</a>
                     <a class="dashboard-lnk books">Your Books</a>
                     <a class="dashboard-lnk received-orders">Received Orders</a>
-                <% } %>
-                <% if (currentUser.user_type === "delivery") { %>
-                    <a class="dashboard-lnk deliveries">Deliveries</a>
+                    <a class="dashboard-help-lnk" href="/help#forSellers">Need Help?</a>
+                <% } else if (currentUser.user_type === "delivery") { %>
+                    <a class="dashboard-lnk deliveries">Your Deliveries</a>
+                    <a class="dashboard-help-lnk" href="/help#forDelivery">Need Help?</a>
+                <% } else { %>
+                    <a class="dashboard-help-lnk" href="/help#forBuyers">Need Help?</a>
                 <% } %>
             </div>
         </div>
 
-        <div class="content-container my-3">
+        <div class="content-container container-fluid my-3">
             <div class="content account">
                 <%- include("partials/account") %>
             </div>
@@ -37,7 +41,7 @@
             </div>
             <% if (currentUser.user_type === "seller") { %>
                 <div class="content books">
-                    <button class="btn btn-primary add-new-book mt-4" data-bs-toggle="modal"
+                    <button class="btn btn-sm btn-primary add-new-book mt-4" data-bs-toggle="modal"
                         data-bs-target="#bookFormModal">Add New Book</button>
                     <div class="container-fluid d-flex flex-wrap justify-content-evenly seller-book-container">
                         <%- include("partials/your_books") %>

@@ -36,3 +36,39 @@
 .place-order-login-btn-container {
     display: none;
 }
+
+/* .increase-qty-btn{
+    border: none;
+}
+
+.decrease-qty-btn{
+border: none;
+} */
+
+/* .cart-product-img{
+    max-width: fit-content;
+    width: 100px;
+    height: 200px;
+} */
+
+.qty-btn{
+    background: none;
+    border: none;
+}
+
+.input-qty{
+    max-width: 15px;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: none;
+}
+
+#totalAmount{
+    border-top: 1px solid black;
+}
+
+#qtyContainer{
+    max-height: fit-content;
+    max-width: fit-content;
+}

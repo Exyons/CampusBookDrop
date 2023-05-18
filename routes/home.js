@@ -9,7 +9,7 @@ const router = express.Router();
 // Define route handlers for the /home route
 router.get('/', deleteImages, (req, res) => {
   const title = "Welcome to CampusBookDrop";
-  const page_styles = "";
+  const page_styles = "home_styles.css";
   res.render('home', { title, page_styles });
 });
 

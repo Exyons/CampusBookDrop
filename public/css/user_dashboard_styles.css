@@ -25,8 +25,19 @@
     /* font-size: large; */
     margin: 10px 10px;
     border-bottom: 4px solid transparent;
+    /* transition: border-bottom 0.2s 0.2s; */
+}
+
+.dashboard-help-lnk {
+    /* text-decoration: none; */
+    color: black;
+    /* font-weight: 600; */
+    /* font-size: large; */
+    margin: 10px 10px;
+    /* border-bottom: 4px solid transparent; */
     transition: border-bottom 0.2s 0.2s;
 }
+
 
 .dashboard-lnk:hover {
     cursor: pointer;
@@ -116,4 +127,5 @@
     margin-left: 5px;
     padding: 5px;
     background-color: white;
+    z-index: 1000;
 }

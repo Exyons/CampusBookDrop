@@ -452,7 +452,7 @@ const uploadNewBookImage = async (req, res) => {
     // If user closes the add book form I want to remove the book image they added
     const { bookImage } = req.session;
     const bookImgWidth = "500";
-    const bookImgHeight = "300";
+    const bookImgHeight = "500";
     if (bookImage) {
         await cloudinary.uploader.destroy(bookImage.filename);
         delete req.session.bookImage;

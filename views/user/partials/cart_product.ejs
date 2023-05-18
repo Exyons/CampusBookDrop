@@ -2,22 +2,24 @@
     <div class="row">
         <div class="col-md-4">
             <a href="/books/<%= product.product._id %>">
-                <img src="/resources/photo.avif" class="card-img-top" alt="...">
+                <img src="/resources/photo.avif" class="img-fluid" alt="...">
             </a>
         </div>
         <div class="col-md-8 d-flex">
             <div class="card-body">
-                <h5 class="card-title"><%= product.product.title %> </h5>
-                <p class="card-text"><%= product.product.description %></p>
-                <div class="container my-3 mx-0">
-                    <label for="qty" class="form-label">Qty</label>
-                    <button type="button" class="btn btn-primary increase-qty-btn" id="<%= product.product._id %>">+</button>
-                    <input type="number" class="form-input input-qty" name="qty" id="qty" min="1" max="10" value="<%= product.cart_qty %>" disabled>
-                    <button type="button" class="btn btn-primary decrease-qty-btn" id="<%= product.product._id %>">-</button>
+                <h5 class="card-title"><%= product.product.title %></h5>
+                <p class="card-title">&#8377; <%= product.product.price %></p>
+                <div class="container my-3 d-flex">
+                    <p class="mx-3">Qty</p>
+                    <div class="bg-body-tertiary" id="qtyContainer<%= product.product._id %>">
+                        <button type="button" class="increase-qty-btn qty-btn fs-5" id="<%= product.product._id %>">+</button>
+                        <input type="number" class="form-input input-qty" name="qty" id="qty" min="1" max="10" value="<%= product.cart_qty %>" disabled>
+                        <button type="button" class="decrease-qty-btn qty-btn fs-5" id="<%= product.product._id %>">-</button>
+                    </div>
                 </div>
             </div>
             <!-- <form action="/user_cart/<%# product.product._id %>/remove?_method=DELETE" method="POST" class="cart-remove-form"> -->
-            <div class="d-flex flex-column">
+            <div class="d-flex flex-column" id="removeBtn<%= product.product._id %>">
                 <button class="remove-btn" id="<%= product.product._id %>">&times;</button>
             </div>
             <!-- </form> -->
