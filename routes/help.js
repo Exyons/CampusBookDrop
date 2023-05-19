@@ -1,10 +1,7 @@
 const express = require("express")
-const wrapAsync = require("../utils/WrapAsync");
 const router = express.Router();
+const { renderHelpPage } = require("../controllers/help");
 
-router.get("/", (req, res) => {
-    const title = "Help | CampusBookDrop";
-    res.render("help/index", { title, page_styles: "help_styles.css" })
-})
+router.get("/", renderHelpPage)
 
 module.exports = router;
