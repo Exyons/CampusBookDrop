@@ -1,48 +1,48 @@
 <div class="modal fade address-form-modal" id="addressFormModal" data-bs-backdrop="static" data-bs-keyboard="false"
-        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header mb-3">
-                    <h1 class="modal-title address-modal-title fs-5" id="staticBackdropLabel"></h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <form class="needs-validation address-form" novalidate enctype="multipart/form-data">
-                            <div class="col-12">
-                                <div class="mb-4 form-floating">
-                                    <input type="text" name="name" class="form-control" id="inputName"
-                                        placeholder="Name" required value="">
-                                    <label for="inputName" class="form-label">Name</label>
-                                </div>
-                                <div class="mb-4 form-floating">
-                                    <input required type="tel" name="mobile" class="form-control" id="inputNumber"
-                                        pattern="[0-9]{10}" minlength="10" maxlength="10" placeholder="Mobile Number"
-                                        value="">
-                                    <label for="inputNumber" class="form-label">Mobile Number</label>
-                                </div>
-                                <div class="mb-4 form-floating">
-                                    <input type="number" name="room" class="form-control" id="room" maxlength="3"
-                                        required placeholder="Room Number" value="">
-                                    <label for="room" class="form-label">Room Number</label>
-                                    <p class="text-end text-secondary">Max Room No. 750</p>
-                                </div>
-                                <div class="mb-4 form-floating">
-                                    <select class="form-select" name="hostel" class="hostle" id="hostel" required
-                                        placeholder="Slect Hostel" value="">
-                                        <option value="TH">Tilak Hostel</option>
-                                        <option value="PH">Patel Hostel</option>
-                                        <option value="MH">Malviya Hostel</option>
-                                    </select>
-                                    <label for="hostel_name" class="form-label">Select Hostel</label>
-                                </div>
+    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header mb-3">
+                <h1 class="modal-title address-modal-title fs-5" id="staticBackdropLabel"></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form class="needs-validation address-form" novalidate enctype="multipart/form-data">
+                        <div class="col-12">
+                            <div class="mb-4 form-floating">
+                                <input type="text" name="name" class="form-control" id="inputName" placeholder="Name"
+                                    required value="">
+                                <label for="inputName" class="form-label">Name</label>
                             </div>
-                            <div class="d-flex justify-content-center">
-                                <button class="btn btn-primary address-submit-btn">Submit</button>
+                            <div class="mb-4 form-floating">
+                                <input required type="tel" name="mobile" class="form-control" id="inputNumber"
+                                    pattern="[0-9]{10}" minlength="10" maxlength="10" placeholder="Mobile Number"
+                                    value="">
+                                <label for="inputNumber" class="form-label">Mobile Number</label>
                             </div>
-                        </form>
-                    </div>
+                            <div class="mb-4 form-floating">
+                                <input type="number" name="room" class="form-control" id="room" maxlength="3" required
+                                    placeholder="Room Number" value="">
+                                <label for="room" class="form-label">Room Number</label>
+
+                            </div>
+                            <div class="mb-4 form-floating">
+                                <select class="form-select" name="hostel" class="hostle" id="hostel" required
+                                    placeholder="Slect Hostel" value="">
+                                    <option value="TH">Tilak Hostel</option>
+                                    <option value="PH">Patel Hostel</option>
+                                    <option value="MH">Malviya Hostel</option>
+                                </select>
+                                <label for="hostel_name" class="form-label">Select Hostel</label>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button class="btn btn-primary address-submit-btn">Submit</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>

@@ -46,14 +46,14 @@
                         </a> 
                     <% }) %>
                 </div>
-                <div class="container d-flex mb-3 justify-content-center">
-                    <% if (["processing", "confirmed", "pickedup"].includes(order.status)) { %>
+                <!-- <div class="container d-flex mb-3 justify-content-center">
+                    <%# if (["processing", "confirmed", "pickedup"].includes(order.status)) { %>
                         <button class="btn btm-sm cancel-order-btn mx-3 mx-md-4 border rounded-0 shadow-sm">Cancel</button>
-                    <% } %>
-                    <% if (order.status === "delivered") { %>
+                    <%# } %>
+                    <%# if (order.status === "delivered") { %>
                         <button class="btn btm-sm return-order-btn mx-3 mx-md-4 border rounded-0 shadow-sm">Return</button>
-                    <% } %>
-                </div>
+                    <%# } %>
+                </div> -->
                 <div class="container">
                     <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#<%=order.order_id%>" aria-expanded="false" aria-controls="collapseExample">
                         Show More 
@@ -73,8 +73,8 @@
                                 </div>
                             </div>
                         <% }) %> 
-                        <p class="text-end">Delivery Charge: &#8377; 30</p>
-                        <h4 class="text-end">Total Amount: &#8377; 3000</h4>
+                        <p class="text-end">Delivery Charge: &#8377; <%= order.deliveryCharge %> </p>
+                        <h4 class="text-end">Total Amount: &#8377; <%= order.totalAmount %></h4>
                         <div class="order-address">
                             <h6 class="card-title">Shipping Address:</h6>
                             <div class="">

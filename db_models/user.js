@@ -70,6 +70,10 @@ const userSchema = new mongoose.Schema({
     },
     passwordResetExpires: {
         type: Date
+    },
+    sellerUpiId: {
+        type: String,
+        trim: true
     }
 })
 

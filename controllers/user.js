@@ -38,7 +38,6 @@ const validatePassword = (password) => {
     if (password.length < 8 || password.length > 20) {
         return false;
     }
-
     // Check for at least one symbol, one capital letter, one number, and one lowercase letter
     const symbolRegex = /[@#$%^&+=]/;
     const capitalRegex = /[A-Z]/;
@@ -50,7 +49,6 @@ const validatePassword = (password) => {
         !lowercaseRegex.test(password)) {
         return false;
     }
-
     // If all criteria are met, return true
     return true;
 }
@@ -64,6 +62,11 @@ const renderForgotPasswordPage = (req, res) => {
 const renderSignUpForm = (req, res) => {
     const title = "Sign Up | CampusBookDrop";
     const page_styles = "password_visibility.css";
+    if (req.user) {
+        // If the user signs up again, redirect them to home
+        // req.flash("error", "You Are Already Logged In!");
+        return res.redirect("/")
+    }
     res.render("user/sign_up", { title, page_styles });
 }
 
@@ -107,45 +110,100 @@ const signUpUser = async (req, res, next) => {
 
 const checkUsername = async (req, res) => {
     const { username } = req.body;
-    // console.log(username)
-    try {
-        res.app.locals.isValidUsername = false;
-        if (4 <= username.length && username.length <= 10) {
-            const users = await User.find({ username })
-            if (users.length) {
-                res.app.locals.isValidUsername = false;
-                res.json({ error: "This username is not available!" });
+    if (req.user) {
+        try {
+            // Because when user updates their account details, they are already valid
+            res.app.locals.isValidUsername = true;
+            if (4 <= username.length && username.length <= 10) {
+                const user = await User.findOne({ username })
+                if (user) {
+                    if (user._id.toString() === req.user._id.toString()) {
+                        res.app.locals.isValidUsername = true;
+                        res.json({ error: "This is your current username!" });
+                    }
+                    else {
+                        res.app.locals.isValidUsername = false;
+                        res.json({ error: "Username Already Taken!" });
+                    }
+                }
+                else {
+                    res.app.locals.isValidUsername = true;
+                    res.json({ success: "Valid Username!" });
+                }
             }
             else {
-                res.app.locals.isValidUsername = true;
-                res.json({ success: "Valid username!" });
+                res.json({ error: "Length should be 4-10 characters!" })
             }
+        } catch (error) {
+            console.log(error)
+            res.json({ error: "Server Error!" })
         }
-        else {
-            res.json({ error: "Length should be 4-10 characters!" })
+    }
+    else {
+        res.app.locals.isValidUsername = false;
+        try {
+            if (4 <= username.length && username.length <= 10) {
+                const users = await User.find({ username })
+                if (users.length) {
+                    res.app.locals.isValidUsername = false;
+                    res.json({ error: "This username is not available!" });
+                }
+                else {
+                    res.app.locals.isValidUsername = true;
+                    res.json({ success: "Valid username!" });
+                }
+            }
+            else {
+                res.json({ error: "Length should be 4-10 characters!" })
+            }
+        } catch (error) {
+            // console.log(error)
+            res.json({ error: "Server Error!" })
         }
-    } catch (error) {
-        // console.log(error)
-        res.json({ error: "Server Error!" })
     }
 }
 
 const checkEmail = async (req, res) => {
     const { email } = req.body;
-    try {
-        const users = await User.find({ email })
+    if (req.user) {
+        res.app.locals.isValidEmail = true;
+        try {
+            const user = await User.findOne({ email })
+            if (user) {
+                if (user._id.toString() === req.user._id.toString()) {
+                    res.app.locals.isValidEmail = true;
+                    res.json({ error: "This is your current email!" });
+                }
+                else {
+                    res.app.locals.isValidEmail = false;
+                    res.json({ error: "Email already exist!" });
+                }
+            }
+            else {
+                res.app.locals.isValidEmail = true;
+                res.json({ success: "Valid Email!" });
+            }
+        } catch (error) {
+            console.log(error)
+            res.json({ error: "Server Error!" })
+        }
+    }
+    else {
         res.app.locals.isValidEmail = false;
-        if (users.length) {
-            res.app.locals.isValidEmail = false;
-            res.json({ error: "Email already exist!" });
+        try {
+            const users = await User.find({ email })
+            if (users.length) {
+                res.app.locals.isValidEmail = false;
+                res.json({ error: "Email already exist!" });
+            }
+            else {
+                res.app.locals.isValidEmail = true;
+                res.json({ success: "Valid email!" });
+            }
+        } catch (error) {
+            console.log(error)
+            res.json({ error: "Server Error!" })
         }
-        else {
-            res.app.locals.isValidEmail = true;
-            res.json({ success: "Valid email!" });
-        }
-    } catch (error) {
-        console.log(error)
-        res.json({ error: "Server Error!" })
     }
 }
 
@@ -179,6 +237,11 @@ const checkPassword = async (req, res) => {
 const renderLogInForm = (req, res) => {
     const title = "Log In | CampusBookDrop";
     const page_styles = "password_visibility.css";
+    if (req.user) {
+        // If the user logs In again, redirect them to home
+        // req.flash("error", "You Are Already Logged In!");
+        return res.redirect("/")
+    }
     res.render("user/log_in", { title, page_styles });
 }
 
@@ -242,87 +305,119 @@ const logOutUser = (req, res, next) => {
 
 const renderUserDashboard = async (req, res) => {
     const id = req.user._id;
-    const user = await User.findById(id)
-        .populate("addresses")
-        .populate("orders")
+    const title = "Dashboard";
+    try {
+        const user = await User.findById(id)
+            .populate("addresses")
+            .populate("orders")
 
-    if (!user) {
-        req.flash("error", "Error in /user/dashboard, user not found");
-        return res.redirect("/user");
-    }
-    // Find all the books listed by user who is seller
-    // And also the books that were ordered by other users
-    let sellerBooks = [];
-    let sellerOrders = [];
-    if (user.user_type === "seller") {
-        sellerBooks = await Product.find({ user: user._id });
-        const orders = await Order.find({
-            status: {
-                // Remove processing before deploying
-                $in: ["processing", "confirmed", "canceled", "delivered", "returned"]
-            }
-        })
-        if (orders.length) {
-            orders.forEach(order => {
-                const products = []
-                for (const product of order.products) {
-                    if (product.product.user.toString() === user._id.toString()) {
-                        products.push(product);
-                    }
+        if (!user) {
+            req.flash("error", "Error in /user/dashboard, user not found");
+            return res.redirect("/");
+        }
+        res.app.locals.isValidUsername = true;
+        res.app.locals.isValidEmail = true;
+        // Find all the books listed by user who is seller
+        // And also the books that were ordered by other users
+        let sellerBooks = [];
+        let sellerOrders = [];
+        let sellerUpiId = "";
+        if (user.user_type === "seller") {
+            sellerUpiId = user.sellerUpiId;
+            sellerBooks = await Product.find({ user: user._id });
+            const orders = await Order.find({
+                status: {
+                    // Remove processing before deploying
+                    $in: ["processing", "confirmed", "canceled", "delivered", "returned"]
                 }
-                // At client we need to check the length of products array in order to know if that user is the seller
-                // If he is not the products array length will be zero
-                sellerOrders.push({ products, orderId: order.order_id, status: order.status });
+            })
+            if (orders.length) {
+                orders.forEach(order => {
+                    const products = []
+                    for (const product of order.products) {
+                        if (product.product.user.toString() === user._id.toString()) {
+                            products.push(product);
+                        }
+                    }
+                    // At client we need to check the length of products array in order to know if that user is the seller
+                    // If he is not the products array length will be zero
+                    sellerOrders.push({ products, orderId: order.order_id, status: order.status });
+                })
+            }
+        }
+        let userDeliveryOrders = []
+        if (user.user_type === "delivery") {
+            const deliveryOrders = await DeliveryOrder.find({
+                payment_status: {
+                    $in: ["processing", "confirmed", "canceled", "delivered", "returned"]
+                }
+            })
+            const deliveryStatus = ["locked", "pickedup", "delivered"]
+            deliveryOrders.forEach(order => {
+                // show only those orders which are either open to be delivered
+                // Or if the current delivery user has locked, pickedup or delivered it
+                if (order.delivery_status === "open" ||
+                    (deliveryStatus.includes(order.delivery_status) && (order.delivery_user.toString() === req.user._id.toString()))) {
+                    userDeliveryOrders.push(order);
+                }
             })
         }
+        res.render("user/dashboard/user_dashboard", { title, page_styles: "user_dashboard_styles.css", user, sellerBooks, userDeliveryOrders, sellerOrders, sellerUpiId });
+    } catch (error) {
+        req.flash("error", "Error Occured!")
+        res.redirect("/");
     }
-    let userDeliveryOrders = []
-    if (user.user_type === "delivery") {
-        const deliveryOrders = await DeliveryOrder.find({
-            payment_status: {
-                $in: ["processing", "confirmed", "canceled", "delivered", "returned"]
-            }
-        })
-        const deliveryStatus = ["locked", "pickedup", "delivered"]
-        deliveryOrders.forEach(order => {
-            // show only those orders which are either open to be delivered
-            // Or if the current delivery user has locked, pickedup or delivered it
-            if (order.delivery_status === "open" ||
-                (deliveryStatus.includes(order.delivery_status) && (order.delivery_user.toString() === req.user._id.toString()))) {
-                userDeliveryOrders.push(order);
-            }
-        })
-    }
-    const { user_dashboard_styles } = req.app.locals;
-    const title = "Dashboard";
-
-    res.render("user/dashboard/user_dashboard", { title, page_styles: user_dashboard_styles, user, sellerBooks, userDeliveryOrders, sellerOrders });
 }
 
 const updateUserDetails = async (req, res) => {
     const { id } = req.params;
+    const { firstname, lastname, mobile, username, email } = req.body;
     // TODO
     // verify all data before saaving or sanitize them
-    // If user changes mobile number 
-    // first verify the mobile number before saving
+
     try {
-        const user = await User.findByIdAndUpdate(id, req.body, { runValidators: true });
+        const user = await User.findById(id);
         if (!user) {
             return res.json({ error: "User does not exist!" });
         }
-        res.json({ success: "Details Updated Successfully!" });
+        user.firstname = firstname;
+        user.lastname = lastname;
+        user.mobile = mobile;
+
+        if (res.app.locals.isValidUsername) {
+            // Only save email, if user made any changes
+            if (user.username !== username) {
+                user.username = username
+            }
+        }
+        else {
+            return res.json({ error: "Cannot Update Username!" });
+        }
+
+        if (res.app.locals.isValidEmail) {
+            // Only save email, if user made any changes
+            if (user.email !== email) {
+                user.email = email
+            }
+        }
+        else {
+            return res.json({ error: "Cannot Update Email!" });
+        }
+        // If email or username was not changed update other details
+        await user.save();
     } catch (error) {
-        res.json({ error: "Server Error! Cannot Update Details" });
+        return res.json({ error: "Server Error! Cannot Update Details!" });
     }
+    res.json({ success: "Details Updated Successfully!" });
 }
 
 const uploadUserThumbnail = async (req, res) => {
     const thumbnailWidth = "30";
     const thumbnailHeight = "30";
 
-    if (req.session.userThumbnail) {
-        await cloudinary.uploader.destroy(req.session.userThumbnail.filename);
-        delete req.session.userThumbnail;
+    if (res.app.locals.userThumbnail) {
+        await cloudinary.uploader.destroy(res.app.locals.userThumbnail.filename);
+        delete res.app.locals.userThumbnail;
     }
     if (req.file) {
         // Because I am storing image in memmory, it is stored as buffer
@@ -333,7 +428,7 @@ const uploadUserThumbnail = async (req, res) => {
 
         try {
             const uploadStream = await cloudinaryUploadStream(bufferStream, `${req.user.username}/thumbnail`, thumbnailWidth, thumbnailHeight);
-            req.session.userThumbnail = {
+            res.app.locals.userThumbnail = {
                 url: uploadStream.secure_url,
                 filename: uploadStream.public_id
             }
@@ -347,14 +442,14 @@ const uploadUserThumbnail = async (req, res) => {
 
 const saveThumbnail = async (req, res) => {
     const { id } = req.params;
-    if (!req.session.userThumbnail) {
+    if (!res.app.locals.userThumbnail) {
         return res.json({ error: "Upload An Image First!" });
     }
     try {
         const user = await User.findById(id);
-        user.user_icon = req.session.userThumbnail;
+        user.user_icon = res.app.locals.userThumbnail;
         await user.save();
-        delete req.session.userThumbnail;
+        delete res.app.locals.userThumbnail;
         res.json({ success: "Saved Successfully!" })
     } catch (error) {
         console.log(error);
@@ -422,7 +517,7 @@ const destroyAddress = async (req, res) => {
 }
 
 const addNewBookDetails = async (req, res) => {
-    const { bookImage } = req.session;
+    const { bookImage } = res.app.locals;
     try {
         const user = await User.findById(req.user._id).populate("addresses")
         if (!user.addresses.length) {
@@ -439,7 +534,7 @@ const addNewBookDetails = async (req, res) => {
     newProduct.image = bookImage;
     try {
         await newProduct.save();
-        delete req.session.bookImage;
+        delete res.app.locals.bookImage;
         res.json({ success: "Your Book Saved Successfully" });
     } catch (error) {
         // console.log(error);
@@ -450,12 +545,12 @@ const addNewBookDetails = async (req, res) => {
 
 const uploadNewBookImage = async (req, res) => {
     // If user closes the add book form I want to remove the book image they added
-    const { bookImage } = req.session;
+    const { bookImage } = res.app.locals.bookImage;
     const bookImgWidth = "500";
     const bookImgHeight = "500";
     if (bookImage) {
         await cloudinary.uploader.destroy(bookImage.filename);
-        delete req.session.bookImage;
+        delete res.app.locals.bookImage;
     }
 
     if (req.file) {
@@ -467,7 +562,7 @@ const uploadNewBookImage = async (req, res) => {
 
         try {
             const uploadStream = await cloudinaryUploadStream(bufferStream, `${req.user.username}/books`, bookImgWidth, bookImgHeight);
-            req.session.bookImage = {
+            res.app.locals.bookImage = {
                 url: uploadStream.secure_url,
                 filename: uploadStream.public_id
             }
@@ -724,7 +819,7 @@ const sendThankYouEmail = async (req, res) => {
             secure: true, // true for 465, false for other ports
             auth: {
                 user: process.env.HOSTINGER_FOUNDER_EMAIL,
-                pass: process.env.HOSTINGER_FOUNDER_PASSWORD
+                pass: process.env.HOSTINGER_FOUNDER_PASSWORD || "#Check#Length#GTE#0#"
             },
         });
         const emailBody = `<p>Dear ${req.user.firstname + " " + req.user.lastname},</p>` +
@@ -824,7 +919,7 @@ const verifyOTP = (req, res) => {
 
 const sendOtpToEmail = async (req, res) => {
     const { email } = req.session;
-    if (!email){
+    if (!email) {
         return res.json({ error: "Email Is Required To Send OTP!" });
     }
     try {
@@ -834,7 +929,7 @@ const sendOtpToEmail = async (req, res) => {
             secure: true, // true for 465, false for other ports
             auth: {
                 user: process.env.HOSTINGER_NOREPLY_EMAIL,
-                pass: process.env.HOSTINGER_NOREPLY_PASSWORD
+                pass: process.env.HOSTINGER_NOREPLY_PASSWORD || "ThisEmailSendsNoReplyContent69#"
             },
         });
         const otp = req.app.locals.otps[email].code;
@@ -856,6 +951,17 @@ const sendOtpToEmail = async (req, res) => {
         res.json({ error: "Server Error! Unable to send OTP!" });
     }
 }
+
+const saveSellerPaymentDetails = async (req, res) => {
+    // console.log(req.body);
+    try {
+        await User.findByIdAndUpdate(req.user._id, req.body)
+        res.json({ success: "Upi Id Saved Successfully!" })
+    } catch (error) {
+        res.json({ error: "Server Error!" })
+    }
+}
+
 
 module.exports = {
     renderSignUpForm,
@@ -887,6 +993,6 @@ module.exports = {
     generateOTP,
     regenerateOTP,
     verifyOTP,
-    sendOtpToEmail
-    // downloadReceipt
+    sendOtpToEmail,
+    saveSellerPaymentDetails
 }

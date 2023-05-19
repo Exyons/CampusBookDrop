@@ -41,12 +41,6 @@ mongoose.connect(dbUrl)
 const app = express();
 const root = __dirname;
 
-// const programmes = ["B.Tech.", "M.Tech.", "PhD"];
-// const branches = ["CE", "ME", "BT", "CSE", "PE", "CHE", "IT", "EE", "ECE"];
-
-app.locals.user_dashboard_styles = "user_dashboard_styles.css";
-app.locals.user_cart_styles = "user_cart_styles.css";
-app.locals.books_page_styles = "books.css";
 // Maximum quantity of an item in cart a user can order
 app.locals.otps = {}
 app.locals.maxCartQty = 5;
@@ -83,7 +77,7 @@ const scriptSrcUrls = [
 const styleSrcUrls = [
     // "https://kit-free.fontawesome.com/",
     "https://stackpath.bootstrapcdn.com/",
-    "https://fonts.googleapis.com/",
+    // "https://fonts.googleapis.com/",
     // "https://use.fontawesome.com/",
     "https://cdn.jsdelivr.net"
 ];

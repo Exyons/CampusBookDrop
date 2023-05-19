@@ -114,13 +114,31 @@
     width: 50%;
 } */
 
-.teen-bindi-body{
+
+.selected {
+    border-bottom: 4px solid #EF2346;
+}
+
+.edit-address-btn,
+.edit-seller-book-btn,
+#saveUPIidBtn {
+    background-color: #4586fd;
+    color: white;
+}
+
+.delete-address-btn,
+.delete-seller-book-btn {
+    background-color: #EF2346;
+    color: white;
+}
+
+.teen-bindi-body {
     display: none;
     position: absolute;
     background-color: white;
 }
 
-.show-delivery-options-body{
+.show-delivery-options-body {
     display: none;
     position: absolute;
     /* left: 10px; */

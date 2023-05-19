@@ -11,7 +11,7 @@
                 <p class="card-title">&#8377; <%= product.product.price %></p>
                 <div class="container my-3 d-flex">
                     <p class="mx-3">Qty</p>
-                    <div class="bg-body-tertiary" id="qtyContainer<%= product.product._id %>">
+                    <div class="bg-body-tertiary" id="<%= product.product._id %>">
                         <button type="button" class="increase-qty-btn qty-btn fs-5" id="<%= product.product._id %>">+</button>
                         <input type="number" class="form-input input-qty" name="qty" id="qty" min="1" max="10" value="<%= product.cart_qty %>" disabled>
                         <button type="button" class="decrease-qty-btn qty-btn fs-5" id="<%= product.product._id %>">-</button>
@@ -19,7 +19,7 @@
                 </div>
             </div>
             <!-- <form action="/user_cart/<%# product.product._id %>/remove?_method=DELETE" method="POST" class="cart-remove-form"> -->
-            <div class="d-flex flex-column" id="removeBtn<%= product.product._id %>">
+            <div class="d-flex flex-column" id="<%= product.product._id %>">
                 <button class="remove-btn" id="<%= product.product._id %>">&times;</button>
             </div>
             <!-- </form> -->

@@ -2,6 +2,7 @@
 
 <%- include("partials/addressFormModal")  %> 
 <%- include("partials/bookFormModal")  %>
+<%# include("partials/otpFormModal") %>
 
     <h2 class="text-center mb-3">Dashboard</h2>
     <div class="container-fluid bg-body-tertiary">
@@ -12,7 +13,7 @@
                 <a class="dashboard-lnk addresses">Addresses</a>
                 <% if (currentUser.user_type === "seller") { %>
                     <!-- <a class="dashboard-lnk analytics">Analytics</a> -->
-                    <a class="dashboard-lnk payment-detials">Payment Details</a>
+                    <a class="dashboard-lnk payment-details">Payment Details</a>
                     <a class="dashboard-lnk books">Your Books</a>
                     <a class="dashboard-lnk received-orders">Received Orders</a>
                     <a class="dashboard-help-lnk" href="/help#forSellers">Need Help?</a>
@@ -45,6 +46,11 @@
                         data-bs-target="#bookFormModal">Add New Book</button>
                     <div class="container-fluid d-flex flex-wrap justify-content-evenly seller-book-container">
                         <%- include("partials/your_books") %>
+                    </div>
+                </div>
+                <div class="content payment-details">
+                    <div class="container-fluid d-flex flex-wrap justify-content-evenly seller-payment-details">
+                        <%- include("partials/seller_payment_details") %>
                     </div>
                 </div>
                 <div class="content received-orders">

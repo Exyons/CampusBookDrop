@@ -91,12 +91,16 @@ const getSelectedOptionsAndSend = async () => {
         productCardContainer.textContent = ''
         if (!res.data.length) {
             const notFoundHeading = document.createElement("h1");
-            notFoundHeading.classList.add("text-center");
+            // notFoundHeading.classList.add("text-center");
             notFoundHeading.innerText = "No matching books found!";
+            loadingSymbolContainer.classList.add("d-none");
             // productCardContainer.replaceChildren(notFoundHeading);
+            productCardContainer.innerValue = "";
+            productCardContainer.classList.add("d-flex", "justify-content-center")
             productCardContainer.appendChild(notFoundHeading);
         }
         else {
+            productCardContainer.classList.remove("d-flex", "justify-content-center")
             for (const templateString of res.data) {
                 const productCard = document.createElement("div");
                 productCard.classList.add("col");
@@ -244,7 +248,11 @@ window.addEventListener('scroll', infiniteScroll);
 window.onload = async () => {
     try {
         const res = await axios.get("/books/loadBooks");
-
+        if(!res.data.length){
+            showToast({error: "Error Occured!"})
+            return loadingSymbolContainer.classList.add("d-none");
+        }
+        productCardContainer.textContent = "";
         for (const templateString of res.data) {
             const productCard = document.createElement("div");
             productCard.classList.add("col");

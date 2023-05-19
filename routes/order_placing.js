@@ -47,8 +47,8 @@ router.get("/order_placing", isLoggedIn, deleteImages, wrapAsync(async (req, res
         req.flash("error", "You First Need To Login!")
         return res.redirect("/books");
     }
-    
-    if(res.app.locals.orderPlacingToken){
+
+    if (res.app.locals.orderPlacingToken) {
         delete res.app.locals.orderPlacingToken;
         return res.redirect("/books");
     }
@@ -72,7 +72,7 @@ router.post("/order_placing/getToken", wrapAsync(async (req, res) => {
         try {
             const saltRounds = 11;
             const hashedToken = await bcrypt.hash(token, saltRounds)
-            res.json({ token: hashedToken })    
+            res.json({ token: hashedToken })
         } catch (error) {
             res.json({ redirect: "/books" })
         }
@@ -94,7 +94,7 @@ router.post("/order_placing", wrapAsync(async (req, res) => {
     const id = req.user._id;
     const user = await User.findById(id);
     // Validating the token to confirm the order being placed is legit
-    const isValidToken = await bcrypt.compare(res.app.locals.orderPlacingToken, token)    
+    const isValidToken = await bcrypt.compare(res.app.locals.orderPlacingToken, token)
     if (!isValidToken) {
         return res.json({ redirect: "/books" });
     }
@@ -150,23 +150,62 @@ router.post("/order_placing/select_address", isLoggedIn, wrapAsync(async (req, r
     if (!addressId) {
         return res.json({ error: "Address is needed!" });
     }
-    // const { name, mobile, room, hostel } = req.body;
     try {
         const address = await Address.findById(addressId);
         res.app.locals.address = address
         res.json({ success: true })
     } catch (error) {
-        // console.log(error);
         res.json({ error: "Server Error!" })
     }
 }))
 
 router.post("/order_placing/payment", isLoggedIn, wrapAsync(async (req, res) => {
-    // console.log(req.body);
     if (!res.app.locals.address) {
         return res.json({ error: "Address is needed before payment!" })
     }
     res.json({ success: "Payment Done!" });
+}))
+
+router.get("/order_placing/getAmounts", wrapAsync(async (req, res) => {
+    let deliveryCharge = 0
+    let subtotal = 0;
+    let totalAmount = 0
+    res.app.locals.validAmounts = false;
+    try {
+        const { books } = res.app.locals;
+        const cartLength = books.length;
+        if (cartLength) {
+            if (0 < cartLength && cartLength <= 3) {
+                deliveryCharge = 30;
+            }
+            else if (cartLength > 3) {
+                deliveryCharge = 15;
+            }
+            else {
+                deliveryCharge = 0;
+            }
+            // Giving new users zero delivery fee on their first order
+            const user = await User.findById(req.user._id);
+            if (user.orders.length === 0) {
+                deliveryCharge = 0;
+            }
+            books.forEach(book => {
+                subtotal += book.book.price * book.cart_qty;
+            })
+            totalAmount = deliveryCharge + subtotal
+            res.json({ deliveryCharge, subtotal, totalAmount });
+        }
+        else {
+            res.json({ deliveryCharge, subtotal, totalAmount });
+        }
+        res.app.locals.validAmounts = true;
+        res.app.locals.deliveryCharge = deliveryCharge;
+        res.app.locals.totalAmount = totalAmount;
+    } catch (error) {
+        res.app.locals.validAmounts = false;
+        // console.log(error);
+        res.json({ error: "Server Error!" })
+    }
 }))
 
 router.post("/order_placing/recieptImageUpload", isLoggedIn, upload.single("reciept"), wrapAsync(async (req, res) => {
@@ -176,7 +215,6 @@ router.post("/order_placing/recieptImageUpload", isLoggedIn, upload.single("reci
         await cloudinary.uploader.destroy(receiptImage.filename);
         delete res.app.locals.receiptImage;
     }
-
     if (req.file) {
         // Because I am storing image in memmory, it is stored as buffer
         // Convert req.file.buffer to Stream for uploading to cloudinary
@@ -202,9 +240,14 @@ router.post("/order_placing/recieptImageUpload", isLoggedIn, upload.single("reci
 router.post("/order_placing/confirmation", isLoggedIn, wrapAsync(async (req, res) => {
     //TODO
     // If the order is not placed, delete the receipt image from cloudinary
+    if (!res.app.locals.validAmounts) {
+        return res.json({ error: "Cannot Place Your Order!" })
+    }
     const { books } = res.app.locals;
     const { receiptImage } = res.app.locals;
     const { address } = req.app.locals;
+    const { deliveryCharge } = res.app.locals;
+    const { totalAmount } = res.app.locals;
     const user = await User.findById(req.user._id);
     if (!address) {
         return res.json({ error: "Order cannot be placed! Address is required!" });
@@ -222,7 +265,9 @@ router.post("/order_placing/confirmation", isLoggedIn, wrapAsync(async (req, res
         order_id: orderId,
         status: "processing",
         date: Date.now(),
-        address: address
+        address: address,
+        deliveryCharge,
+        totalAmount
     })
 
     const newDeliveryOrder = new DeliveryOrder({
@@ -235,7 +280,7 @@ router.post("/order_placing/confirmation", isLoggedIn, wrapAsync(async (req, res
     let foundBook = {};
     for (const { book, cart_qty } of books) {
         // What if the seller who just removed the book, a user might place order for it
-        foundBook = await Product.findById(book._id).populate({path: "user", populate: {path: "addresses"}}) ;
+        foundBook = await Product.findById(book._id).populate({ path: "user", populate: { path: "addresses" } });
         if (!foundBook) {
             return res.json({ error: "Order cannot be placed! The product you are ordering does not exist!" });
         }
@@ -267,6 +312,8 @@ router.post("/order_placing/confirmation", isLoggedIn, wrapAsync(async (req, res
         await foundBook.save();
         await newDeliveryOrder.save();
         res.json({ success: "Huurray! Order Placed!" })
+        delete res.app.locals.deliveryCharge;
+        delete res.app.locals.totalAmount
         delete res.app.locals.books;
         delete res.app.locals.receiptImage;
         delete res.app.locals.address;

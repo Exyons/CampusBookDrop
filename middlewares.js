@@ -28,17 +28,17 @@ module.exports.deleteImages = async (req, res, next) => {
     // Delteing the image from cloudinary if the user was unable to place order or create a book
     // This is in middleware beacuse it will run at every request
     // If user mistakenly goes to another, the images will be deleted
-    if (req.session.bookImage) {
-        await cloudinary.uploader.destroy(req.session.bookImage.filename);
-        delete req.session.bookImage
+    if (res.app.locals.bookImage) {
+        await cloudinary.uploader.destroy(res.app.locals.bookImage.filename);
+        delete res.app.locals.bookImage
     }
     if (res.app.locals.receiptImage) {
         await cloudinary.uploader.destroy(res.app.locals.receiptImage.filename);
         delete res.app.locals.receiptImage
     }
-    if (req.session.userThumbnail) {
-        await cloudinary.uploader.destroy(req.session.userThumbnail.filename);
-        delete req.session.userThumbnail
+    if (res.app.locals.userThumbnail) {
+        await cloudinary.uploader.destroy(res.app.locals.userThumbnail.filename);
+        delete res.app.locals.userThumbnail
     }
     // Setitng the otp object to be empty at every response request
     req.app.locals.otps = {}

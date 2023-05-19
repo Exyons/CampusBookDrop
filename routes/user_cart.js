@@ -20,8 +20,73 @@ router.get("/user_cart/itemcount", deleteImages, wrapAsync(async (req, res) => {
     }
 }))
 
+router.get("/user_cart/getAmounts", deleteImages, wrapAsync(async (req, res) => {
+    let deliveryCharge = 0
+    let subtotal = 0;
+    if (!req.user) {
+        try {
+            if (req.session.cart) {
+                const cartLength = req.session.cart.length;
+                if (0 < cartLength && cartLength <= 3) {
+                    deliveryCharge = 30;
+                }
+                else if (cartLength > 2) {
+                    deliveryCharge = 15;
+                }
+                else {
+                    deliveryCharge = 0;
+                }
+                for (let i = 0; i < cartLength; ++i) {
+                    const product = await Product.findById(req.session.cart[i].product);
+                    subtotal += product.price * req.session.cart[i].cart_qty;
+                }
+                res.json({ deliveryCharge, subtotal, totalAmount: deliveryCharge + subtotal });
+            }
+            else {
+                res.json({ deliveryCharge, subtotal, totalAmount: deliveryCharge + subtotal });
+            }
+        } catch (error) {
+            res.json({ error: "Cannot Contact Server!" })
+        }
+    }
+    else {
+        try {
+            const user = await User.findById(req.user._id);
+            const cartLength = user.cart.length;
+            if (cartLength) {
+                if (0 < cartLength && cartLength <= 3) {
+                    deliveryCharge = 30;
+                }
+                else if (cartLength > 3) {
+                    deliveryCharge = 15;
+                }
+                else {
+                    deliveryCharge = 0;
+                }
+
+                // Giving new users zero delivery fee on their first order
+                if (user.orders.length === 0) {
+                    deliveryCharge = 0;
+                }
+
+                for (const cartItem of user.cart) {
+                    const product = await Product.findById(cartItem.product);
+                    if (product) {
+                        subtotal += product.price * cartItem.cart_qty;
+                    }
+                }
+                res.json({ deliveryCharge, subtotal, totalAmount: deliveryCharge + subtotal });
+            }
+            else {
+                res.json({ deliveryCharge, subtotal, totalAmount: deliveryCharge + subtotal });
+            }
+        } catch (error) {
+            res.json({ error: "Cannot Contact Server!" })
+        }
+    }
+}))
+
 router.get("/user_cart", wrapAsync(async (req, res, next) => {
-    const { user_cart_styles } = req.app.locals;
     const title = "Your Cart";
 
     let products = [];
@@ -32,10 +97,12 @@ router.get("/user_cart", wrapAsync(async (req, res, next) => {
         else {
             for (let i = 0; i < req.session.cart.length; ++i) {
                 const populatedProduct = await Product.findById(req.session.cart[i].product);
-                products.push({
-                    product: populatedProduct,
-                    cart_qty: req.session.cart[i].cart_qty
-                });
+                if (populatedProduct) {
+                    products.push({
+                        product: populatedProduct,
+                        cart_qty: req.session.cart[i].cart_qty
+                    });
+                }
             }
         }
     }
@@ -44,30 +111,17 @@ router.get("/user_cart", wrapAsync(async (req, res, next) => {
         // TODO
         // Implement function, when the seller removes his/her product from database
         // remove those items from the cart of the user.
-
-        // let exist = true;
-        // for(const cartItem of user.cart) {
-        //     const product = await Product.findById(cartItem.product);
-        //     if (!product) {
-        //         exist = false;
-        //         break
-        //     }
-        // }
-        // if (!exist) {
-        //     req.flash("error", "Some products in your cart does not exist anymore. They have been removed. The seller must have unlisted them.");
-        //     res.redirect("/user_cart");
-        // }
-
-
         for (let i = 0; i < user.cart.length; ++i) {
             const populatedProduct = await Product.findById(user.cart[i].product);
-            products.push({
-                product: populatedProduct,
-                cart_qty: user.cart[i].cart_qty
-            });
+            if (populatedProduct) {
+                products.push({
+                    product: populatedProduct,
+                    cart_qty: user.cart[i].cart_qty
+                });
+            }
         }
     }
-    res.render("user/user_cart", { title, page_styles: user_cart_styles, products });
+    res.render("user/user_cart", { title, page_styles: "user_cart_styles.css", products });
 }))
 
 router.post("/user_cart/:id/add", wrapAsync(async (req, res, next) => {
@@ -75,7 +129,7 @@ router.post("/user_cart/:id/add", wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     const foundProduct = await Product.findById(id);
     if (!foundProduct) {
-        req.json({error: "The product you are adding to cart does not exist!"});
+        req.json({ error: "The product you are adding to cart does not exist!" });
         // return res.redirect("/user_cart");
     }
     const maxOrderQty = Math.min(foundProduct.qty, req.app.locals.maxCartQty);
@@ -93,9 +147,9 @@ router.post("/user_cart/:id/add", wrapAsync(async (req, res, next) => {
         // If no, add the item to cart
         const cartLength = req.session.cart.length;
 
-        if(cartLength >= 15){
-            return res.json({error: "Cart Full!"})
-        }   
+        if (cartLength >= 15) {
+            return res.json({ error: "Cart Full!" })
+        }
 
         if (cartLength > 0) {
             let isExisting = false;
@@ -120,16 +174,16 @@ router.post("/user_cart/:id/add", wrapAsync(async (req, res, next) => {
             req.session.cart.push({ product: foundProduct._id, cart_qty: 1 });
         }
         // res.redirect("/user_cart");
-        res.json({success: "Added an item to cart!"});
+        res.json({ success: "Added an item to cart!" });
     }
     else {
         // If the user is logged in add product to their database cart
         const user = await User.findById(req.user._id);
         const cartLength = user.cart.length;
-        
-        if(cartLength >= 15){
-            return res.json({error: "Cart Full!"})
-        } 
+
+        if (cartLength >= 15) {
+            return res.json({ error: "Cart Full!" })
+        }
 
         if (cartLength > 0) {
             let isExisting = false;
@@ -154,7 +208,7 @@ router.post("/user_cart/:id/add", wrapAsync(async (req, res, next) => {
             user.cart.push({ product: foundProduct._id, cart_qty: 1 });
         }
         await user.save();
-        res.json({success: "Added an item to cart!"});
+        res.json({ success: "Added an item to cart!" });
     }
 }))
 
@@ -226,7 +280,7 @@ router.patch("/user_cart/:id/update", wrapAsync(async (req, res) => {
             }
         }
         else {
-            res.json({error: "You cannot increase quantity when cart is empty!"});
+            res.json({ error: "You cannot increase quantity when cart is empty!" });
         }
         await user.save();
     }
@@ -245,7 +299,7 @@ router.delete("/user_cart/destroy", wrapAsync(async (req, res) => {
         try {
             await user.save();
         } catch (error) {
-            res.json({error: "Error while clearing cart!"})
+            res.json({ error: "Error while clearing cart!" })
         }
     }
 }))

@@ -27,8 +27,8 @@
     border-bottom: 4px solid transparent;
 }
 
-.filter-checkbox-label.selected{
-    border-bottom: 4px solid #80ed99;
+.selected{
+    border-bottom: 4px solid #EF2346;
 }
 /* .filter-btn{
     background: none;

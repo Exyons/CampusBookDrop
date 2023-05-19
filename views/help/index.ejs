@@ -1,5 +1,5 @@
 <% layout("layouts/boilerplate") -%>
-    <div class="container my-auto d-flex flex-column flex-lg-row">
+    <div class="container-fluid my-auto d-flex flex-column flex-lg-row">
         <div class="container navbar-expand-lg mb-3">
             <div class="continer-fluid d-flex flex-row-reverse">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -10,7 +10,7 @@
                     </svg>
                 </button>
             </div>
-            <div class="collapse navbar-collapse me-0" id="sidebarContent">
+            <div class="collapse navbar-collapse" id="sidebarContent">
                 <nav id="sidebarNavbar" class="h-100 flex-column">
                     <nav class="nav nav-pills flex-column">
                         <a class="nav-link" href="#forBuyers">For Buyers</a>
@@ -35,7 +35,7 @@
                 </nav>
             </div>
         </div>
-        <div class="container" style="flex-grow: 2;">
+        <div class="container">
             <div data-bs-spy="scroll" data-bs-target="#sidebarNavbar" data-bs-smooth-scroll="true"
                 class="scrollspy-example-2" tabindex="0">
                 <%- include("partials/buyer_help") %>

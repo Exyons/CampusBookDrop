@@ -116,30 +116,23 @@ addressFormModal.addEventListener("hide.bs.modal", () => {
     addressForm.classList.remove('was-validated');
 })
 
-const color = "#80ed99";
+const color = "#EF2346";
 function ChangeStyles() {
     for (let child of dashboardNavbar.children) {
         if (child.style.borderLeft) {
-            child.style.borderBottom = "solid 4px " + color;
             child.classList.add("selected");
-            child.style.borderLeft = "";
         }
     }
     dashboardNavbar.style.flexDirection = "row";
-    // }
 }
 
 function AddBottomBorder(ref) {
     ref.classList.add("selected");
-    ref.style.borderBottom = "solid 4px " + color;
-    // ref.classList.add("btn","btn-info","rounded-pill");
     for (let child of dashboardNavbar.children) {
         if (child !== ref) {
-            child.style.borderBottom = "";
             child.classList.remove("selected");
         }
     }
-    // }
 }
 
 function ShowContent(ref) {
@@ -164,9 +157,6 @@ function PerformActions() {
 // Changing the content box to show the contents of the navbar item which has selected class
 for (let link of dashboardLinks) {
     if (link.classList.contains("selected")) {
-        link.style.borderBottom = "solid 4px " + color;
-        // link.classList.add("btn", "btn-info","rounded-pill");
-
         for (let content of contents) {
             if (content.classList[1] === link.classList[1]) {
                 content.style.display = "flex";
@@ -234,7 +224,7 @@ editThumbnailBtn.addEventListener("click", async () => {
                 return;
             }
 
-            if (file.size >= 2000000) {
+            if (file.size >= 1000000) {
                 showToast({ error: "You cannot upload this file because its size exceeds the maximum limit of 2 MB." });
                 return;
             }
@@ -574,5 +564,77 @@ if (pickedupOrderBtn.length) {
                 showToast({ error: "Cannot Contact Server!" });
             }
         })
+    })
+}
+
+const checkUsernamePasswordAndEmail = () => {
+    const username = document.querySelector("#username");
+    const usernameFeedback = document.querySelector("#usernameFeedback");
+    const email = document.querySelector("#userEmail");
+    const emailFeedback = document.querySelector("#emailFeedback");
+    username.addEventListener("input", async () => {
+        if (username.checkValidity()) {
+            try {
+                const res = await axios.post("/user/sign_up/checkUsername", { username: username.value })
+                if (res.data.success) {
+                    username.classList.add("valid");
+                    // signUpBtn.disabled = !(email.classList.contains("valid") && username.classList.contains("valid"));
+                    usernameFeedback.classList.remove("text-danger")
+                    usernameFeedback.classList.add("text-success")
+                    usernameFeedback.textContent = res.data.success
+                }
+                else {
+                    username.classList.remove("valid");
+                    // signUpBtn.disabled = true;
+                    usernameFeedback.classList.remove("text-success")
+                    usernameFeedback.classList.add("text-danger")
+                    usernameFeedback.textContent = res.data.error
+                }
+            } catch (error) {
+                console.log(error)
+                usernameFeedback.textContent = "Cannot Contact Server!";
+            }
+        }
+    })
+    email.addEventListener("input", async () => {
+        if (email.checkValidity()) {
+            try {
+                const res = await axios.post("/user/sign_up/checkEmail", { email: email.value })
+                if (res.data.success) {
+                    email.classList.add("valid");
+                    // signUpBtn.disabled = !(email.classList.contains("valid") && username.classList.contains("valid"));
+                    emailFeedback.classList.remove("text-danger")
+                    emailFeedback.classList.add("text-success")
+                    emailFeedback.textContent = res.data.success
+                }
+                else {
+                    email.classList.remove("valid");
+                    // signUpBtn.disabled = true;
+                    emailFeedback.classList.remove("text-success")
+                    emailFeedback.classList.add("text-danger")
+                    emailFeedback.textContent = res.data.error
+                }
+            } catch (error) {
+                emailFeedback.textContent = "Cannot Contact Server!";
+            }
+        }
+    })
+}
+
+checkUsernamePasswordAndEmail()
+
+const upiIdForm = document.querySelector("#upiIdForm");
+if (upiIdForm) {
+    const saveUpiIdBtn = document.querySelector("#saveUPIidBtn");
+    upiIdForm.onsubmit = event => event.preventDefault();
+    saveUpiIdBtn.addEventListener("click", async () => {
+        try {
+            const sellerUpiId = upiIdForm.elements.sellerUPIid.value;
+            const res = await axios.post("/user/sellerPaymentDetails", { sellerUpiId })
+            showToast(res.data)
+        } catch (error) {
+            // console.log(error);
+            showToast({ error: "Cannot Contact Server!" })
+        }
     })
 }

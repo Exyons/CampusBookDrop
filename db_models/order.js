@@ -34,7 +34,9 @@ const orderSchema = new Schema({
         type: Date,
         required: true
     },
-    address: addressSchema,
+    deliveryCharge: Number,
+    totalAmount: Number,
+    address: addressSchema
     // pickup_address: addressSchema,
     // sellers: [
     //     {

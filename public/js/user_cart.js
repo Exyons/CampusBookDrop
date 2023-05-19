@@ -27,10 +27,10 @@ else {
 
 if (productCards) {
     productCards.forEach(card => {
-        const incBtn = card.children[0].children[1].children[0].children[1].children[1].children[0];
-        const qty = card.children[0].children[1].children[0].children[1].children[1].children[1];
-        const decBtn = card.children[0].children[1].children[0].children[1].children[1].children[2];
-        const removeBtn = card.children[0].children[1].children[1].children[0];
+        const incBtn = card.children[0].children[1].children[0].children[2].children[1].children[0];
+        const qty = card.children[0].children[1].children[0].children[2].children[1].children[1];
+        const decBtn = card.children[0].children[1].children[0].children[2].children[1].children[2];
+        const removeBtn = card.children[0].children[1].children[1];
 
         incBtn.addEventListener("click", async () => {
             try {
@@ -40,6 +40,7 @@ if (productCards) {
                 if (res.data.qty) {
                     qty.value = res.data.qty;
                 }
+                getAmounts();
             }
             catch (err) {
                 showToast({ error: "Cannot Contact Server! Error changing quantity!" });
@@ -53,6 +54,7 @@ if (productCards) {
                 if (res.data.qty) {
                     qty.value = res.data.qty;
                 }
+                getAmounts();
             }
             catch (err) {
                 showToast({ error: "Cannot Contact Server! Error changing quantity!" });
@@ -71,6 +73,7 @@ if (productCards) {
                     placeOrderAddBooksContainer.style.display = "none";
                     addBooksBtnContainer.style.display = "block";
                 }
+                getAmounts();
                 showToast(res.data)
             }
             catch (err) {
@@ -79,37 +82,58 @@ if (productCards) {
         });
     })
 
-    placeOrderBtn.addEventListener("click", async () => {
-        const bookData = {
-            bookIdsAndQty: []
-        }
-        if (productCards) {
-            productCards.forEach(card => {
-                const qty = card.children[0].children[1].children[0].children[2].children[2];
-                bookData.bookIdsAndQty.push({
-                    bookId: card.id,
-                    cart_qty: qty.value
+    if (placeOrderBtn) {
+        placeOrderBtn.addEventListener("click", async () => {
+            const bookData = {
+                bookIdsAndQty: []
+            }
+            if (productCards) {
+                productCards.forEach(card => {
+                    const qty = card.children[0].children[1].children[0].children[2].children[1].children[1];
+                    bookData.bookIdsAndQty.push({
+                        bookId: card.id,
+                        cart_qty: qty.value
+                    })
                 })
-            })
-        }
-        try {
-            // Receive a token from server
-            // Send that that token back to server for verfication
-            // If that token is valid then only show order placing page 
-            const resToken = await axios.post("/order_placing/getToken");
-            if (resToken.data.redirect) {
-                window.location = resToken.data.redirect;
             }
-            const { token } = resToken.data;
-            const res = await axios.post("/order_placing", { data: bookData, token });
-            showToast(res.data)
-            if (res.data.redirect) {
-                window.location = res.data.redirect;
+            try {
+                // Receive a token from server
+                // Send that that token back to server for verfication
+                // If that token is valid then only show order placing page 
+                const resToken = await axios.post("/order_placing/getToken");
+                if (resToken.data.redirect) {
+                    window.location = resToken.data.redirect;
+                }
+                const { token } = resToken.data;
+                const res = await axios.post("/order_placing", { data: bookData, token });
+                showToast(res.data)
+                if (res.data.redirect) {
+                    window.location = res.data.redirect;
+                }
+            } catch (err) {
+                showToast({ error: "Cannot Contact Server!" });
             }
-        } catch (err) {
-            showToast({ error: "Cannot Contact Server!" });
-        }
-    })
+        })
+    }
 }
 
+const getAmounts = async () => {
+    const subtotal = document.querySelector("#subtotal")
+    const deliveryCharge = document.querySelector("#deliveryCharge")
+    const totalAmount = document.querySelector("#totalAmount")
+    try {
+        const res = await axios.get("/user_cart/getAmounts")
+        // console.log(res.data)
+        if (res.data.error) {
+            return showToast(res.data)
+        }
+        subtotal.innerText = res.data.subtotal
+        deliveryCharge.innerText = res.data.deliveryCharge
+        totalAmount.innerText = res.data.totalAmount
+    } catch (error) {
+        // console.log(error)
+        showToast({ error: "Cannot Fetch Amounts!" })
+    }
+}
 
+getAmounts();

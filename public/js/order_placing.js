@@ -41,8 +41,8 @@ const doPayment = () => {
                 return;
             }
 
-            if (file.size >= 2000000) {
-                showToast({ error: "You cannot upload this file because its size exceeds the maximum limit of 2 MB." });
+            if (file.size >= 1000000) {
+                showToast({ error: "You cannot upload this file because its size exceeds the maximum limit of 1 MB." });
                 return;
             }
         }
@@ -136,3 +136,24 @@ if (orderAddressCard.length) {
         }
     })
 }
+const getAmounts = async () => {
+    const subtotal = document.querySelector("#subtotal")
+    const deliveryCharge = document.querySelector("#deliveryCharge")
+    const totalAmount = document.querySelector("#totalAmount")
+    try {
+        const res = await axios.get("/order_placing/getAmounts")
+        // console.log(res.data)
+        if (res.data.error) {
+            return showToast(res.data)
+        }
+        subtotal.innerText = res.data.subtotal
+        deliveryCharge.innerText = res.data.deliveryCharge
+        totalAmount.innerText = res.data.totalAmount
+    } catch (error) {
+        // console.log(error)
+        placeOrderBtn.disabled = true;
+        showToast({ error: "Cannot Fetch Amounts!" })
+    }
+}
+
+getAmounts();

@@ -34,7 +34,8 @@ const {
     generateOTP,
     regenerateOTP,
     verifyOTP,
-    sendOtpToEmail } = require("../controllers/user.js");
+    sendOtpToEmail,
+    saveSellerPaymentDetails } = require("../controllers/user.js");
 
 
 const moment = require('moment');
@@ -112,6 +113,8 @@ router.delete("/books/:bookId", isLoggedIn, wrapAsync(destroyBook))
 router.get("/books/analytics", isLoggedIn, wrapAsync(sendSellerAnalytics))
 
 router.post("/delivery/status", isLoggedIn, wrapAsync(setDeliveryOrderStatus))
+
+router.post("/sellerPaymentDetails", isLoggedIn, wrapAsync(saveSellerPaymentDetails))
 
 // In-session store for OTPs and their expiry times
 

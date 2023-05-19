@@ -30,6 +30,7 @@
                 <input type="text" id="username" name="username" class="form-control account-inputs"
                     value="<%= user.username %>" disabled required>
                 <label for="username" class="col-form-label ms-3 ">Username</label>
+                <div id="usernameFeedback" class="text-center mt-2"></div>
             </div>
         </div>
 
@@ -48,9 +49,10 @@
 
         <div class="row email-mobile-btn-container mb-4">
             <div class="col-12 col-sm-6 offset-sm-3 mb-4 form-floating">
-                <input type="email" id="email" name="email" class="form-control account-inputs"
+                <input type="email" id="userEmail" name="email" class="form-control account-inputs"
                     value="<%= user.email %>" disabled required>
-                <label for="email" class="col-form-label ms-3 ">Email</label>
+                <label for="userEmail" class="col-form-label ms-3 ">Email</label>
+                <div id="emailFeedback" class="text-center mt-2"></div>
             </div>
 
             <div class="col-12 col-sm-6 offset-sm-3 mb-4 form-floating">
