@@ -31,8 +31,8 @@ const sessionSecrete = process.env.SESSION_SECRET;
 // If they know it then ok, otherwise tell them to change password, probably someone else accessed their account
 
 // Connecting MongoDB database
-// const dbUrl = process.env.MONGODB_URL 
-const dbUrl = "mongodb://127.0.0.1:27017/BookSellingApp"
+const dbUrl = process.env.MONGODB_URL 
+// const dbUrl = "mongodb://127.0.0.1:27017/BookSellingApp"
 
 mongoose.connect(dbUrl)
     .then(() => {
