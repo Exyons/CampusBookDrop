@@ -76,3 +76,8 @@ module.exports.constructFilterQuery = (req, res, next) => {
     }
     next();
 }
+
+module.exports.regenerateSession = (req, res, next) => {
+    req.session.regenerate()
+    next();
+}

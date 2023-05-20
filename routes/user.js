@@ -2,7 +2,7 @@ const express = require("express");
 const wrapAsync = require("../utils/WrapAsync");
 const passport = require("passport");
 const { storeReturnTo, storeSessionCart } = require("../middlewares");
-const { isLoggedIn, deleteImages } = require("../middlewares");
+const { isLoggedIn, deleteImages, regenerateSession } = require("../middlewares");
 const multer = require("multer");
 const {
     renderSignUpForm,
@@ -36,12 +36,6 @@ const {
     verifyOTP,
     sendOtpToEmail,
     saveSellerPaymentDetails } = require("../controllers/user.js");
-
-
-const moment = require('moment');
-// const { v4: uuidv4 } = require('uuid');
-// const timezone = 'Asia/Kolkata'; // for example, set it to the timezone you want
-// moment.tz.setDefault(timezone);
 
 const upload = multer({
     // for stroing the image in memory temporarily before uploading
@@ -82,6 +76,7 @@ router.post("/log_in",
     storeReturnTo,
     storeSessionCart,
     passport.authenticate("local", { failureFlash: true, failureRedirect: "/user/log_in" }),
+    // regenerateSession,
     wrapAsync(updateUserCart)
 )
 

@@ -100,6 +100,7 @@ const signUpUser = async (req, res, next) => {
             // You have send data from inside req.login function to login the user successfully
             res.json({ redirect: "/" });
         })
+        // Regenerating session after user sigins up
         next();
     }
     catch (error) {
@@ -302,6 +303,7 @@ const logOutUser = (req, res, next) => {
         req.flash("success", "Logged Out Successfully!");
         res.redirect("/");
     })
+    req.session.destroy();
 }
 
 const renderUserDashboard = async (req, res) => {

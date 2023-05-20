@@ -31,8 +31,8 @@ const sessionSecrete = process.env.SESSION_SECRET;
 // If they know it then ok, otherwise tell them to change password, probably someone else accessed their account
 
 // Connecting MongoDB database
-const dbUrl = process.env.MONGODB_URL 
-// const dbUrl = "mongodb://127.0.0.1:27017/BookSellingApp"
+// const dbUrl = process.env.MONGODB_URL 
+const dbUrl = "mongodb://127.0.0.1:27017/BookSellingApp"
 
 mongoose.connect(dbUrl)
     .then(() => {
@@ -65,11 +65,13 @@ const sessionOptions = {
     resave: false,
     saveUninitialized: true,
     cookie: {
+        secure: true,
+        sameSite: true,
         httpOnly: true,
-        maxAge: 1000 * 60 * 60 * 24 * 7 // time period in milliseconds
+        maxAge: 1000 * 60 * 60 * 24 * 7 // time period in milliseconds for 1 week
     }
 }
-
+app.use(session(sessionOptions));
 
 // Using helmet to secure website more
 app.use(helmet())
@@ -103,8 +105,6 @@ app.use(
     })
 );
 
-
-app.use(session(sessionOptions));
 
 // Using manogo-sanitize middleware to tackle mongo injection attacks from get request query strings
 app.use(mongoSanitize());
