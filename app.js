@@ -7,7 +7,6 @@ else {
     dbUrl = process.env.MONGODB_URL 
 }
 
-require("dotenv").config()
 
 const express = require("express")
 const path = require("path")
@@ -31,7 +30,6 @@ const sessionSecret = process.env.SESSION_SECRET;
 // If they know it then ok, otherwise tell them to change password, probably someone else accessed their account
 
 // Connecting MongoDB database
-
 // const dbUrl = process.env.MONGODB_URL 
 // const dbUrl = "mongodb://127.0.0.1:27017/BookSellingApp"
 
@@ -62,7 +60,7 @@ const store = MongoStore.create({
 // Using express-session middleware
 const sessionOptions = {
     store,
-    secret: sessionSecrete,
+    secret: sessionSecret,
     resave: false,
     saveUninitialized: true,
     cookie: {
