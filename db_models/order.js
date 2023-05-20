@@ -27,7 +27,7 @@ const orderSchema = new Schema({
     status: {
         type: String,
         lowercase: true,
-        enum: ["processing", "confirmed", "canceled", "ontheway", "delivered", "returned"],
+        enum: ["processing", "confirmed", "canceled", "pickedup", "delivered", "returned"],
         required: true
     },
     date: {
@@ -36,20 +36,8 @@ const orderSchema = new Schema({
     },
     deliveryCharge: Number,
     totalAmount: Number,
-    address: addressSchema
-    // pickup_address: addressSchema,
-    // sellers: [
-    //     {
-    //         type: Schema.Types.ObjectId,
-    //         ref: "User",
-    //         required: true
-    //     }
-    // ],
-    // delivery_user: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: "User",
-    //     required: true
-    // }
+    address: addressSchema,
+    statusComment: String
 });
 
 module.exports = mongoose.model("Order", orderSchema);

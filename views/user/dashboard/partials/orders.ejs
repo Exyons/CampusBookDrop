@@ -12,6 +12,10 @@
                             <h6 class="card-title order-status">Order Status </h6>
                             <p class="card-text ms-2 text-capitalize"><%= order.status %></p> 
                         </div>
+                        <div class="d-flex flex-column flex-sm-row mb-2">
+                            <h6 class="card-title order-status">Comment:  </h6>
+                            <p class="card-text ms-2 text-capitalize"><%= order.statusComment %></p> 
+                        </div>
                     </div>
                     <div class="show-receipt-btn my-2 mx-2">
                         <button class="teen-bindi" style="background: none; border: none;" id="<%=order.order_id%>">

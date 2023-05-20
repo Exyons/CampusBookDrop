@@ -257,7 +257,8 @@ const orderPlaceConfirmation = async (req, res) => {
             date: Date.now(),
             address: address,
             deliveryCharge,
-            totalAmount
+            totalAmount,
+            statusComment: "Your payment is being verified."
         })
 
         const newDeliveryOrder = new DeliveryOrder({

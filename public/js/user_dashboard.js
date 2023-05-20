@@ -116,7 +116,6 @@ addressFormModal.addEventListener("hide.bs.modal", () => {
     addressForm.classList.remove('was-validated');
 })
 
-const color = "#EF2346";
 function ChangeStyles() {
     for (let child of dashboardNavbar.children) {
         if (child.style.borderLeft) {

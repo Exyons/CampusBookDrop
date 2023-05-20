@@ -9,8 +9,9 @@ const nodemailer = require("nodemailer");
 const moment = require('moment');
 const bcrypt = require("bcrypt");
 const crypto = require('crypto');
-// import fetch from 'node-fetch';
-// const upload = multer({ storage })
+
+const thumbnailWidth = "30";
+const thumbnailHeight = "30";
 
 const cloudinaryUploadStream = (stream, folderName, width, height) => {
     return new Promise((resolve, reject) => {
@@ -312,7 +313,7 @@ const renderUserDashboard = async (req, res) => {
             .populate("orders")
 
         if (!user) {
-            req.flash("error", "Error in /user/dashboard, user not found");
+            req.flash("error", "Error, user not found");
             return res.redirect("/");
         }
         res.app.locals.isValidUsername = true;
@@ -328,7 +329,7 @@ const renderUserDashboard = async (req, res) => {
             const orders = await Order.find({
                 status: {
                     // Remove processing before deploying
-                    $in: ["processing", "confirmed", "canceled", "delivered", "returned"]
+                    $in: ["confirmed", "canceled", "delivered", "returned"]
                 }
             })
             if (orders.length) {
@@ -349,21 +350,27 @@ const renderUserDashboard = async (req, res) => {
         if (user.user_type === "delivery") {
             const deliveryOrders = await DeliveryOrder.find({
                 payment_status: {
-                    $in: ["processing", "confirmed", "canceled", "delivered", "returned"]
+                    $in: ["confirmed", "canceled", "delivered", "returned"]
                 }
             })
             const deliveryStatus = ["locked", "pickedup", "delivered"]
             deliveryOrders.forEach(order => {
                 // show only those orders which are either open to be delivered
                 // Or if the current delivery user has locked, pickedup or delivered it
-                if (order.delivery_status === "open" ||
-                    (deliveryStatus.includes(order.delivery_status) && (order.delivery_user.toString() === req.user._id.toString()))) {
+                // If the order is locked but there is no user, this means Campus Book Drop Internal team is delivering
+                if (order.delivery_status === "open") {
                     userDeliveryOrders.push(order);
+                }
+                if (deliveryStatus.includes(order.delivery_status) && order.delivery_user) {
+                    if ((order.delivery_user.toString() === req.user._id.toString())) {
+                        userDeliveryOrders.push(order);
+                    }
                 }
             })
         }
         res.render("user/dashboard/user_dashboard", { title, page_styles: "user_dashboard_styles.css", user, sellerBooks, userDeliveryOrders, sellerOrders, sellerUpiId });
     } catch (error) {
+        console.log(error)
         req.flash("error", "Error Occured!")
         res.redirect("/");
     }
@@ -412,9 +419,6 @@ const updateUserDetails = async (req, res) => {
 }
 
 const uploadUserThumbnail = async (req, res) => {
-    const thumbnailWidth = "30";
-    const thumbnailHeight = "30";
-
     if (res.app.locals.userThumbnail) {
         await cloudinary.uploader.destroy(res.app.locals.userThumbnail.filename);
         delete res.app.locals.userThumbnail;
@@ -865,7 +869,7 @@ const generateOTP = (req, res, next) => {
         expiresAt: moment().add(10, 'minutes'),
         resendIn: moment().add(1, 'minutes')
     };
-    // console.log(req.app.locals.otps);
+    console.log(req.app.locals.otps);
     next();
 }
 
