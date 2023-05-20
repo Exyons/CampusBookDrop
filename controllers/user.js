@@ -10,14 +10,17 @@ const moment = require('moment');
 const bcrypt = require("bcrypt");
 const crypto = require('crypto');
 
-const thumbnailWidth = "30";
-const thumbnailHeight = "30";
+const thumbnailWidth = "100";
+const thumbnailHeight = "100";
 
-const cloudinaryUploadStream = (stream, folderName, width, height) => {
+const bookImgWidth = "500";
+const bookImgHeight = "500";
+
+const cloudinaryUploadStream = (stream, folderName, tags, width, height) => {
     return new Promise((resolve, reject) => {
         const cloudinaryStream = cloudinary.uploader.upload_stream(
             {
-                tags: "SellerBookImage",
+                tags,
                 resource_type: 'image',
                 folder: `BookSellingApp/${folderName}`,
                 width,
@@ -431,9 +434,9 @@ const uploadUserThumbnail = async (req, res) => {
         const bufferStream = new Readable();
         bufferStream.push(req.file.buffer);
         bufferStream.push(null);
-
+        console.log(req.file)
         try {
-            const uploadStream = await cloudinaryUploadStream(bufferStream, `${req.user.username}/thumbnail`, thumbnailWidth, thumbnailHeight);
+            const uploadStream = await cloudinaryUploadStream(bufferStream, `${req.user.username}/thumbnail`, "ThumbnailImage",thumbnailWidth, thumbnailHeight);
             res.app.locals.userThumbnail = {
                 url: uploadStream.secure_url,
                 filename: uploadStream.public_id
@@ -552,8 +555,7 @@ const addNewBookDetails = async (req, res) => {
 const uploadNewBookImage = async (req, res) => {
     // If user closes the add book form I want to remove the book image they added
     const { bookImage } = res.app.locals.bookImage;
-    const bookImgWidth = "500";
-    const bookImgHeight = "500";
+
     if (bookImage) {
         await cloudinary.uploader.destroy(bookImage.filename);
         delete res.app.locals.bookImage;
@@ -567,7 +569,7 @@ const uploadNewBookImage = async (req, res) => {
         bufferStream.push(null);
 
         try {
-            const uploadStream = await cloudinaryUploadStream(bufferStream, `${req.user.username}/books`, bookImgWidth, bookImgHeight);
+            const uploadStream = await cloudinaryUploadStream(bufferStream, `${req.user.username}/books`, "BookImage", bookImgWidth, bookImgHeight);
             res.app.locals.bookImage = {
                 url: uploadStream.secure_url,
                 filename: uploadStream.public_id
