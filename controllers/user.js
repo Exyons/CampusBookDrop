@@ -22,7 +22,7 @@ const cloudinaryUploadStream = (stream, folderName, width, height) => {
                 folder: `BookSellingApp/${folderName}`,
                 width,
                 height,
-                crop: 'limit',
+                crop: 'crop',
                 allowed_formats: ['jpg', 'jpeg', 'png']
             },
             (error, result) => {
@@ -823,7 +823,7 @@ const sendThankYouEmail = async (req, res) => {
             secure: true, // true for 465, false for other ports
             auth: {
                 user: process.env.HOSTINGER_FOUNDER_EMAIL,
-                pass: process.env.HOSTINGER_FOUNDER_PASSWORD || "#Check#Length#GTE#0#"
+                pass: process.env.HOSTINGER_FOUNDER_PASSWORD
             },
         });
         const emailBody = `<p>Dear ${req.user.firstname + " " + req.user.lastname},</p>` +

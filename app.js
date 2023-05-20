@@ -1,11 +1,13 @@
-let dbUrl = "";
-if (process.env.NODE_ENV !== "production") {
-    require("dotenv").config()
-    dbUrl = "mongodb://127.0.0.1:27017/BookSellingApp";
-}
-else {
-    dbUrl = process.env.MONGODB_URL 
-}
+// let dbUrl = "";
+// if (process.env.NODE_ENV !== "production") {
+//     require("dotenv").config()
+//     dbUrl = "mongodb://127.0.0.1:27017/BookSellingApp";
+// }
+// else {
+//     dbUrl = process.env.MONGODB_URL 
+// }
+
+require("dotenv").config()
 
 const express = require("express")
 const path = require("path")
@@ -22,13 +24,15 @@ const MongoStore = require('connect-mongo');
 const wrapAsync = require("./utils/WrapAsync");
 const helmet = require('helmet');
 
-const sessionSecrete = process.env.SESSION_SECRET || "NotSoNiceScectetIGuess";
+const sessionSecrete = process.env.SESSION_SECRET;
 
 // TODO 
 // Implement a method to send email that they logged in from another device
 // If they know it then ok, otherwise tell them to change password, probably someone else accessed their account
 
 // Connecting MongoDB database
+// const dbUrl = process.env.MONGODB_URL 
+const dbUrl = "mongodb://127.0.0.1:27017/BookSellingApp"
 
 mongoose.connect(dbUrl)
     .then(() => {
@@ -75,10 +79,7 @@ const scriptSrcUrls = [
     "https://cdn.jsdelivr.net/"
 ];
 const styleSrcUrls = [
-    // "https://kit-free.fontawesome.com/",
     "https://stackpath.bootstrapcdn.com/",
-    // "https://fonts.googleapis.com/",
-    // "https://use.fontawesome.com/",
     "https://cdn.jsdelivr.net"
 ];
 
