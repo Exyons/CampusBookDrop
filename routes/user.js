@@ -117,7 +117,6 @@ router.post("/delivery/status", isLoggedIn, wrapAsync(setDeliveryOrderStatus))
 router.post("/sellerPaymentDetails", isLoggedIn, wrapAsync(saveSellerPaymentDetails))
 
 // In-session store for OTPs and their expiry times
-
 router.post("/send_otp", generateOTP, wrapAsync(sendOtpToEmail))
 
 // Route for verifying OTP

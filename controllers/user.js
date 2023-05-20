@@ -892,6 +892,7 @@ const regenerateOTP = (req, res, next) => {
         expiresAt: moment().add(5, 'minutes'),
         resendIn: moment().add(1, 'minutes')
     };
+    res.json({ success: "OTP Resent!" });
     next();
 }
 

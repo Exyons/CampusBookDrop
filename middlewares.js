@@ -44,3 +44,35 @@ module.exports.deleteImages = async (req, res, next) => {
     req.app.locals.otps = {}
     next();
 }
+
+module.exports.constructFilterQuery = (req, res, next) => {
+    // const { semester, year, branch, programme, price } = req.body;
+    const filterOptions = []
+    Object.keys(req.body).forEach(key => {
+        if (key === "programme") {
+            if (req.body[key].length) {
+                filterOptions.push({ programme: { $in: req.body[key] } })
+            }
+        }
+        if (key === "branch") {
+            if (req.body[key].length) {
+                filterOptions.push({ branch: { $in: req.body[key] } })
+            }
+        }
+        if (key === "semester") {
+            if (req.body[key].length) {
+                filterOptions.push({ semester: { $in: req.body[key] } })
+            }
+        }
+        if (key === "year") {
+            if (req.body[key].length) {
+                filterOptions.push({ year: { $in: req.body[key] } })
+            }
+        }
+    })
+    req.filterOptionQuery = {
+        qty: { $gt: 0 },
+        $and: filterOptions
+    }
+    next();
+}
