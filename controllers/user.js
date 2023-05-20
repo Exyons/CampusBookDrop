@@ -25,7 +25,7 @@ const cloudinaryUploadStream = (stream, folderName, tags, width, height) => {
                 folder: `BookSellingApp/${folderName}`,
                 width,
                 height,
-                crop: 'crop',
+                // crop: 'crop',
                 allowed_formats: ['jpg', 'jpeg', 'png']
             },
             (error, result) => {
@@ -429,12 +429,15 @@ const uploadUserThumbnail = async (req, res) => {
         delete res.app.locals.userThumbnail;
     }
     if (req.file) {
+        if(req.file.size >= 1000000){
+            return res.json({error: "Image size should be less than 1MB!"})
+        }
         // Because I am storing image in memmory, it is stored as buffer
         // Convert req.file.buffer to Stream for uploading to cloudinary
         const bufferStream = new Readable();
         bufferStream.push(req.file.buffer);
         bufferStream.push(null);
-        console.log(req.file)
+        
         try {
             const uploadStream = await cloudinaryUploadStream(bufferStream, `${req.user.username}/thumbnail`, "ThumbnailImage",thumbnailWidth, thumbnailHeight);
             res.app.locals.userThumbnail = {
@@ -562,6 +565,9 @@ const uploadNewBookImage = async (req, res) => {
     }
 
     if (req.file) {
+        if(req.file.size >= 2000000){
+            return res.json({error: "Image size should be less than 2MB!"})
+        }
         // Because I am storing image in memmory, it is stored as buffer
         // Convert req.file.buffer to Stream for uploading to cloudinary
         const bufferStream = new Readable();
