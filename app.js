@@ -1,11 +1,11 @@
-// let dbUrl = "";
-// if (process.env.NODE_ENV !== "production") {
-//     require("dotenv").config()
-//     dbUrl = "mongodb://127.0.0.1:27017/BookSellingApp";
-// }
-// else {
-//     dbUrl = process.env.MONGODB_URL 
-// }
+let dbUrl = "";
+if (process.env.NODE_ENV !== "production") {
+    require("dotenv").config()
+    dbUrl = "mongodb://127.0.0.1:27017/BookSellingApp";
+}
+else {
+    dbUrl = process.env.MONGODB_URL 
+}
 
 require("dotenv").config()
 
@@ -24,15 +24,16 @@ const MongoStore = require('connect-mongo');
 const wrapAsync = require("./utils/WrapAsync");
 const helmet = require('helmet');
 
-const sessionSecrete = process.env.SESSION_SECRET;
+const sessionSecret = process.env.SESSION_SECRET;
 
 // TODO 
 // Implement a method to send email that they logged in from another device
 // If they know it then ok, otherwise tell them to change password, probably someone else accessed their account
 
 // Connecting MongoDB database
+
 // const dbUrl = process.env.MONGODB_URL 
-const dbUrl = "mongodb://127.0.0.1:27017/BookSellingApp"
+// const dbUrl = "mongodb://127.0.0.1:27017/BookSellingApp"
 
 mongoose.connect(dbUrl)
     .then(() => {
@@ -53,7 +54,7 @@ app.locals.maxCartQty = 5;
 const store = MongoStore.create({
     mongoUrl: dbUrl,
     crypto: {
-        secrete: sessionSecrete,
+        secrete: sessionSecret,
         touchAfter: 24 * 3600 // time period in seconds
     }
 })
