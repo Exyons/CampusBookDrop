@@ -306,7 +306,6 @@ const logOutUser = (req, res, next) => {
         req.flash("success", "Logged Out Successfully!");
         res.redirect("/");
     })
-    req.session.destroy();
 }
 
 const renderUserDashboard = async (req, res) => {
@@ -757,7 +756,7 @@ const sendPasswordResetLink = async (req, res) => {
             "<p>Click on the button below within 1 hour to reset your password<p>" +
             "<div style='width=100%; display: flex; justify-content: center;'>" +
             `<a href="${resetLink}" style="text-decoration: none; padding:10px; border-radius: 10px; background-color: red color: white;">Reset Password</a>` +
-            "<p>-Team Campus Book Drop</p>";
+            "<p>-Campus Book Drop</p>";
 
         // send mail with defined transport object
         const info = await transporter.sendMail({
@@ -842,7 +841,8 @@ const sendThankYouEmail = async (req, res) => {
             "<p>If you ever have any questions or feedback, don't hesitate to reach out to us. We're always eager to hear from our users and improve our services based on their needs.</p>" +
             "<p>Thanks again for joining Campus Book Drop! We look forward to helping you make the most of your college experience.</p>" +
             "<p>Best regards,</p>" +
-            "<p>Ankur Pratap Singh, Founder of Campus Book Drop and the Campus Book Drop team</p>";
+            "<p>Ankur Pratap Singh</p>" + 
+            "<p>Founder, Campus Book Drop</p>";
 
         // send mail with defined transport object
         let info = await transporter.sendMail({

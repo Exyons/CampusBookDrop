@@ -75,6 +75,9 @@ app.use(session(sessionOptions));
 // Using helmet to secure website more
 app.use(helmet())
 
+// Hides server name
+app.use(helmet.hidePoweredBy());
+
 const scriptSrcUrls = [
     "https://stackpath.bootstrapcdn.com/",
     "https://cdn.jsdelivr.net/"
