@@ -59,7 +59,7 @@ const store = MongoStore.create({
 
 // Using express-session middleware
 const sessionOptions = {
-    name: campus_session,
+    name: "campus_session",
     store,
     secret: sessionSecret,
     resave: false,
