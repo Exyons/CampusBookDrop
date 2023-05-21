@@ -62,7 +62,7 @@ router.post("/reset_password/checkPassword", wrapAsync(checkPassword))
 
 router.get("/sign_up", deleteImages, renderSignUpForm)
 
-router.post("/sign_up", upload.none(), validateSignUp, wrapAsync(signUpUser), wrapAsync(sendThankYouEmail))
+router.post("/sign_up", upload.none(), wrapAsync(signUpUser), wrapAsync(sendThankYouEmail))
 
 router.post("/sign_up/checkUsername", wrapAsync(checkUsername))
 
