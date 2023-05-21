@@ -866,7 +866,7 @@ const sendThankYouEmail = async (req, res) => {
 
 const generateOTP = (req, res, next) => {
     const { email } = req.body;
-    req.session.email = email;
+    req.app.locals.email = email;
     if (!email) {
         return res.json({ error: "Email Is Required To Send OTP!" });
     }
@@ -893,7 +893,7 @@ const generateOTP = (req, res, next) => {
 
 const regenerateOTP = (req, res, next) => {
     const { email } = req.body;
-    req.session.email = email;
+    req.app.locals.email = email;
     if (!email) {
         return res.json({ error: "Email Is Required To Resend OTP!" });
     }
@@ -920,7 +920,7 @@ const regenerateOTP = (req, res, next) => {
 
 const verifyOTP = (req, res) => {
     const { code } = req.body;
-    const { email } = req.session;
+    const { email } = req.app.locals;
     // Check if the OTP exists and hasn't expired
     if (!email) {
         return res.json({ error: "Email Is Required To Verify OTP!" });
@@ -933,7 +933,7 @@ const verifyOTP = (req, res) => {
         moment().isBefore(req.app.locals.otps[email].expiresAt)) {
         // Delete the OTP from the store to prevent reuse
         delete req.app.locals.otps[email];
-        delete req.session.email;
+        delete req.app.locals.email;
         res.json({ success: 'OTP verified successfully' });
     } else {
         res.json({ error: 'Invalid or expired OTP' });
