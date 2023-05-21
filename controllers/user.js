@@ -866,12 +866,12 @@ const sendThankYouEmail = async (req, res) => {
 
 const generateOTP = (req, res, next) => {
     const { email } = req.body;
-    req.app.locals.email = email;
+    res.app.locals.email = email;
     if (!email) {
         return res.json({ error: "Email Is Required To Send OTP!" });
     }
 
-    if (req.app.locals.otps[email]) {
+    if (res.app.locals.otps[email]) {
         // delete req.app.locals.otps
         return res.json({ error: "Sign Up Again!" })
     }
@@ -882,18 +882,18 @@ const generateOTP = (req, res, next) => {
 
     // Store the OTP and its expiry time (5 minutes from now)
     // also store resend in to know when to resend the otp
-    req.app.locals.otps[email] = {
+    res.app.locals.otps[email] = {
         code: otp,
         expiresAt: moment().add(10, 'minutes'),
         resendIn: moment().add(1, 'minutes')
     };
-    console.log(req.app.locals.otps);
+    // console.log(req.app.locals.otps);
     next();
 }
 
 const regenerateOTP = (req, res, next) => {
     const { email } = req.body;
-    req.app.locals.email = email;
+    res.app.locals.email = email;
     if (!email) {
         return res.json({ error: "Email Is Required To Resend OTP!" });
     }
@@ -909,7 +909,7 @@ const regenerateOTP = (req, res, next) => {
     // Generate a new OTP and store it
     const otp = crypto.randomInt(100000, 999999);
 
-    req.app.locals.otps[email] = {
+    res.app.locals.otps[email] = {
         code: otp,
         expiresAt: moment().add(5, 'minutes'),
         resendIn: moment().add(1, 'minutes')
@@ -920,7 +920,7 @@ const regenerateOTP = (req, res, next) => {
 
 const verifyOTP = (req, res) => {
     const { code } = req.body;
-    const { email } = req.app.locals;
+    const { email } = res.app.locals;
     // Check if the OTP exists and hasn't expired
     if (!email) {
         return res.json({ error: "Email Is Required To Verify OTP!" });
@@ -928,12 +928,12 @@ const verifyOTP = (req, res) => {
     if (!code) {
         return res.json({ error: "OTP Is Required!" });
     }
-    if (req.app.locals.otps[email] &&
-        req.app.locals.otps[email].code === parseInt(code) &&
+    if (res.app.locals.otps[email] &&
+        res.app.locals.otps[email].code === parseInt(code) &&
         moment().isBefore(req.app.locals.otps[email].expiresAt)) {
         // Delete the OTP from the store to prevent reuse
-        delete req.app.locals.otps[email];
-        delete req.app.locals.email;
+        delete res.app.locals.otps[email];
+        delete res.app.locals.email;
         res.json({ success: 'OTP verified successfully' });
     } else {
         res.json({ error: 'Invalid or expired OTP' });
@@ -941,7 +941,7 @@ const verifyOTP = (req, res) => {
 }
 
 const sendOtpToEmail = async (req, res) => {
-    const { email } = req.app.locals;
+    const { email } = res.app.locals;
     if (!email) {
         return res.json({ error: "Email Is Required To Send OTP!" });
     }
