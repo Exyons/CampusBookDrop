@@ -3,16 +3,15 @@
     <div class="container-fluid bg-body-tertiary">
         <div class="container main-container d-flex flex-column-reverse justify-content-end justify-content-lg-center flex-lg-row min-vh-100 my-3">
             <div class="container product-container">
-
              <script>
                 let productsLength = <%=products.length%>;
              </script>
+             
                 <% if (products.length > 0) { %>
                     <% products.forEach(product => { %>
                         <%- include("partials/cart_product", { product }) %> 
                     <% }) %>
                 <% } %>
-
                 <div class="card mt-2 mb-3 cart-empty-card shadow">
                     <div class="row">
                         <div class="col-md-8">
@@ -67,4 +66,4 @@
         </div>
     </div>
 
-    <script src="/js_min/user_cart.min.js"></script>
+    <script src="/js/user_cart.min.js"></script>

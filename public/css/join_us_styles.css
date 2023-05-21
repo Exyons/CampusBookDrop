@@ -1,14 +1,1 @@
-#sellBooksJumbotron{
-    background-image: url("/images/join_us_sellBooks_JumboTron.png");
-    background-size: cover;
-}
-
-#bookHeroJumbotron{
-    background-image: url("/images/join_us_bookHero_JumboTron.png");
-    background-size: cover;
-}
-
-#illHelpBtn{
-    background-color: #4586fd;
-    color: white;
-}
+#sellBooksJumbotron{background-image:url("/images/join_us_sellBooks_JumboTron.png");background-size:cover}#bookHeroJumbotron{background-image:url("/images/join_us_bookHero_JumboTron.png");background-size:cover}#illHelpBtn{background-color:#4586fd;color:white}

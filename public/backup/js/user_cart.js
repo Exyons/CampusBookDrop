@@ -1,6 +1,3 @@
-// const increaseQtyBtn = document.querySelector(".increase-qty-btn");
-// const decreaseQtyBtn = document.querySelector(".decrease-qty-btn");
-
 const productContainer = document.querySelector(".product-container");
 const productCards = document.querySelectorAll(".product-card");
 const cartEmptyCard = document.querySelector(".cart-empty-card");

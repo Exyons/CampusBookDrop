@@ -1,0 +1,57 @@
+.product-container {
+    justify-content: start;
+}
+
+.remove-btn {
+    padding: 0;
+    margin: 0;
+    margin-right: 5px;
+    background: none;
+    border: none;
+    font-size: 30px;
+}
+
+.remove-btn:hover {
+    color: red;
+}
+
+.place-order-login-btn-container {
+    display: none;
+}
+
+.qty-btn {
+    background: none;
+    border: none;
+}
+
+.input-qty {
+    max-width: 15px;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: none;
+}
+
+.total-amount-container {
+    border-top: 1px solid black;
+}
+
+#qtyContainer {
+    max-height: fit-content;
+    max-width: fit-content;
+}
+
+#addBooks {
+    background-color: #4586fd;
+    color: white;
+}
+
+#logIn {
+    background-color: #4586fd;
+    color: white;
+}
+
+#placeOrder {
+    background-color: #4586fd;
+    color: white;
+}

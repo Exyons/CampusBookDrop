@@ -1,0 +1,141 @@
+.navbar { /* this is the main navbar */
+    position: unset;
+}
+
+.product-card{
+    width: 18em;
+    height: 30em;
+}
+
+#product-card-lnk {
+    text-decoration: none;
+    color: black
+}
+
+.filter {
+    width: 70%;
+    margin-bottom: 30px;
+    background-color: white;
+    /* display: none; */
+    visibility: hidden;
+    opacity: 0;
+    height: 0;
+    /* transition: visibility 0.2s ease, opacity 0.2s ease; */
+}
+
+.filter-checkbox-label{
+    border-bottom: 4px solid transparent;
+}
+
+.selected{
+    border-bottom: 4px solid #EF2346;
+}
+/* .filter-btn{
+    background: none;
+    border: none;
+    padding: 4px 0;
+    border-radius: 10px;
+    border: 2px solid transparent;
+}
+.filter-btn:focus{
+    border: 2px solid black;
+} */
+
+.filter-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* z-index: 0; */
+}
+
+
+.programme-filter-navbar,
+.branch-filter-navbar,
+.semester-filter-navbar,
+.year-filter-navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    /* padding: 10px 50px; */
+}
+
+.programme-filter-lnk,
+.branch-filter-lnk,
+.semester-filter-lnk,
+.year-filter-lnk   {
+    border-bottom: solid 4px white;
+    padding: 5px;
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+    transition: border 0.2s 0.2s;
+}
+
+.sem-checkbox-label{
+    padding: 10px;
+}
+.sem-checkbox-label:hover{
+    cursor: pointer;
+}
+
+.year-checkbox-label{
+    padding: 10px;
+}
+.year-checkbox-label:hover{
+    cursor: pointer;
+}
+
+.branch-checkbox-label{
+    padding: 10px;
+}
+.branch-checkbox-label:hover{
+    cursor: pointer;
+}
+
+.prog-checkbox-label{
+    padding: 10px;
+}
+.prog-checkbox-label:hover{
+    cursor: pointer;
+}
+
+.price-checkbox-label{
+    padding: 10px;
+}
+.price-checkbox-label:hover{
+    cursor: pointer;
+}
+
+.card {
+    padding: 7px;
+}
+
+.card-body {
+    background-color: #f8fdfd;
+}
+
+/* .buy-now-btn {
+    background-color: #1982c4;
+    color: white;
+}
+
+.add-to-cart-btn {
+    background-color: #fe6d73;
+    color: white;
+} */
+
+@media (max-width: 767px) {
+    .filter {
+        width: 100%;
+    }
+
+    .programme-filter-navbar,
+    .branch-filter-navbar,
+    .semester-filter-navbar,
+    .year-filter-navbar {
+        padding: 10px 25px;
+    }
+}

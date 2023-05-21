@@ -1,0 +1,140 @@
+.navbar-container {
+    position: sticky;
+}
+
+.navbar {
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    width: 80%;
+    background-color: white;
+}
+
+.navbar-toggler {
+    border: none;
+    padding: 0;
+}
+
+.navbar-toggler {
+    border: none;
+    padding: 0;
+}
+
+.nav-lnks {
+    display: flex;
+    justify-content: space-between;
+}
+
+.lnk {
+    font-weight: 600;
+    font-size: large;
+    color: black;
+    margin-left: 10px;
+    margin-right: 5px;
+    text-decoration: none;
+}
+
+.lnk:hover {
+    cursor: pointer;
+}
+
+.navbar-brand-logo {
+    display: flex;
+    justify-content: center;
+    flex-grow: 15;
+}
+
+.brand-logo {
+    max-height: 80px; 
+    max-width: 150px;
+}
+
+.search-bar {
+    background-color: white;
+    border: solid 1px black;
+}
+
+.cart-icon{
+    margin-top: 10px;
+}
+
+.parent-container {
+    display: flex;
+    justify-content: center;
+}
+
+.search-icon:hover {
+    cursor: pointer;
+}
+
+.search-bar-container.hidden {
+    display: none;
+}
+
+.navbar-icons>a {
+    margin: 0 20px;
+    color: black;
+    text-decoration: none;
+}
+
+#userDashboardBtn {
+    text-decoration: none;
+    background-color: #ef476f;
+    color: white;
+    text-align: center;
+    padding: 2px;
+    height: 2em;
+}
+
+/* #userDashboardBtn:hover {
+    background-color: #ee5d7e;
+    color: white;
+} */
+
+.bi-cart{
+    margin-bottom: 0;
+}
+
+#userLogInBtn, #userSignUpBtn{
+    background-color: #4586fd;
+    color: white;
+}
+
+#userDashboardBtn{
+    background-color: #4586fd; 
+    color: white;
+}
+
+#userLogOutBtn{
+    background-color:#EF2346; 
+    width: 100%; 
+    color: white;
+}
+
+@media (max-width: 991px) {
+    .navbar-container {
+        padding: 0;
+    }
+
+    .navbar {
+        padding: 10px 10px;
+        width: 100%;
+        margin-top: 0;
+        justify-content: space-between;
+    }
+
+    .navbar-brand-logo {
+        flex-grow: 0;
+        justify-content: space-between;
+    }
+    .nav-lnks{
+        margin-top: 20px;
+    }
+
+    .brand-logo{
+        max-height: 40px; 
+    }
+}

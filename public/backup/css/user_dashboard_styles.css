@@ -1,0 +1,149 @@
+.container {
+    height: 90%;
+    /* background-color: aqua; */
+}
+
+.dashboard-container {
+    display: flex;
+    justify-content: center;
+}
+
+.dashboard-navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-top: 30px;
+    /* overflow:hidden; */
+}
+
+.dashboard-lnk {
+    text-decoration: none;
+    color: black;
+    /* font-weight: 600; */
+    /* font-size: large; */
+    margin: 10px 10px;
+    border-bottom: 4px solid transparent;
+    /* transition: border-bottom 0.2s 0.2s; */
+}
+
+.dashboard-help-lnk {
+    /* text-decoration: none; */
+    color: black;
+    /* font-weight: 600; */
+    /* font-size: large; */
+    margin: 10px 10px;
+    /* border-bottom: 4px solid transparent; */
+    transition: border-bottom 0.2s 0.2s;
+}
+
+
+.dashboard-lnk:hover {
+    cursor: pointer;
+}
+
+.content-container {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content-container .content {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+}
+
+.content-container .content .account-details {
+    display: flex;
+    width: 100%;
+    margin-bottom: 30px;
+    justify-content: space-evenly;
+}
+
+.account-thumbnail {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+
+.order {
+    border: solid 2px white;
+    border-radius: 3px;
+}
+
+.order-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+/* .order-container, .delivery-order-container{
+    border-bottom: 2px solid black;
+} */
+
+.order-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.address-body {
+    border: solid 2px white;
+    border-radius: 3px;
+    padding: 20px;
+}
+
+.progress-bar-container {
+    display: none;
+}
+
+/* .username-container {
+    width: 20%;
+}
+
+.email-mobile-btn-container {
+    width: 40%;
+}
+
+.name-container {
+    width: 50%;
+} */
+
+
+.selected {
+    border-bottom: 4px solid #EF2346;
+}
+
+.edit-address-btn,
+.edit-seller-book-btn,
+#saveUPIidBtn {
+    background-color: #4586fd;
+    color: white;
+}
+
+.delete-address-btn,
+.delete-seller-book-btn {
+    background-color: #EF2346;
+    color: white;
+}
+
+.teen-bindi-body {
+    display: none;
+    position: absolute;
+    background-color: white;
+}
+
+.show-delivery-options-body {
+    display: none;
+    position: absolute;
+    /* left: 10px; */
+    margin-left: 5px;
+    padding: 5px;
+    background-color: white;
+    z-index: 1000;
+}
