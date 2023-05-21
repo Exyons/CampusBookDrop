@@ -2,7 +2,11 @@
     <div class="row">
         <div class="col-md-4">
             <a href="/books/<%= product.product._id %>">
-                <img src="/resources/photo.avif" class="img-fluid" alt="...">
+                <% if (product.product.image) { %>
+                    <img src="<%=product.product.image.url%>" class="card-img-programme ratio ratio-4x3" alt="">
+                <% } else {%>
+                    <img src="/images/CampusBookDrop_Logo.png"  class="card-img-programme ratio ratio-4x3" alt="">
+                <% } %>
             </a>
         </div>
         <div class="col-md-8 d-flex">

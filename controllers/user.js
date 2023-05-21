@@ -17,12 +17,16 @@ const bookImgWidth = "500";
 const bookImgHeight = "500";
 
 const cloudinaryUploadStream = (stream, folderName, tags, width, height) => {
+    let root = "BookSellingApp"
+    if(process.env.NODE_ENV !== "production"){
+        root = "CampusBookDrop"
+    }
     return new Promise((resolve, reject) => {
         const cloudinaryStream = cloudinary.uploader.upload_stream(
             {
                 tags,
                 resource_type: 'image',
-                folder: `BookSellingApp/${folderName}`,
+                folder: `${root}/${folderName}`,
                 width,
                 height,
                 // crop: 'crop',
@@ -556,7 +560,7 @@ const addNewBookDetails = async (req, res) => {
 
 const uploadNewBookImage = async (req, res) => {
     // If user closes the add book form I want to remove the book image they added
-    const { bookImage } = res.app.locals.bookImage;
+    const { bookImage } = res.app.locals;
 
     if (bookImage) {
         await cloudinary.uploader.destroy(bookImage.filename);
@@ -581,7 +585,6 @@ const uploadNewBookImage = async (req, res) => {
             }
             res.json({ success: "Image Uploaded Successfully!" })
         } catch (error) {
-            console.error(error);
             res.json({ error: "Error Uploading Image!" });
         }
     }
@@ -589,12 +592,18 @@ const uploadNewBookImage = async (req, res) => {
 
 const updateBookDetails = async (req, res) => {
     const { bookId } = req.params;
+    const { bookImage } = res.app.locals;
+
     try {
         const product = await Product.findByIdAndUpdate(bookId, req.body, { runValidators: true });
+        if (bookImage) {
+            product.image = bookImage;
+            delete res.app.locals.bookImage
+        }
         await product.save();
         res.json({ success: "Book has been Updated successfully!" });
     } catch (error) {
-        res.json({ error: "Error! Cannot update book detials!" });
+        res.json({ error: "Error! Cannot update book details!" });
     }
 }
 
@@ -968,7 +977,6 @@ const sendOtpToEmail = async (req, res) => {
 }
 
 const saveSellerPaymentDetails = async (req, res) => {
-    // console.log(req.body);
     try {
         await User.findByIdAndUpdate(req.user._id, req.body)
         res.json({ success: "Upi Id Saved Successfully!" })

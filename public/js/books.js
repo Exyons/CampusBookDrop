@@ -86,15 +86,11 @@ const getSelectedOptionsAndSend = async () => {
         const res = await axios.post("/books/filter", selectedOptions);
         window.removeEventListener('scroll', infiniteScroll);
         // Then add filteres the products on page
-        // showToast({ success: "Something Done" });
-        // console.log(res.data);
         productCardContainer.textContent = ''
         if (!res.data.length) {
             const notFoundHeading = document.createElement("h1");
-            // notFoundHeading.classList.add("text-center");
             notFoundHeading.innerText = "No matching books found!";
             loadingSymbolContainer.classList.add("d-none");
-            // productCardContainer.replaceChildren(notFoundHeading);
             productCardContainer.innerValue = "";
             productCardContainer.classList.add("d-flex", "justify-content-center")
             productCardContainer.appendChild(notFoundHeading);
@@ -110,13 +106,11 @@ const getSelectedOptionsAndSend = async () => {
             addEventListenerToAddToCartBtns();
         }
     } catch (error) {
-        // console.log(error);
         showToast({ error: "Cannot Contact Server! Try Again!" });
     }
 }
 
 submitFilterOptionsBtn.addEventListener("click", () => {
-    // loadingSymbolContainer.parentNode.removeChild(loadingSymbolContainer);
     getSelectedOptionsAndSend();
 })
 
@@ -176,7 +170,10 @@ const addEventListenerToAddToBuyNowBtns = () => {
         if (!btn.classList.contains("added-listener")) {
             btn.classList.add("added-listener");
             btn.addEventListener("click", async () => {
-                // const productBody = Btn.parentElement.parentElement;
+
+                btn.classList.remove("btn-outline-success")
+                btn.removeChild(btn.children["buyNowBtnText"] )
+                btn.children["buyNowSpinner"].classList.replace("d-none", "d-block");
                 try {
                     // When pressing buy now button, the cart_qty will always be one
                     const bookData = {
@@ -248,8 +245,8 @@ window.addEventListener('scroll', infiniteScroll);
 window.onload = async () => {
     try {
         const res = await axios.get("/books/loadBooks");
-        if(!res.data.length){
-            showToast({error: "Error Occured!"})
+        if (!res.data.length) {
+            showToast({ error: "Error Occured!" })
             return loadingSymbolContainer.classList.add("d-none");
         }
         productCardContainer.textContent = "";

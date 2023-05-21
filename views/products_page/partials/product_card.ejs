@@ -4,7 +4,7 @@
         <% if (product.product.image) { %>
             <img src="<%=product.product.image.url%>" class="card-img-programme ratio ratio-4x3" alt="">
         <% } else {%>
-            <img src="/resources/photo.avif"  class="card-img-programme ratio ratio-4x3" alt="">
+            <img src="/images/CampusBookDrop_Logo.png"  class="card-img-programme ratio ratio-4x3" alt="">
         <% } %>
         <div class="card-body">
             <h5 class="card-title">
@@ -21,16 +21,21 @@
                 <span class="fs-4"><%= product.product.price %></span>
             </p>
             <p class="card-text" id="description"><%= product.product.description.slice(0, 32) %>...</p>
-            <p class="card-text" id="tags"> 
-                <span class="badge text-bg-secondary" id="branchTag"> <%= product.product.branch %> </span> 
-                <span class="badge text-bg-secondary" id="programmeTag"> <%= product.product.programme %> </span>
+            <p class="card-text d-flex justify-content-center" id="tags"> 
+                <span class="badge text-bg-secondary mx-1" id="branchTag"> <%= product.product.branch %> </span> 
+                <span class="badge text-bg-secondary mx-1" id="programmeTag"> <%= product.product.programme %> </span>
             </p>
         </div>
     </a>
     <div class="card-body">
         <div class="d-flex justify-content-evenly align-items-center">
             <% if ((!currentUser) || (currentUser._id.toString() !== product.product.user.toString())) { %>
-                <button class="btn buy-now-btn btn-sm btn-outline-success" id="<%= product.product._id %>">Buy Now</button>
+                <button class="btn buy-now-btn btn-sm btn-outline-success" id="<%= product.product._id %>">
+                    <span id="buyNowBtnText"> Buy Now </span>
+                    <div class="spinner-border text-secondary d-none" role="status" id="buyNowSpinner">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </button>
                 <% if(product.in_cart) { %> 
                     <div class="go-to-cart-btn-container" id="<%= product.product._id %>">
                         <a href="/user_cart" class="btn btn-sm btn-outline-secondary go-to-cart-btn">Go To Cart</a>

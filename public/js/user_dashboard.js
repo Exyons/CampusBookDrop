@@ -338,9 +338,9 @@ if (addressCards) {
 
 addNewAddressBtn.addEventListener("click", () => {
     addressModalTitle.innerText = "Add New Address";
-    addressForm.elements["inputName"].value = "";
-    addressForm.elements["inputNumber"].value = "";
-    addressForm.elements["room"].value = "";
+    for (const element of addressForm.elements) {
+        element.value = "";
+    }
     // Hostel will already be selected, so need to add logic to select it
 
     // TODo
@@ -380,21 +380,21 @@ const editBook = async (evt) => {
             showToast(res.data);
             bookFormBootstrapModal.hide();
             // Now updating the book card values
-            bookCard.children["bookDetails"].children["bookTitle"].innerText = bookDetailsForm.elements["inputBookTitle"].value;
-            bookCard.children["bookDetails"].children["bookDescription"].innerText = bookDetailsForm.elements["inputBookDescription"].value;
-            bookCard.children["bookDetails"].children["bookPrice"].innerText = bookDetailsForm.elements["inputBookPrice"].value;
-            bookCard.children["bookDetails"].children["bookQty"].innerText = bookDetailsForm.elements["inputBookQty"].value;
-            bookCard.children["bookDetails"].children["bookPrice"].innerText = bookDetailsForm.elements["inputBookPrice"].value
-            bookCard.children["bookDetails"].children["bookSemester"].innerText = bookDetailsForm.elements["selectSemester"].value
-            bookCard.children["bookDetails"].children["bookYear"].innerText = bookDetailsForm.elements["selectYear"].value
-            bookCard.children["bookDetails"].children["bookBranch"].innerText = bookDetailsForm.elements["selectBranch"].value
-            bookCard.children["bookDetails"].children["bookProgramme"].innerText = programme[bookDetailsForm.elements["selectProgramme"].value];
+            bookCard.children["bookDetails"].children["bookTitle"].innerText = bookDetailsForm.elements["inputBookTitle"].value
+            bookCard.children["bookDetails"].children["bookDescription"].innerText = bookDetailsForm.elements["inputBookDescription"].value
+            bookCard.children["bookDetails"].children[2].children["bookPrice"].innerText = bookDetailsForm.elements["inputBookPrice"].value 
+            bookCard.children["bookDetails"].children[3].children["bookQty"].innerText = bookDetailsForm.elements["inputBookQty"].value
+            bookCard.children["bookDetails"].children[4].children["bookYear"].innerText = bookDetailsForm.elements["selectYear"].value
+            bookCard.children["bookDetails"].children[5].children["bookSemester"].innerText = bookDetailsForm.elements["selectSemester"].value
+            bookCard.children["bookDetails"].children[7].children["bookBranch"].innerText = bookDetailsForm.elements["selectBranch"].value
+            bookCard.children["bookDetails"].children[8].children["bookCondition"].innerText = bookDetailsForm.elements["inputBookCondition"].value
+            bookCard.children["bookDetails"].children[9].children["bookDamages"].innerText = bookDetailsForm.elements["inputBookDamages"].value
+            bookCard.children["bookDetails"].children[6].children["bookProgramme"].innerText = programme[bookDetailsForm.elements["selectProgramme"].value];
         } catch (error) {
             showToast({ error: "Cannot Contact Server! Error when updating the book! Try Again" });
         }
     }
 }
-
 
 if (sellerBookCards) { // Because there can be zero books added by seller, I dont want an error
     sellerBookCards.forEach(bookCard => {
@@ -403,19 +403,19 @@ if (sellerBookCards) { // Because there can be zero books added by seller, I don
 
         editBookBtn.addEventListener("click", () => {
             bookModalTitle.innerText = "Edit Book";
-            bookDetailsForm.elements["inputBookCondition"].value = bookCard.children["bookDetails"].children["bookCondition"].innerText
-            bookDetailsForm.elements["inputBookDamages"].value = bookCard.children["bookDetails"].children["bookDamages"].innerText
             bookDetailsForm.elements["inputBookTitle"].value = bookCard.children["bookDetails"].children["bookTitle"].innerText
             bookDetailsForm.elements["inputBookDescription"].value = bookCard.children["bookDetails"].children["bookDescription"].innerText
-            bookDetailsForm.elements["inputBookPrice"].value = bookCard.children["bookDetails"].children["bookPrice"].innerText
-            bookDetailsForm.elements["inputBookQty"].value = bookCard.children["bookDetails"].children["bookQty"].innerText
-            bookDetailsForm.elements["inputBookPrice"].value = bookCard.children["bookDetails"].children["bookPrice"].innerText
-            bookDetailsForm.elements["selectSemester"].value = bookCard.children["bookDetails"].children["bookSemester"].innerText
-            bookDetailsForm.elements["selectYear"].value = bookCard.children["bookDetails"].children["bookYear"].innerText
-            bookDetailsForm.elements["selectBranch"].value = bookCard.children["bookDetails"].children["bookBranch"].innerText
-
+            bookDetailsForm.elements["inputBookPrice"].value = parseInt(bookCard.children["bookDetails"].children[2].children["bookPrice"].innerText)
+            bookDetailsForm.elements["inputBookQty"].value = bookCard.children["bookDetails"].children[3].children["bookQty"].innerText
+            bookDetailsForm.elements["selectYear"].value = bookCard.children["bookDetails"].children[4].children["bookYear"].innerText
+            bookDetailsForm.elements["selectSemester"].value = bookCard.children["bookDetails"].children[5].children["bookSemester"].innerText
+            bookDetailsForm.elements["selectProgramme"].value = bookCard.children["bookDetails"].children[6].children["bookProgramme"].innerText
+            bookDetailsForm.elements["selectBranch"].value = bookCard.children["bookDetails"].children[7].children["bookBranch"].innerText
+            bookDetailsForm.elements["inputBookCondition"].value = bookCard.children["bookDetails"].children[8].children["bookCondition"].innerText
+            bookDetailsForm.elements["inputBookDamages"].value = bookCard.children["bookDetails"].children[9].children["bookDamages"].innerText
+            
             const programmeKey = Object.keys(programme).find(key => { // FInding out the key from a value in hostels object
-                if (programme[key] === bookCard.children["bookDetails"].children["bookProgramme"].innerText) {
+                if (programme[key] === bookCard.children["bookDetails"].children[6].children["bookProgramme"].innerText) {
                     return key;
                 }
             })
@@ -425,7 +425,6 @@ if (sellerBookCards) { // Because there can be zero books added by seller, I don
                     child.selected = "true"
                 }
             }
-
             bookFormSubmitBtn.removeEventListener("click", addBook);
             bookFormSubmitBtn.addEventListener("click", editBook);
             bookFormSubmitBtn.bookCard = bookCard;
@@ -446,12 +445,6 @@ if (sellerBookCards) { // Because there can be zero books added by seller, I don
             for (const element of bookDetailsForm.elements) {
                 element.value = "";
             }
-            // bookDetailsForm.elements["inputBookTitle"].value = "";
-            // bookDetailsForm.elements["inputBookPrice"].value = "";
-            // bookDetailsForm.elements["inputBookQty"].value = "";
-            // bookDetailsForm.elements["inputBookDescription"].innerText = "";
-            // bookForm.elements["selectProgramme"].value = "";
-
             bookFormSubmitBtn.removeEventListener("click", editBook);
             bookFormSubmitBtn.addEventListener("click", addBook);
         })

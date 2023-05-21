@@ -24,11 +24,11 @@ const calculateCartValue = async (req, res) => {
         try {
             if (req.session.cart) {
                 const cartLength = req.session.cart.length;
-                if (0 < cartLength && cartLength <= 3) {
-                    deliveryCharge = 30;
+                if (0 < cartLength && cartLength <= req.app.locals.discountProductCount) {
+                    deliveryCharge = req.app.locals.maxDeliveryCharge;
                 }
-                else if (cartLength > 2) {
-                    deliveryCharge = 15;
+                else if (cartLength > req.app.locals.discountProductCount) {
+                    deliveryCharge = req.app.locals.minDeliveryCharge;
                 }
                 else {
                     deliveryCharge = 0;
@@ -51,19 +51,21 @@ const calculateCartValue = async (req, res) => {
             const user = await User.findById(req.user._id);
             const cartLength = user.cart.length;
             if (cartLength) {
-                if (0 < cartLength && cartLength <= 3) {
-                    deliveryCharge = 30;
+                if (0 < cartLength && cartLength <= req.app.locals.discountProductCount) {
+                    deliveryCharge = req.app.locals.maxDeliveryCharge;
                 }
-                else if (cartLength > 3) {
-                    deliveryCharge = 15;
+                else if (cartLength > req.app.locals.discountProductCount) {
+                    deliveryCharge = req.app.locals.minDeliveryCharge;
                 }
                 else {
                     deliveryCharge = 0;
+                
                 }
-
-                // Giving new users zero delivery fee on their first order
-                if (user.orders.length === 0) {
-                    deliveryCharge = 0;
+                if (req.app.locals.freeDeliveryOnFirstOrder) {
+                    // Giving new users zero delivery fee on their first order
+                    if (user.orders.length === 0) {
+                        deliveryCharge = 0;
+                    }
                 }
 
                 for (const cartItem of user.cart) {
@@ -122,7 +124,6 @@ const renderUserCart = async (req, res) => {
 }
 
 const addItemToCart = async (req, res) => {
-    // console.log(req.params);
     const { id } = req.params;
     const foundProduct = await Product.findById(id);
     if (!foundProduct) {
@@ -212,7 +213,6 @@ const addItemToCart = async (req, res) => {
 const updateUserCartItem = async (req, res) => {
     const { id } = req.params;
     const { q } = req.query;
-    // console.log(q)
     const foundProduct = await Product.findById(id);
 
     if (!foundProduct) {

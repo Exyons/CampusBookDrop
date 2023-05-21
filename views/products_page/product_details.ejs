@@ -5,33 +5,42 @@
                 <% if(product.product.image) {%>
                     <img src="<%= product.product.image.url %> " class="img-fluid" alt="">
                 <% } else { %>
-                    <img src="/resources/photo.avif" class="img-fluid" alt="">
+                    <img src="/images/CampusBookDrop_Logo.png" class="img-fluid" alt="">
                 <% } %>
             </div>
             
             <div class="col-12 col-lg-6 p-3 d-flex flex-column justify-content-between">
                 <div>
                     <h2 class="mb-3"> <%= product.product.title %> &#8377; <%= product.product.price %></h2>
-                    <p class="fs-5">For Semester <span class="fw-bold"><%= product.product.semester %></span></p>
-                    <p class="fs-5">For Year <span class="fw-bold"><%= product.product.year %></span></p>
-                    <% branch = {CE: "Civil  Engineering", CSE: "Computer Science Engineering", BT: "Biotechnology", ME: "Mechanical Engineering", EE:"Electrical Engineering", ECE:"Electronics Engineering", PE:"Production Engineering", IT:"Information Technology"} %> 
-                    <p class="fs-5">For <span class=""><%= product.product.programme %>, <%= branch[product.product.branch] %></span></p>
-                    <% if (product.product.qty > 0) { %>
-                        <p class="fs-5">Qty: <%= product.product.qty %></p>
-                    <% } %>
+                    <div class="row fs-5 mb-3">
+                        <div class="col-12 mb-2">
+                            <p class="fs-5"> <%= product.product.description %> </p>
+                        </div>
+                        <div class="col-12 mb-2">
+                            <p> <span class="fw-bold">Current Condition:</span> <span><%= product.product.condition %></span> </p> 
+                        </div>
+                        <div class="col-12 mb-2">
+                            <p> <span class="fw-bold">Damages:</span> <span><%= product.product.damages %></span> </p>
+                        </div>
+                    </div>
                 </div>
                 <% if (product.product.qty > 0) { %>
                     <div>
                         <% if ((!currentUser) || (currentUser._id.toString() !== product.product.user.toString())) { %>
-                            <div class="d-flex justify-content-between">
-                                <button class="btn buy-now-btn btn-success" id="<%= product.product._id %>">Buy Now</button>
+                            <div class="d-flex justify-content-evenly">
+                                <button class="btn buy-now-btn btn-lg btn-outline-success" id="<%= product.product._id %>">
+                                    <span id="buyNowBtnText"> Buy Now </span>
+                                    <div class="spinner-border text-secondary d-none" role="status" id="buyNowSpinner">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </button>
                                 <% if(product.in_cart) { %> 
                                     <div class="go-to-cart-btn-container" id="<%= product.product._id %>">
-                                        <a href="/user_cart" class="btn btn-secondary go-to-cart-btn">Go To Cart</a>
+                                        <a href="/user_cart" class="btn go-to-cart-btn btn-lg btn-outline-secondary">Go To Cart</a>
                                     </div>
                                 <% } else { %> 
                                     <div class="add-to-cart-btn-container">
-                                        <button class="btn add-to-cart-btn btn-danger" id="<%= product.product._id %>">Add To Cart</button>
+                                        <button class="btn add-to-cart-btn btn-lg btn-outline-secondary" id="<%= product.product._id %>">Add To Cart</button>
                                     </div>
                                 <% } %> 
                             </div>
@@ -48,18 +57,14 @@
 
     <div class="container my-4 ">
         <h3>About This Book</h3>
-        <div class="row">
-            <div class="col-12 mb-2">
-                <h5>Description:</h5> <%= product.product.description %>
-            </div>
-            <div class="col-12 mb-2">
-                <h5>Current Condition:</h5> <%= product.product.condition %>
-            </div>
-            <div class="col-12 mb-2">
-                <h5>Damages:</h5> <%= product.product.damages %>
-            </div>
-        </div>
+        <p class="fs-5">For Semester: <span class=""><%= product.product.semester %></span></p>
+        <p class="fs-5">For Year: <span class=""><%= product.product.year %></span></p>
+        <% branch = {CE: "Civil  Engineering", CSE: "Computer Science Engineering", BT: "Biotechnology", ME: "Mechanical Engineering", EE:"Electrical Engineering", ECE:"Electronics Engineering", PE:"Production Engineering", IT:"Information Technology"} %> 
+        <p class="fs-5">For: <span class=""><%= product.product.programme %>, <%= branch[product.product.branch] %></span></p>
+        <% if (product.product.qty > 0) { %>
+            <p class="fs-5">Available Quantity: <%= product.product.qty %></p>
+        <% } %>
     </div>
     
 
-    <script src="/js_min/product_details.min.js"></script>
+    <script src="/js/product_details.js"></script>

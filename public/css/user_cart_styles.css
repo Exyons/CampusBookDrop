@@ -1,26 +1,8 @@
-/* .cart-total .card {
-    margin-top: 3px;
-}
-
-.cart-container {
-    display: flex;
-    flex-direction: column;
-    border-top-right-radius: 20px;
-    border-top-left-radius: 20px;
-    justify-content: space-between;
-    background-color: white;
-} */
-
 .product-container {
     justify-content: start;
 }
 
-/* .cart-remove-form {
-    margin-top: 0;
-    padding: 0; */
-    /* height: 10px; */
-/* } */
-.remove-btn{
+.remove-btn {
     padding: 0;
     margin: 0;
     margin-right: 5px;
@@ -29,7 +11,7 @@
     font-size: 30px;
 }
 
-.remove-btn:hover{
+.remove-btn:hover {
     color: red;
 }
 
@@ -37,26 +19,12 @@
     display: none;
 }
 
-/* .increase-qty-btn{
-    border: none;
-}
-
-.decrease-qty-btn{
-border: none;
-} */
-
-/* .cart-product-img{
-    max-width: fit-content;
-    width: 100px;
-    height: 200px;
-} */
-
-.qty-btn{
+.qty-btn {
     background: none;
     border: none;
 }
 
-.input-qty{
+.input-qty {
     max-width: 15px;
     padding: 0;
     margin: 0;
@@ -64,11 +32,26 @@ border: none;
     background: none;
 }
 
-.total-amount-container{
+.total-amount-container {
     border-top: 1px solid black;
 }
 
-#qtyContainer{
+#qtyContainer {
     max-height: fit-content;
     max-width: fit-content;
+}
+
+#addBooks {
+    background-color: #4586fd;
+    color: white;
+}
+
+#logIn {
+    background-color: #4586fd;
+    color: white;
+}
+
+#placeOrder {
+    background-color: #4586fd;
+    color: white;
 }

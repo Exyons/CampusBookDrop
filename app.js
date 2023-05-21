@@ -1,12 +1,11 @@
-let dbUrl = "";
+let dbUrl = "mongodb://127.0.0.1:27017/BookSellingApp";
+
 if (process.env.NODE_ENV !== "production") {
     require("dotenv").config()
-    dbUrl = "mongodb://127.0.0.1:27017/BookSellingApp";
 }
 else {
     dbUrl = process.env.MONGODB_URL 
 }
-
 
 const express = require("express")
 const path = require("path")
@@ -47,6 +46,14 @@ const root = __dirname;
 // Maximum quantity of an item in cart a user can order
 app.locals.otps = {}
 app.locals.maxCartQty = 5;
+// Maxmimum Delivery Charge 
+app.locals.maxDeliveryCharge = 15;
+// Max products to be ordered for user to pay minDeliveryCharge
+app.locals.discountProductCount = 3;
+// Min Delivery Charge on an order for quantity more than discountProductCount
+app.locals.minDeliveryCharge = Math.ceil(app.locals.maxDeliveryCharge / 2);
+//Give users free delivery on first order
+app.locals.freeDeliveryOnFirstOrder = true;
 
 // Using mongo-store to store session data
 const store = MongoStore.create({
@@ -65,8 +72,8 @@ const sessionOptions = {
     resave: false,
     saveUninitialized: true,
     cookie: {
-        secure: true,
-        sameSite: true,
+        // secure: true,
+        // sameSite: true,
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24 * 7 // time period in milliseconds for 1 week
     }
@@ -108,7 +115,6 @@ app.use(
     })
 );
 
-
 // Using manogo-sanitize middleware to tackle mongo injection attacks from get request query strings
 app.use(mongoSanitize());
 
@@ -149,9 +155,7 @@ passport.deserializeUser(User.deserializeUser());
 app.use(wrapAsync(async (req, res, next) => {
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
-    // res.locals.message = req.flash("message");
     res.locals.currentUser = req.user;
-    // console.log(req.user.populate("orders").populate("addresses"));
     // You must always write next in a middleware
     next();
 }))
@@ -196,8 +200,6 @@ app.use(page_not_found_route);
 app.use((err, req, res, next) => {
     // console.log(err);
     const { status = 500 } = err;
-    // if(!err.message)
-    // const message = err.message.details(e=>e.message).join(",");
     if (!err.message) {
         err.message = "Oh No! Something Went Wrong";
     }

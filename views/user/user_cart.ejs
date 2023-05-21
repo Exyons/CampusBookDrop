@@ -52,19 +52,17 @@
 
         <div class="container-fluid sticky-bottom text-center bg-light">
             <div class="container p-3">
-                <!-- <div class="card-body"> -->
-                    <h5 class="card-title mb-3"> <span class="no-of-products"></span> item(s) to order</h5>
-                    <div class="place-order-login-btn-container">
-                        <% if (currentUser) { %>
-                            <button class="btn btn-warning mb-2" id="placeOrder">Place Order</button>
-                        <% } else {%>
-                            <a href="/user/log_in" class=" btn btn-info mb-2" id="logIn">Log In</a>
-                        <% } %> 
-                    </div>
-                    <div class="add-books-btn-container">
-                        <a href="/books" class="btn btn-success mb-2" id="addBooks">Add Some Books</a>
-                    </div>
-                <!-- </div> -->
+                <h5 class="card-title mb-3"> <span class="no-of-products"></span> item(s) to order</h5>
+                <div class="place-order-login-btn-container">
+                    <% if (currentUser) { %>
+                        <button class="btn mb-2" id="placeOrder">Place Order</button>
+                    <% } else {%>
+                        <a href="/user/log_in" class="btn mb-2" id="logIn">Log In</a>
+                    <% } %> 
+                </div>
+                <div class="add-books-btn-container">
+                    <a href="/books" class="btn mb-2" id="addBooks">Add Books</a>
+                </div>
             </div>
         </div>
     </div>

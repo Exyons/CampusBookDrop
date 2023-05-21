@@ -46,7 +46,7 @@ const renderOrderPlacingPage = async (req, res) => {
     const user = await User.findById(id).populate("addresses");
     const { books } = res.app.locals;
     if (!books) {
-        req.flash("error", "The Book You Are Buying Does Not Exist!")
+        // req.flash("error", "The Book You Are Buying Does Not Exist!")
         return res.redirect("/books");
     }
     res.render("order_placing/index", { title: "Place Order", page_styles: "order_placing.css", user, books })
@@ -78,7 +78,7 @@ const verifyOrderAndToken = async (req, res) => {
         return res.json({ redirect: "/books" });
     }
     if (!req.user) {
-        return res.json({ error: "You need to login before placing an order!" });
+        return res.json({ redirect: "/user/log_in" });
     }
     const id = req.user._id;
     const user = await User.findById(id);
@@ -88,7 +88,7 @@ const verifyOrderAndToken = async (req, res) => {
         return res.json({ redirect: "/books" });
     }
     if (!user) {
-        return res.json({ error: "Error in /order_placing, user not found" });
+        return res.json({ error: "Error user not found" });
     }
 
     if (!data.bookIdsAndQty.length) {
@@ -164,20 +164,25 @@ const calculateOrderAmount = async (req, res) => {
         const { books } = res.app.locals;
         const cartLength = books.length;
         if (cartLength) {
-            if (0 < cartLength && cartLength <= 3) {
-                deliveryCharge = 30;
+            if (0 < cartLength && cartLength <= req.app.locals.discountProductCount) {
+                deliveryCharge = req.app.locals.maxDeliveryCharge;
             }
-            else if (cartLength > 3) {
-                deliveryCharge = 15;
+            else if (cartLength > req.app.locals.discountProductCount) {
+                deliveryCharge = req.app.locals.minDeliveryCharge;
             }
             else {
                 deliveryCharge = 0;
             }
+            
             // Giving new users zero delivery fee on their first order
             const user = await User.findById(req.user._id);
-            if (user.orders.length === 0) {
-                deliveryCharge = 0;
+            if (req.app.locals.freeDeliveryOnFirstOrder) {
+                // Giving new users zero delivery fee on their first order
+                if (user.orders.length === 0) {
+                    deliveryCharge = 0;
+                }
             }
+
             books.forEach(book => {
                 subtotal += book.book.price * book.cart_qty;
             })
@@ -192,7 +197,6 @@ const calculateOrderAmount = async (req, res) => {
         res.app.locals.totalAmount = totalAmount;
     } catch (error) {
         res.app.locals.validAmounts = false;
-        // console.log(error);
         res.json({ error: "Server Error!" })
     }
 }
