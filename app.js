@@ -71,9 +71,10 @@ const sessionOptions = {
     secret: sessionSecret,
     resave: false,
     saveUninitialized: true,
+    proxy: process.env.NODE_ENV === "production",
     cookie: {
-        secure: true,
-        sameSite: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production",
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24 * 7 // time period in milliseconds for 1 week
     }
