@@ -941,7 +941,7 @@ const verifyOTP = (req, res) => {
 }
 
 const sendOtpToEmail = async (req, res) => {
-    const { email } = req.session;
+    const { email } = req.app.locals;
     if (!email) {
         return res.json({ error: "Email Is Required To Send OTP!" });
     }
