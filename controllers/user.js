@@ -166,7 +166,6 @@ const checkUsername = async (req, res) => {
                 res.json({ error: "Length should be 4-10 characters!" })
             }
         } catch (error) {
-            // console.log(error)
             res.json({ error: "Server Error!" })
         }
     }
@@ -953,7 +952,7 @@ const sendOtpToEmail = async (req, res) => {
             secure: true, // true for 465, false for other ports
             auth: {
                 user: process.env.HOSTINGER_NOREPLY_EMAIL,
-                pass: process.env.HOSTINGER_NOREPLY_PASSWORD || "ThisEmailSendsNoReplyContent69#"
+                pass: process.env.HOSTINGER_NOREPLY_PASSWORD
             },
         });
         const otp = req.app.locals.otps[email].code;
