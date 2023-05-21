@@ -72,8 +72,8 @@ const sessionOptions = {
     resave: false,
     saveUninitialized: true,
     cookie: {
-        // secure: true,
-        // sameSite: true,
+        secure: true,
+        sameSite: true,
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24 * 7 // time period in milliseconds for 1 week
     }
