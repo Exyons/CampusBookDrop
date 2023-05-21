@@ -546,9 +546,9 @@ const addNewBookDetails = async (req, res) => {
     const newProduct = new Product(req.body);
     newProduct.user = req.user._id;
     newProduct.image = bookImage;
+    delete res.app.locals.bookImage;
     try {
         await newProduct.save();
-        delete res.app.locals.bookImage;
         res.json({ success: "Your Book Saved Successfully" });
     } catch (error) {
         // console.log(error);
