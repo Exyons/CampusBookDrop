@@ -442,7 +442,7 @@ const uploadUserThumbnail = async (req, res) => {
         bufferStream.push(null);
         
         try {
-            const uploadStream = await cloudinaryUploadStream(bufferStream, `${req.user.username}/thumbnail`, "ThumbnailImage",thumbnailWidth, thumbnailHeight);
+            const uploadStream = await cloudinaryUploadStream(bufferStream, `${req.user.username}/thumbnail`, "ThumbnailImage", thumbnailWidth, thumbnailHeight);
             res.app.locals.userThumbnail = {
                 url: uploadStream.secure_url,
                 filename: uploadStream.public_id

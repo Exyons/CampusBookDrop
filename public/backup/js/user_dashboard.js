@@ -27,7 +27,6 @@ const showReceiptBtns = document.querySelectorAll(".show-receipt-btn");
 const userThumbnailForm = document.querySelector("#userThumbnailForm")
 
 const hostels = { TH: "Tilak Hostel", PH: "Patel Hostel", MH: "Malviya Hostel" };
-const programme = { btech: "B.Tech.", mtech: "M.Tech.", phd: "Ph.D." };
 
 const addressFormBootstrapModal = new bootstrap.Modal(addressFormModal);
 const bookFormBootstrapModal = new bootstrap.Modal(bookFormModal);
@@ -389,7 +388,7 @@ const editBook = async (evt) => {
             bookCard.children["bookDetails"].children[7].children["bookBranch"].innerText = bookDetailsForm.elements["selectBranch"].value
             bookCard.children["bookDetails"].children[8].children["bookCondition"].innerText = bookDetailsForm.elements["inputBookCondition"].value
             bookCard.children["bookDetails"].children[9].children["bookDamages"].innerText = bookDetailsForm.elements["inputBookDamages"].value
-            bookCard.children["bookDetails"].children[6].children["bookProgramme"].innerText = programme[bookDetailsForm.elements["selectProgramme"].value];
+            bookCard.children["bookDetails"].children[6].children["bookProgramme"].innerText = bookDetailsForm.elements["selectProgramme"].value;
         } catch (error) {
             showToast({ error: "Cannot Contact Server! Error when updating the book! Try Again" });
         }
@@ -413,15 +412,9 @@ if (sellerBookCards) { // Because there can be zero books added by seller, I don
             bookDetailsForm.elements["selectBranch"].value = bookCard.children["bookDetails"].children[7].children["bookBranch"].innerText
             bookDetailsForm.elements["inputBookCondition"].value = bookCard.children["bookDetails"].children[8].children["bookCondition"].innerText
             bookDetailsForm.elements["inputBookDamages"].value = bookCard.children["bookDetails"].children[9].children["bookDamages"].innerText
-            
-            const programmeKey = Object.keys(programme).find(key => { // FInding out the key from a value in hostels object
-                if (programme[key] === bookCard.children["bookDetails"].children[6].children["bookProgramme"].innerText) {
-                    return key;
-                }
-            })
-
+    
             for (const child of bookDetailsForm.elements["selectProgramme"].children) {
-                if (child.value === programmeKey) {
+                if (child.value === bookCard.children["bookDetails"].children[6].children["bookProgramme"].innerText) {
                     child.selected = "true"
                 }
             }

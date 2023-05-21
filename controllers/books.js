@@ -65,6 +65,9 @@ const sendBookCardPartial = async (req, res) => {
     // Chunking the data into 6 units
     const numberOfProductsInChunk = 6;
     const chunkedData = chunk(pageProducts, numberOfProductsInChunk);
+    if (!chunkedData.length){
+        return res.json({ error: "No Books Found!" })
+    }
     const count = res.app.locals.bookChunkSentCount++;
     if (count < chunkedData.length) {
         try {
@@ -132,6 +135,9 @@ const sendSearchedBookCardPartial = async (req, res) => {
     // Chunking the data into 6 units
     const numberOfProductsInChunk = 6;
     const chunkedData = chunk(pageProducts, numberOfProductsInChunk);
+    if (!chunkedData.length){
+        return res.json({ error: "No Books Found!" })
+    }
     const count = res.app.locals.bookChunkSentCount++;
     if (count < chunkedData.length) {
         try {

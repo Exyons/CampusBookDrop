@@ -1,4 +1,5 @@
 const { cloudinary } = require("./cloudinary");
+const { signupSchema, bookSchema, addressSchema } = require("./joi_schema");
 
 module.exports.isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
@@ -80,4 +81,40 @@ module.exports.constructFilterQuery = (req, res, next) => {
 module.exports.regenerateSession = (req, res, next) => {
     req.session.regenerate()
     next();
+}
+
+module.exports.validateSignUp = (req, res, next) => {
+    const { error } = signupSchema.validate(req.body);
+
+    if (error) {
+        const message = error.details.map(err => err.message).join(",");
+        throw new ExpressError(message, 400);
+    }
+    else {
+        next();
+    }
+}
+
+module.exports.validateBookDetails = (req, res, next) => {
+    const { error } = bookSchema.validate(req.body);
+
+    if (error) {
+        const message = error.details.map(err => err.message).join(",");
+        throw new ExpressError(message, 400);
+    }
+    else {
+        next();
+    }
+}
+
+module.exports.validateAddressDetails = (req, res, next) => {
+    const { error } = addressSchema.validate(req.body);
+
+    if (error) {
+        const message = error.details.map(err => err.message).join(",");
+        throw new ExpressError(message, 400);
+    }
+    else {
+        next();
+    }
 }

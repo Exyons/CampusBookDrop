@@ -2,7 +2,7 @@ const express = require("express");
 const wrapAsync = require("../utils/WrapAsync");
 const passport = require("passport");
 const { storeReturnTo, storeSessionCart } = require("../middlewares");
-const { isLoggedIn, deleteImages, regenerateSession } = require("../middlewares");
+const { isLoggedIn, deleteImages, validateSignUp, validateBookDetails, validateAddressDetails } = require("../middlewares");
 const multer = require("multer");
 const {
     renderSignUpForm,
@@ -62,7 +62,7 @@ router.post("/reset_password/checkPassword", wrapAsync(checkPassword))
 
 router.get("/sign_up", deleteImages, renderSignUpForm)
 
-router.post("/sign_up", upload.none(), wrapAsync(signUpUser), wrapAsync(sendThankYouEmail))
+router.post("/sign_up", upload.none(), validateSignUp, wrapAsync(signUpUser), wrapAsync(sendThankYouEmail))
 
 router.post("/sign_up/checkUsername", wrapAsync(checkUsername))
 
@@ -90,18 +90,18 @@ router.post("/account/:id/saveThumbnail", upload.none(), wrapAsync(saveThumbnail
 
 router.patch("/account/:id/update", isLoggedIn, upload.none(), wrapAsync(updateUserDetails))
 
-router.post("/address", isLoggedIn, upload.none(), wrapAsync(saveNewAddress))
+router.post("/address", isLoggedIn, upload.none(), validateAddressDetails, wrapAsync(saveNewAddress))
 
-router.patch("/address/:addressId", isLoggedIn, upload.none(), wrapAsync(updateAddressDetails))
+router.patch("/address/:addressId", isLoggedIn, upload.none(), validateAddressDetails, wrapAsync(updateAddressDetails))
 
 router.delete("/address/:addressId", isLoggedIn, wrapAsync(destroyAddress))
 
 // This is route gets only text only form thats why using upload.none() middleware
-router.post("/books/details", isLoggedIn, upload.none(), wrapAsync(addNewBookDetails))
+router.post("/books/details", isLoggedIn, upload.none(), validateBookDetails, wrapAsync(addNewBookDetails))
 
 router.post("/books/imageUpload", isLoggedIn, upload.single("image"), wrapAsync(uploadNewBookImage))
 
-router.patch("/books/:bookId", isLoggedIn, upload.none(), wrapAsync(updateBookDetails))
+router.patch("/books/:bookId", isLoggedIn, upload.none(), validateBookDetails, wrapAsync(updateBookDetails))
 
 router.delete("/books/:bookId", isLoggedIn, wrapAsync(destroyBook))
 

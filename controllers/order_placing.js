@@ -11,15 +11,16 @@ const { Address } = require("../db_models/address");
 
 
 const cloudinaryUploadStream = (stream, folderName, tag) => {
+    let root = "BookSellingApp"
+    if(process.env.NODE_ENV !== "production"){
+        root = "CampusBookDrop"
+    }
     return new Promise((resolve, reject) => {
         const cloudinaryStream = cloudinary.uploader.upload_stream(
             {
                 tags: tag,
                 resource_type: 'image',
-                folder: `BookSellingApp/${folderName}`,
-                width: 200,
-                height: 200,
-                crop: 'limit',
+                folder: `${root}/${folderName}`,
                 allowed_formats: ['jpg', 'jpeg', 'png']
             },
             (error, result) => {
@@ -209,6 +210,9 @@ const uploadReceipt = async (req, res) => {
         delete res.app.locals.receiptImage;
     }
     if (req.file) {
+        if(req.file.size >= 1000000){
+            return res.json({error: "Image size should be less than 1MB!"})
+        }
         // Because I am storing image in memmory, it is stored as buffer
         // Convert req.file.buffer to Stream for uploading to cloudinary
         const bufferStream = new Readable();
