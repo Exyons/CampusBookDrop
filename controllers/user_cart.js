@@ -86,8 +86,6 @@ const calculateCartValue = async (req, res) => {
 }
 
 const renderUserCart = async (req, res) => {
-    const title = "Your Cart";
-
     let products = [];
     if (!req.user) {
         if (!req.session.cart) {
@@ -120,7 +118,7 @@ const renderUserCart = async (req, res) => {
             }
         }
     }
-    res.render("user/user_cart", { title, page_styles: "user_cart_styles.css", products });
+    res.render("user/user_cart", { title:"Cart | Campus Book Drop", page_styles: "user_cart_styles.css", products });
 }
 
 const addItemToCart = async (req, res) => {
@@ -241,7 +239,7 @@ const updateUserCartItem = async (req, res) => {
                         break;
                     }
                     else {
-                        res.json({ error: `You cannot decrease quantity less than zero!` });
+                        res.json({ error: `You cannot decrease quantity below 1!` });
                     }
                 }
             }
@@ -270,7 +268,7 @@ const updateUserCartItem = async (req, res) => {
                             break;
                         }
                         else {
-                            res.json({ error: `You cannot decrease quantity less than zero!` });
+                            res.json({ error: `You cannot decrease quantity below 1!` });
                         }
                     }
                 }

@@ -18,7 +18,7 @@ const bookImgHeight = "500";
 
 const cloudinaryUploadStream = (stream, folderName, tags, width, height) => {
     let root = "BookSellingApp"
-    if(process.env.NODE_ENV !== "production"){
+    if(process.env.NODE_ENV === "production"){
         root = "CampusBookDrop"
     }
     return new Promise((resolve, reject) => {

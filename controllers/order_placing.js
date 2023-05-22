@@ -12,7 +12,7 @@ const { Address } = require("../db_models/address");
 
 const cloudinaryUploadStream = (stream, folderName, tag) => {
     let root = "BookSellingApp"
-    if(process.env.NODE_ENV !== "production"){
+    if(process.env.NODE_ENV === "production"){
         root = "CampusBookDrop"
     }
     return new Promise((resolve, reject) => {
@@ -50,7 +50,7 @@ const renderOrderPlacingPage = async (req, res) => {
         // req.flash("error", "The Book You Are Buying Does Not Exist!")
         return res.redirect("/books");
     }
-    res.render("order_placing/index", { title: "Place Order", page_styles: "order_placing.css", user, books })
+    res.render("order_placing/index", { title: "Place Order | Campus Book Drop", page_styles: "order_placing.css", user, books })
 }
 
 const generateToken = async (req, res) => {
