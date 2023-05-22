@@ -1,25 +1,19 @@
-/* .current-order-position {
-    display: flex;
-    justify-content: space-evenly;
-}
-*/
-.position-bar {
-    border-bottom: 5px solid #06d6a0;
-}
-
-.position-text{
+.position-text {
     margin-left: 5px;
 }
 
-.check-icon{
+.check-icon {
     margin-left: 3px;
 }
 
-/* svg {
-    color: greenyellow;
-    border: 1px solid black;
-    border-radius: 50%;
-} */
+#placeOrderBtn {
+    background-color: #4586fd;
+    color: white;
+}
+
+#cancelBtn {
+    background-color: #FFCC55;
+}
 
 .current-order-position {
     height: 30px;
@@ -34,14 +28,14 @@
     width: 40%;
 } */
 
-.payment-postion-container{
+.payment-postion-container {
     /* visibility: hidden;
     width: 0;
     height: 0; */
-    display:none;
+    display: none;
 }
 
-.confirmation-postion-container{
+.confirmation-postion-container {
     display: none;
 }
 
