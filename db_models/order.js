@@ -37,7 +37,8 @@ const orderSchema = new Schema({
     deliveryCharge: Number,
     totalAmount: Number,
     address: addressSchema,
-    statusComment: String
+    statusComment: String,
+    paymentId: String
 });
 
 module.exports = mongoose.model("Order", orderSchema);

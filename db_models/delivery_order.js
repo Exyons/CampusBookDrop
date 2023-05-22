@@ -37,8 +37,7 @@ const deliveryOrderSchema = new Schema({
     delivery_user: {
         type: Schema.Types.ObjectId,
         ref: "User"
-    },
-    paymentId: String
+    }
 });
 
 module.exports = mongoose.model("Deliveryorder", deliveryOrderSchema);
