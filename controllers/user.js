@@ -18,7 +18,7 @@ const bookImgHeight = "500";
 
 const cloudinaryUploadStream = (stream, folderName, tags, width, height) => {
     let root = "BookSellingApp"
-    if(process.env.NODE_ENV === "production"){
+    if (process.env.NODE_ENV === "production") {
         root = "CampusBookDrop"
     }
     return new Promise((resolve, reject) => {
@@ -96,7 +96,7 @@ const signUpUser = async (req, res, next) => {
             req.flash("error", "Invalid Email!");
             return res.json({ redirect: "/user/sign_up" })
         }
-        let newUser = new User({ firstname, lastname, email, mobile, username, joining_date: Date.now() });
+        let newUser = new User({ firstname: firstname.trim(), lastname: lastname.trim(), email, mobile, username: username.trim(), joining_date: Date.now() });
         newUser = await User.register(newUser, password);
 
         req.logIn(newUser, err => {
@@ -431,15 +431,15 @@ const uploadUserThumbnail = async (req, res) => {
         delete res.app.locals.userThumbnail;
     }
     if (req.file) {
-        if(req.file.size >= 1000000){
-            return res.json({error: "Image size should be less than 1MB!"})
+        if (req.file.size >= 1000000) {
+            return res.json({ error: "Image size should be less than 1MB!" })
         }
         // Because I am storing image in memmory, it is stored as buffer
         // Convert req.file.buffer to Stream for uploading to cloudinary
         const bufferStream = new Readable();
         bufferStream.push(req.file.buffer);
         bufferStream.push(null);
-        
+
         try {
             const uploadStream = await cloudinaryUploadStream(bufferStream, `${req.user.username}/thumbnail`, "ThumbnailImage", thumbnailWidth, thumbnailHeight);
             res.app.locals.userThumbnail = {
@@ -567,8 +567,8 @@ const uploadNewBookImage = async (req, res) => {
     }
 
     if (req.file) {
-        if(req.file.size >= 2000000){
-            return res.json({error: "Image size should be less than 2MB!"})
+        if (req.file.size >= 2000000) {
+            return res.json({ error: "Image size should be less than 2MB!" })
         }
         // Because I am storing image in memmory, it is stored as buffer
         // Convert req.file.buffer to Stream for uploading to cloudinary
@@ -849,7 +849,7 @@ const sendThankYouEmail = async (req, res) => {
             "<p>If you ever have any questions or feedback, don't hesitate to reach out to us. We're always eager to hear from our users and improve our services based on their needs.</p>" +
             "<p>Thanks again for joining Campus Book Drop! We look forward to helping you make the most of your college experience.</p>" +
             "<p>Best regards,</p>" +
-            "<p>Ankur Pratap Singh</p>" + 
+            "<p>Ankur Pratap Singh</p>" +
             "<p>Founder, Campus Book Drop</p>";
 
         // send mail with defined transport object
