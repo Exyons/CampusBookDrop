@@ -9,7 +9,7 @@ resetPasswordBtn.addEventListener("click", async () => {
         const formData = new FormData(passwordResetForm)
         const res = await axios.post("/user/reset_password", formData);
         showToast(res.data)
-        if(res.data.redirect){
+        if (res.data.redirect) {
             window.location = res.data.redirect;
         }
     } catch (error) {
@@ -40,20 +40,47 @@ const checkPassword = () => {
 
 checkPassword();
 
-function togglePasswordVisibility() {
-    const password = document.querySelector("#InputPassword");
-    if (password.type === "password") {
-        password.type = "text";
-    } else {
-        password.type = "password";
-    }
+const toggelNewPasswordVisibilty = () => {
+    const passwordVisibilityBtn = document.querySelector("#newPasswordVisibilityBtn")
+    passwordVisibilityBtn.addEventListener("click", () => {
+        const password = document.querySelector("#newPassword");
+        const openEyeIcon = document.querySelector("#newPasswordOpenEye");
+        const closeEyeIcon = document.querySelector("#newPasswordCloseEye");
+        if (password.type === "password") {
+            openEyeIcon.classList.replace("d-block", "d-none");
+            closeEyeIcon.classList.replace("d-none", "d-block");
+            closeEyeIcon.classList.add("selected");
+            password.type = "text";
+        } else {
+            closeEyeIcon.classList.replace("d-block", "d-none");
+            closeEyeIcon.classList.remove("selected");
+            openEyeIcon.classList.replace("d-none", "d-block");
+            password.type = "password";
+        }
+    })
 }
 
-function toggleConfirmPasswordVisibility() {
-    const confirmPassword = document.querySelector("#InputConfirmPassword");
-    if (confirmPassword.type === "password") {
-        confirmPassword.type = "text";
-    } else {
-        confirmPassword.type = "password";
-    }
+const toggelConfrimPasswordVisibilty = () => {
+    const passwordVisibilityBtn = document.querySelector("#confirmPasswordVisibilityBtn")
+    passwordVisibilityBtn.addEventListener("click", () => {
+        const password = document.querySelector("#confirmPassword");
+        const openEyeIcon = document.querySelector("#confirmPasswordOpenEye");
+        const closeEyeIcon = document.querySelector("#confirmPasswordCloseEye");
+        if (password.type === "password") {
+            openEyeIcon.classList.replace("d-block", "d-none");
+            closeEyeIcon.classList.replace("d-none", "d-block");
+            closeEyeIcon.classList.add("selected");
+            password.type = "text";
+        } else {
+            closeEyeIcon.classList.replace("d-block", "d-none");
+            closeEyeIcon.classList.remove("selected");
+            openEyeIcon.classList.replace("d-none", "d-block");
+            password.type = "password";
+        }
+    })
 }
+
+toggelConfrimPasswordVisibilty();
+
+toggelNewPasswordVisibilty();
+
