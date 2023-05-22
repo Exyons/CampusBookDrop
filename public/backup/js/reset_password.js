@@ -18,7 +18,7 @@ resetPasswordBtn.addEventListener("click", async () => {
 })
 
 const checkPassword = () => {
-    const password = document.querySelector("#InputPassword");
+    const password = document.querySelector("#newPasswordVisibilityBtn");
     password.addEventListener("input", async () => {
         try {
             const res = await axios.post("/user/reset_password/checkPassword", { password: password.value })
