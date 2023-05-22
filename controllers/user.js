@@ -849,8 +849,8 @@ const sendThankYouEmail = async (req, res) => {
             "<p>If you ever have any questions or feedback, don't hesitate to reach out to us. We're always eager to hear from our users and improve our services based on their needs.</p>" +
             "<p>Thanks again for joining Campus Book Drop! We look forward to helping you make the most of your college experience.</p>" +
             "<p>Best regards,</p>" +
-            "<p>Ankur Pratap Singh</p>" +
-            "<p>Founder, Campus Book Drop</p>";
+            "<p>Ankur Pratap Singh<br>" +
+            "Founder, Campus Book Drop</p>";
 
         // send mail with defined transport object
         let info = await transporter.sendMail({
