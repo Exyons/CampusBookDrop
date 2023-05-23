@@ -68,8 +68,8 @@ const generateToken = async (req, res) => {
         }
     }
     else {
-        req.flash("error", "You First Need To Login!")
-        res.json({ redirect: "/books" })
+        req.flash("success", "Login To Your Account")
+        res.json({ redirect: "/user/log_in" })
     }
 }
 
