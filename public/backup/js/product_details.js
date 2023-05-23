@@ -6,7 +6,7 @@ const addEventListenerToAddToCartBtns = () => {
             const res = await axios.post(`/user_cart/${addToCartBtn.id}/add`);
             const link = document.createElement("a");
             link.href = "/user_cart";
-            link.classList.add("btn", "btn-secondary", "go-to-cart-btn");
+            link.classList.add("btn", "btn-lg", "btn-outline-secondary", "go-to-cart-btn");
             link.innerText = "Go To Cart";
             btnContainer.appendChild(link);
             btnContainer.removeChild(addToCartBtn);
