@@ -42,13 +42,18 @@ const root = __dirname;
 
 // Maximum quantity of an item in cart a user can order
 app.locals.otps = {}
+
 app.locals.maxCartQty = 5;
+
 // Maxmimum Delivery Charge 
 app.locals.maxDeliveryCharge = 15;
+
 // Max products to be ordered for user to pay minDeliveryCharge
 app.locals.discountProductCount = 3;
+
 // Min Delivery Charge on an order for quantity more than discountProductCount
 app.locals.minDeliveryCharge = Math.ceil(app.locals.maxDeliveryCharge / 2);
+
 //Give users free delivery on first order
 app.locals.freeDeliveryOnFirstOrder = true;
 
