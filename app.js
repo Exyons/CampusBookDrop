@@ -91,18 +91,23 @@ app.use(helmet.hidePoweredBy());
 
 const scriptSrcUrls = [
     "https://stackpath.bootstrapcdn.com/",
-    "https://cdn.jsdelivr.net/"
+    "https://cdn.jsdelivr.net/",
+    "https://www.googletagmanager.com"
 ];
 const styleSrcUrls = [
     "https://stackpath.bootstrapcdn.com/",
     "https://cdn.jsdelivr.net"
 ];
 
+const connectSrcUrls = [
+    "https://www.google-analytics.com"
+]
+
 app.use(
     helmet.contentSecurityPolicy({
         directives: {
             defaultSrc: [],
-            connectSrc: ["'self'"],
+            connectSrc: ["'self'", ...connectSrcUrls],
             scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
             styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
             workerSrc: ["'self'", "blob:"],
