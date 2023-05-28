@@ -1,14 +1,14 @@
 <% if (success && success.length) { %>
-    <div class="container">
-        <div class="alert alert-success alert-dismissible fade show text-capitalize" role="alert">
+    <div class="container d-flex justify-content-center">
+        <div class="alert alert-success alert-dismissible fade show text-capitalize text-center" role="alert" style="max-width: fit-content;">
             <%= success %> 
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     </div>
 <% } %>
 <% if (error && error.length) { %>
-    <div class="container">
-        <div class="alert alert-danger alert-dismissible fade show text-capitalize" role="alert">
+    <div class="container d-flex justify-content-center">
+        <div class="alert alert-danger alert-dismissible fade show text-capitalize text-center" role="alert" style="max-width: fit-content;">
             <%= error %> 
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>

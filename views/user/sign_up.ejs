@@ -1,11 +1,11 @@
-<% layout("layouts/no_footer_layout") -%>
+<% layout("layouts/no_footer_navbar") -%>
 
 <%- include("partials/otpFormModal") %>
 
-		<div class="container d-flex justify-content-center align-items-center my-auto">
+		<div class="container d-flex justify-content-center mt-4">
 			<div class="row">
 				<div class="col-12" style="max-width: 30em;">
-					<div class="card shadow">
+					<div class="card">
 						<h1 class="text-center my-3">Create Account</h1>
 						<div class="card-body">
 							<form action="/user/sign_up" method="POST" class="needs-validation" id="signUpForm"
