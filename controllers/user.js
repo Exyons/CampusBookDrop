@@ -736,7 +736,7 @@ const sendPasswordResetLink = async (req, res) => {
         if (!user) {
             // User not found
             req.flash("error", "User Not Found!");
-            return res.redirect("/user/forgot_password");
+            return res.json({redirect: "/user/forgot_password"});
         }
 
         const resetToken = await bcrypt.hash(user.email + Date.now().toString(), 10);
@@ -775,11 +775,11 @@ const sendPasswordResetLink = async (req, res) => {
             html: emailBody, // html body
         });
         req.flash("success", "Password Reset Link Has Been Sent To Your Email!");
-        res.redirect("/");
+        res.json({redirect: "/"});
     } catch (error) {
         console.log(error);
         req.flash("error", "Server Error! Unable to send link!");
-        res.redirect("/user/forgot_password");
+        res.json({redirect: "/user/forgot_password"});
     }
 }
 

@@ -1,15 +1,17 @@
 const resetPasswordLnkBtn = document.querySelector("#resetPasswordLnkBtn");
-const resetPasswordEmailForm = document.querySelector("#resetPasswordEmailForm");
 
 resetPasswordLnkBtn.addEventListener("click", async () => {
     const email = document.querySelector("#InputEmail");
+    const btnText = document.querySelector("#btnText");
+    const btnSpinner = document.querySelector("#btnSpinner");
     if (resetPasswordEmailForm.checkVisibility()) {
         try {
-            resetPasswordLnkBtn.disabeld=true;
+            resetPasswordLnkBtn.disabled=true;
+            btnText.classList.replace("d-block", "d-none")
+            btnSpinner.classList.replace("d-none", "d-block")
             const res = await axios.post("/user/forgot_password", { email: email.value })
             window.location = res.data.redirect
         } catch (error) {
-            resetPasswordLnkBtn.disabeld=false;
             showToast({error: "Cannot Contact Server!"})
         }
     }
