@@ -96,7 +96,7 @@ const signUpUser = async (req, res, next) => {
             req.flash("error", "Invalid Email!");
             return res.json({ redirect: "/user/sign_up" })
         }
-        let newUser = new User({ firstname: firstname.trim(), lastname: lastname.trim(), emai: email.trim(), mobile, username: username.trim(), joining_date: Date.now() });
+        let newUser = new User({ firstname: firstname.trim(), lastname: lastname.trim(), email: email.trim(), mobile, username: username.trim(), joining_date: Date.now() });
         newUser = await User.register(newUser, password);
 
         req.logIn(newUser, err => {
@@ -113,6 +113,7 @@ const signUpUser = async (req, res, next) => {
     catch (error) {
         // req.flash("error", "Cannot sign you up!");
         // res.redirect("/user/sign_up");
+        // console.log(error);
         res.json({ error: "Server Error!" })
     }
 }
