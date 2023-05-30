@@ -1,4 +1,4 @@
-<div class="card mt-2 mb-3 product-card shadow" id="<%= product.product._id %>">
+<div class="card mt-2 mb-3 product-card" id="<%= product.product._id %>">
     <div class="row">
         <div class="col-md-4">
             <a href="/books/<%= product.product._id %>">
@@ -12,13 +12,25 @@
         <div class="col-md-8 d-flex">
             <div class="card-body">
                 <h5 class="card-title"><%= product.product.title %></h5>
-                <p class="card-title">&#8377; <%= product.product.price %></p>
-                <div class="container my-3 d-flex">
-                    <p class="mx-3">Qty</p>
-                    <div class="bg-body-tertiary" id="<%= product.product._id %>">
-                        <button type="button" class="increase-qty-btn qty-btn fs-5" id="<%= product.product._id %>">+</button>
-                        <input type="number" class="form-input input-qty" name="qty" id="qty" min="1" max="10" value="<%= product.cart_qty %>" disabled>
-                        <button type="button" class="decrease-qty-btn qty-btn fs-5" id="<%= product.product._id %>">-</button>
+                <h5 class="card-title">&#8377; <%= product.product.price %></h5>
+                <div class="container mt-3 d-flex">
+                    <div class="me-2 d-flex align-items-center">
+                        Qty
+                    </div>
+                    <div class="border d-flex align-items-center rounded-2" id="<%= product.product._id %>">
+                        <button type="button" class="increase-qty-btn qty-btn" id="<%= product.product._id %>">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                              </svg>
+                        </button>
+                        
+                        <input type="number" class="form-input input-qty text-center mx-2 my-1" name="qty" id="qty" min="1" max="10" value="<%= product.cart_qty %>" disabled>
+                    
+                        <button type="button" class="decrease-qty-btn qty-btn" id="<%= product.product._id %>">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"/>
+                            </svg>
+                        </button>
                     </div>
                 </div>
             </div>

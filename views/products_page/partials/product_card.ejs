@@ -30,19 +30,19 @@
     <div class="card-body">
         <div class="d-flex justify-content-evenly align-items-center">
             <% if ((!currentUser) || (currentUser._id.toString() !== product.product.user.toString())) { %>
-                <button class="btn buy-now-btn btn-sm btn-outline-success" id="<%= product.product._id %>">
+                <button class="btn buy-now-btn btn-outline-success" id="<%= product.product._id %>">
                     <span id="buyNowBtnText"> Buy Now </span>
-                    <div class="spinner-border text-secondary d-none" role="status" id="buyNowSpinner">
+                    <div class="spinner-border text-secondary d-none" role="status" id="buyNowSpinner" style="width:20px; height:20px;">
                         <span class="visually-hidden">Loading...</span>
                     </div>
                 </button>
                 <% if(product.in_cart) { %> 
                     <div class="go-to-cart-btn-container" id="<%= product.product._id %>">
-                        <a href="/user_cart" class="btn btn-sm btn-outline-secondary go-to-cart-btn">Go To Cart</a>
+                        <a href="/user_cart" class="btn btn-outline-secondary go-to-cart-btn">Go To Cart</a>
                     </div>
                 <% } else { %> 
                     <div class="add-to-cart-btn-container">
-                        <button class="btn add-to-cart-btn btn-sm btn-outline-secondary" id="<%= product.product._id %>">Add To Cart</button>
+                        <button class="btn add-to-cart-btn btn-outline-secondary" id="<%= product.product._id %>">Add To Cart</button>
                     </div>
                 <% } %> 
             <% } %>
