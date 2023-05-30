@@ -29,7 +29,7 @@ const getRandomElement = (array) => {
 const save = async () => {
     await Product.deleteMany({});
     // await Order.deleteMany({});
-    const userId = "64675edc3287401084d4ba30";
+    const userId = "6475ca62c7312092b38de6ba";
     for (let i = 0; i < 40; i++) {
         const { element, index } = getRandomElement(branchNames);
         const product = new Product(

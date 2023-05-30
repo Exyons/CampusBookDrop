@@ -888,6 +888,7 @@ const generateOTP = (req, res, next) => {
         expiresAt: moment().add(10, 'minutes'),
         resendIn: moment().add(1, 'minutes')
     };
+    // console.log(res.app.locals.otps[email]);
     next();
 }
 
