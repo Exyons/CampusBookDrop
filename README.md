@@ -1,7 +1,7 @@
 # CampusBookDrop
 This is my website that helps college students sell their used books to other students.
 
-# Deployin On Hostinger VPS Done
+# Deploying On Hostinger VPS Done
 
 # Using Joi Validations Only On AddressDetails
 
