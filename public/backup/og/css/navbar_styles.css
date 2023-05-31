@@ -89,10 +89,6 @@
     height: 2em;
 }
 
-/* #userDashboardBtn:hover {
-    background-color: #ee5d7e;
-    color: white;
-} */
 
 .bi-cart{
     margin-bottom: 0;
@@ -112,6 +108,10 @@
     background-color:#EF2346; 
     width: 100%; 
     color: white;
+}
+
+.custom-dropdown-menu{
+    max-width: fit-content;
 }
 
 @media (max-width: 991px) {

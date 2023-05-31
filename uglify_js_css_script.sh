@@ -1,10 +1,10 @@
 #!/bin/bash
 
-js_source_folder="public/js"
-js_destination_folder="public/js_min"
+js_source_folder="public/backup/og/js"
+js_destination_folder="public/backup/minified/js"
 
-css_source_folder="public/css"
-css_destination_folder="public/css_min"
+# css_source_folder="public/css"
+# css_destination_folder="public/css_min"
 
 # Uglify JavaScript files
 for file in "$js_source_folder"/*.js; do
