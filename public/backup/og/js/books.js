@@ -148,7 +148,7 @@ const addEventListenerToAddToCartBtns = () => {
                     if (res.data.success) {
                         const link = document.createElement("a");
                         link.href = "/user_cart";
-                        link.classList.add("btn", "btn-sm", "btn-outline-secondary", "go-to-cart-btn");
+                        link.classList.add("btn", "btn-sm", "btn-outline-secondary", "go-to-cart-btn", "flex-fill");
                         link.innerText = "Go To Cart";
                         btnContainer.appendChild(link);
                         btnContainer.removeChild(Btn);
