@@ -58,14 +58,6 @@
                         </a> 
                     <% }) %>
                 </div>
-                <!-- <div class="container d-flex mb-3 justify-content-center">
-                    <%# if (["processing", "confirmed", "pickedup"].includes(order.status)) { %>
-                        <button class="btn btm-sm cancel-order-btn mx-3 mx-md-4 border rounded-0 shadow-sm">Cancel</button>
-                    <%# } %>
-                    <%# if (order.status === "delivered") { %>
-                        <button class="btn btm-sm return-order-btn mx-3 mx-md-4 border rounded-0 shadow-sm">Return</button>
-                    <%# } %>
-                </div> -->
                 <div class="container">
                     <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#<%=order.order_id%>" aria-expanded="false" aria-controls="collapseExample">
                         Show More 
@@ -100,7 +92,10 @@
                                     <% } %> 
                                     <% if(order.address.hostel === "PH") {%> 
                                         <span>Patel Hostel</span>
-                                    <% } %> 
+                                    <% } %>
+                                    <% if(order.address.hostel === "SVBH") {%> 
+                                        <span>SVB Hostel</span>
+                                    <% } %>  
                                 </p>
                             </div>
                         </div>

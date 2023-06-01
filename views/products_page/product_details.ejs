@@ -58,10 +58,27 @@
 
     <div class="container my-4 ">
         <h3>About This Book</h3>
-        <p class="fs-5">For Semester: <span class=""><%= product.product.semester %></span></p>
-        <p class="fs-5">For Year: <span class=""><%= product.product.year %></span></p>
-        <% branch = {CE: "Civil  Engineering", CSE: "Computer Science Engineering", BT: "Biotechnology", ME: "Mechanical Engineering", EE:"Electrical Engineering", ECE:"Electronics Engineering", PE:"Production Engineering", IT:"Information Technology"} %> 
-        <p class="fs-5">For: <span class=""><%= product.product.programme %>, <%= branch[product.product.branch] %></span></p>
+        <p class="fs-5">For Semester: 
+            <span>
+                <% if (product.product.semester === 0) { %>
+                    Any
+                <% } else { %> 
+                    <%= product.product.semester %> 
+                <% } %> 
+            </span>
+        </p>
+        <p class="fs-5">For Year: 
+            <span>
+                <% if (product.product.year === 0) { %>
+                    Any
+                <% } else { %> 
+                    <%= product.product.year %> 
+                <% } %> 
+            </span>
+        </p>
+        <% branch = {Any: "Any", CE: "Civil  Engineering", CSE: "Computer Science Engineering", BT: "Biotechnology", ME: "Mechanical Engineering", EE:"Electrical Engineering", ECE:"Electronics Engineering", PE:"Production Engineering", IT:"Information Technology"} %> 
+        <p class="fs-5">For Programme: <span><%= product.product.programme %></span></p>
+        <p class="fs-5">For Branch: <span> <%= branch[product.product.branch] %> </span></p>
         <% if (product.product.qty > 0) { %>
             <p class="fs-5">Available Quantity: <%= product.product.qty %></p>
         <% } %>

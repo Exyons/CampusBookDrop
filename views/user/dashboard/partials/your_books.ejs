@@ -11,8 +11,24 @@
                 <p class="card-text" id="bookDescription"><%= book.description %></p>
                 <p>Price: &#8377;<span id="bookPrice"> <%= book.price %> </span></p>
                 <p>Quantity Available: <span id="bookQty"><%= book.qty %> </span></p>
-                <p>For Year: <span id="bookYear"><%= book.year %> </span></p>
-                <p>For Semester: <span id="bookSemester"><%= book.semester %> </span></p>
+                <p>For Year: 
+                    <span id="bookYear">
+                        <% if (book.year === 0) { %>
+                            Any
+                        <% } else { %> 
+                            <%= book.year %> 
+                        <% } %> 
+                    </span>
+                </p>
+                <p>For Semester: 
+                    <span id="bookSemester">
+                        <% if (book.semester === 0) { %>
+                            Any
+                        <% } else { %> 
+                            <%= book.semester %> 
+                        <% } %> 
+                    </span>
+                </p>
                 <p>For Programme: <span id="bookProgramme"><%= book.programme %> </span></p>
                 <p>For Branch: <span id="bookBranch"><%= book.branch %> </span></p>
                 <p>Current Condition: <span id="bookCondition"><%= book.condition %> </span></p>

@@ -14,7 +14,7 @@ const productSchema = new mongoose.Schema({
     },
     programme: {
         type: String,
-        enum: ["BTech", "MTech", "PhD"],
+        enum: ["BTech", "MTech", "PhD", "Any"],
         required: true
     },
     price: {
@@ -24,13 +24,13 @@ const productSchema = new mongoose.Schema({
     },
     year: {
         type: Number,
-        min: 1,
+        min: 0, // Zero is for any year
         max: 4,
         required: true
     },
     semester: {
         type: Number,
-        min: 1,
+        min: 0, // Zero is for any semester
         max: 8,
         required: true
     },
@@ -48,7 +48,7 @@ const productSchema = new mongoose.Schema({
     },
     branch: {
         type: String,
-        enum: ["CE", "ME", "BT", "CSE", "PE", "CHE", "IT", "EE", "ECE"],
+        enum: ["CE", "ME", "BT", "CSE", "PE", "CHE", "IT", "EE", "ECE", "Any"],
         required: true
     },
     qty: {

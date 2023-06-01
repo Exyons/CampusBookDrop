@@ -22,7 +22,6 @@
                                 <button class="btn btn-sm lock-order-btn" id="<%= order._id %>">Lock</button>
                                 <button class="btn btn-sm pickedup-btn"   id="<%= order._id %>">Pickedup</button>
                                 <button class="btn btn-sm delivered-btn"  id="<%= order._id %>">Delivered</button>
-                                <!-- <button class="btn btn-sm failed-btn" id="<%# order._id %>">Delivery Failed</button> -->
                             </div>
                         </div>
                     </div>
@@ -51,7 +50,7 @@
                                                     <p class="ms-1"> <%= order.pickup_addresses[index].name %>,</p>
                                                     <p class="ms-1"> <%= order.pickup_addresses[index].mobile %>,</p>
                                                     <p class="ms-1"> <%= order.pickup_addresses[index].room %></p>
-                                                    <% hostel = {TH: "Tilak Hostel", PH: "Patel Hostel", MH:"Malviya Hostel"} %> 
+                                                    <% hostel = {TH: "Tilak Hostel", PH: "Patel Hostel", MH:"Malviya Hostel", SVBH:"SVB Hostel"} %> 
                                                     <p class="ms-1"> <%= hostel[order.pickup_addresses[index].hostel] %></p>
                                                 </div>
                                             </div>
@@ -68,7 +67,7 @@
                         <p class="ms-1"> <%= order.shipping_address.name %>,</p>
                         <p class="ms-1"> <%= order.shipping_address.mobile %>,</p>
                         <p class="ms-1"> <%= order.shipping_address.room %></p>
-                        <% hostel = {TH: "Tilak Hostel", PH: "Patel Hostel", MH:"Malviya Hostel"} %> 
+                        <% hostel = {TH: "Tilak Hostel", PH: "Patel Hostel", MH:"Malviya Hostel", SVBH:"SVB Hostel"} %> 
                         <p class="ms-1"> <%= hostel[order.shipping_address.hostel] %></p>
                     </div>
                 </div>

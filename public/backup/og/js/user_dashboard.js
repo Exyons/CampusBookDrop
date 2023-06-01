@@ -26,7 +26,7 @@ const booUploadStatus = document.querySelector(".upload-status-info")
 const showReceiptBtns = document.querySelectorAll(".show-receipt-btn");
 const userThumbnailForm = document.querySelector("#userThumbnailForm")
 
-const hostels = { TH: "Tilak Hostel", PH: "Patel Hostel", MH: "Malviya Hostel" };
+const hostels = { TH: "Tilak Hostel", PH: "Patel Hostel", MH: "Malviya Hostel", SVBH: "SVB Hostel" };
 
 const addressFormBootstrapModal = new bootstrap.Modal(addressFormModal);
 const bookFormBootstrapModal = new bootstrap.Modal(bookFormModal);
@@ -390,6 +390,7 @@ const editBook = async (evt) => {
             bookCard.children["bookDetails"].children[9].children["bookDamages"].innerText = bookDetailsForm.elements["inputBookDamages"].value
             bookCard.children["bookDetails"].children[6].children["bookProgramme"].innerText = bookDetailsForm.elements["selectProgramme"].value;
         } catch (error) {
+            console.log(error)
             showToast({ error: "Cannot Contact Server! Error when updating the book! Try Again" });
         }
     }

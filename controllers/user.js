@@ -593,7 +593,6 @@ const uploadNewBookImage = async (req, res) => {
 const updateBookDetails = async (req, res) => {
     const { bookId } = req.params;
     const { bookImage } = res.app.locals;
-
     try {
         const product = await Product.findByIdAndUpdate(bookId, req.body, { runValidators: true });
         if (bookImage) {

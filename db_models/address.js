@@ -17,7 +17,7 @@ const addressSchema = new Schema({
     },
     hostel: {
         type: String,
-        enum: ["TH", "MH", "PH"],
+        enum: ["TH", "MH", "PH", "SVBH"],
         required: true
     }
 });
