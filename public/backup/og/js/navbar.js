@@ -82,12 +82,12 @@ const navbarDropdown = () => {
             dropdownMenu.classList.replace("d-block", "d-none");
         }
     })
-    dropdownToggle.addEventListener("focusout", () => {
-        const dropdownMenu = document.querySelector(".custom-dropdown-menu");    
-        if (dropdownMenu.classList.contains("d-block")) {
-            dropdownMenu.classList.replace("d-block", "d-none");
-        }
-    })
+    // dropdownToggle.addEventListener("focusout", () => {
+    //     const dropdownMenu = document.querySelector(".custom-dropdown-menu");    
+    //     if (dropdownMenu.classList.contains("d-block")) {
+    //         dropdownMenu.classList.replace("d-block", "d-none");
+    //     }
+    // })
 }
 
 
