@@ -8,13 +8,21 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 })
  
+let folder = "BookSellingApp"
+if (process.env.NODE_ENV === "production") {
+    folder = "CampusBookDrop"
+}
+
+// Not used
+///////////////////////////////////////////////
 const storage = new CloudinaryStorage({
   cloudinary,
   params: {
-    folder: "BookSellingApp",
+    folder: folder,
     allowed_format: ["jpeg", "png", "jpg"]
   }
 });
+////////////////////////////////////////////////
 
 module.exports = {
     storage,
