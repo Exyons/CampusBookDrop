@@ -6,6 +6,7 @@ const Order = require("../db_models/order");
 const DeliveryOrder = require("../db_models/delivery_order");
 const { Product } = require("../db_models/product");
 const { Address } = require("../db_models/address");
+const { cloudinary } = require("./cloudinary");
 
 const imageSchema = new Schema({
     url: String,
@@ -87,6 +88,10 @@ userSchema.post('findOneAndDelete', async function (doc) {
 
     // This is common for all users
     // Delete saved addressess
+    if (doc.user_icon) {
+        await cloudinary.uploader.destroy(doc.user_icon.filename);
+    }
+
     for (const address_Id of doc.addresses) {
         await Address.findByIdAndDelete(address_Id);
     }
@@ -101,6 +106,9 @@ userSchema.post('findOneAndDelete', async function (doc) {
         const products = await Product.find({});
         for (const product of products) {
             if (product.user.toString() === doc._id.toString()) {
+                if (product.image){
+                    await cloudinary.uploader.destroy(product.image.filename);
+                }                
                 await Product.findByIdAndDelete(product._id);
             }
         }
