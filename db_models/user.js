@@ -6,7 +6,7 @@ const Order = require("../db_models/order");
 const DeliveryOrder = require("../db_models/delivery_order");
 const { Product } = require("../db_models/product");
 const { Address } = require("../db_models/address");
-const { cloudinary } = require("./cloudinary");
+const { cloudinary } = require("../cloudinary");
 
 const imageSchema = new Schema({
     url: String,
