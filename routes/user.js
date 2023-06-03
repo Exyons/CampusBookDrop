@@ -35,7 +35,8 @@ const {
     regenerateOTP,
     verifyOTP,
     sendOtpToEmail,
-    saveSellerPaymentDetails } = require("../controllers/user.js");
+    saveSellerPaymentDetails,
+    destroyUserAccount } = require("../controllers/user.js");
 
 const upload = multer({
     // for stroing the image in memory temporarily before uploading
@@ -89,6 +90,8 @@ router.post("/account/uploadThumbnail", upload.single("userThumbnail"), wrapAsyn
 router.post("/account/:id/saveThumbnail", upload.none(), wrapAsync(saveThumbnail))
 
 router.patch("/account/:id/update", isLoggedIn, upload.none(), wrapAsync(updateUserDetails))
+
+router.delete("/account/delete", isLoggedIn, wrapAsync(destroyUserAccount))
 
 router.post("/address", isLoggedIn, upload.none(), validateAddressDetails, wrapAsync(saveNewAddress))
 

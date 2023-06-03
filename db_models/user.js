@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 const passportLocalMongoose = require('passport-local-mongoose');
 const { Schema } = mongoose;
 
+const Order = require("../db_models/order");
+const DeliveryOrder = require("../db_models/delivery_order");
+const { Product } = require("../db_models/product");
+const { Address } = require("../db_models/address");
+
 const imageSchema = new Schema({
     url: String,
     filename: String
@@ -76,5 +81,30 @@ const userSchema = new mongoose.Schema({
 
 // Password, Username, will be added by passport-local-mongoose
 userSchema.plugin(passportLocalMongoose);
+
+userSchema.post('findOneAndDelete', async function (doc) {
+    // When user deletes the account, remove all their data from all databases
+
+    // This is common for all users
+    // Delete saved addressess
+    for (const address_Id of doc.addresses) {
+        await Address.findByIdAndDelete(address_Id);
+    }
+    // Delete all orders
+    for (const order_Id of doc.orders) {
+        await Order.findByIdAndDelete(order_Id);
+    }
+
+    // When the user is seller
+    if (doc.user_type === "seller") {
+        // Delete all of their listed products
+        const products = await Product.find({});
+        for (const product of products) {
+            if (product.user.toString() === doc._id.toString()) {
+                await Product.findByIdAndDelete(product._id);
+            }
+        }
+    }
+});
 
 module.exports = mongoose.model("User", userSchema);

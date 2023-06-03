@@ -5,6 +5,33 @@
 <%# include("partials/otpFormModal") %>
 
     <h2 class="text-center mb-3">Dashboard</h2>
+
+    <div class="container text-end">
+        <a type="button" class="btn text-danger" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+            Delete Account?
+        </a>
+    </div>
+    
+    <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="deleteAccountModal">Deleting Account!</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                Are You Sure You Want To Delete Your Account?
+                </div>
+                <div class="d-flex justify-content-evenly my-3">
+                    <form action="/user/account/delete?_method=DELETE" method="POST">
+                        <button class="btn btn-danger" >Yes, Delete Account</button>
+                    </form>
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <div class="container-fluid">
         <div class="dashboard-container">
             <div class="dashboard-navbar">

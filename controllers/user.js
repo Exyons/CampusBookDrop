@@ -984,6 +984,17 @@ const saveSellerPaymentDetails = async (req, res) => {
     }
 }
 
+const destroyUserAccount = async(req, res) => {
+    try {
+        await User.findByIdAndDelete(req.user._id)
+        req.flash("success", "Your Account Has Been Deleted Successfully!");
+        res.redirect("/");
+    } catch (error) {
+        req.flash("error", "Server Error! Unable To Delete Your Account!");
+        res.redirect("/");
+    }
+}
+
 
 module.exports = {
     renderSignUpForm,
@@ -1016,5 +1027,6 @@ module.exports = {
     regenerateOTP,
     verifyOTP,
     sendOtpToEmail,
-    saveSellerPaymentDetails
+    saveSellerPaymentDetails,
+    destroyUserAccount
 }
