@@ -24,9 +24,8 @@ const helmet = require('helmet');
 
 const sessionSecret = process.env.SESSION_SECRET;
 
-// TODO 
-// Implement a method to send email that they logged in from another device
-// If they know it then ok, otherwise tell them to change password, probably someone else accessed their account
+// TODO :Implement a method to send email that they logged in from another device
+// TODO: If they know it then ok, otherwise tell them to change password, probably someone else accessed their account
 
 // Connecting MongoDB database
 mongoose.connect(dbUrl)
