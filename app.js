@@ -22,8 +22,6 @@ const MongoStore = require('connect-mongo');
 const wrapAsync = require("./utils/WrapAsync");
 const helmet = require('helmet');
 
-const sessionSecret = process.env.SESSION_SECRET;
-
 // TODO :Implement a method to send email that they logged in from another device
 // TODO: If they know it then ok, otherwise tell them to change password, probably someone else accessed their account
 
@@ -60,7 +58,7 @@ app.locals.freeDeliveryOnFirstOrder = true;
 const store = MongoStore.create({
     mongoUrl: dbUrl,
     crypto: {
-        secrete: sessionSecret,
+        secrete: process.env.SESSION_SECRET,
         touchAfter: 24 * 3600 // time period in seconds
     }
 })
@@ -69,7 +67,7 @@ const store = MongoStore.create({
 const sessionOptions = {
     name: "campus_session",
     store,
-    secret: sessionSecret,
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     proxy: process.env.NODE_ENV === "production",
