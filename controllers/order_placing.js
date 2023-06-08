@@ -50,6 +50,7 @@ const renderOrderPlacingPage = async (req, res) => {
         // req.flash("error", "The Book You Are Buying Does Not Exist!")
         return res.redirect("/books");
     }
+    res.setHeader('Cache-Control', 'private, max-age=3600');
     res.render("order_placing/index", { title: "Place Order | Campus Book Drop", page_styles: "order_placing.css", user, books })
 }
 

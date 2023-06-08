@@ -118,6 +118,7 @@ const renderUserCart = async (req, res) => {
             }
         }
     }
+    res.setHeader('Cache-Control', 'public, max-age=3600');
     res.render("user/user_cart", { title:"Cart | Campus Book Drop", page_styles: "user_cart_styles.css", products });
 }
 

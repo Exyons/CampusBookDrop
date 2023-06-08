@@ -3,9 +3,8 @@ const user_types = ["seller", "delivery"];
 
 const renderJoinUsPage = (req, res) => {
     const title = "Join Us | CampusBookDrop";
-    // TODO
-    // Show pricing details that you will charge if they sell their books but seller wont deliver their books
-
+    // TODO: Show pricing details that you will charge if they sell their books but seller wont deliver their books
+    res.setHeader('Cache-Control', 'public, max-age=3600');
     res.render("join_us", { title, page_styles:"join_us_styles.css" });
 }
 
