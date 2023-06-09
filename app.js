@@ -198,6 +198,10 @@ app.use("/user", userRoute);
 const user_cart_route = require("./routes/user_cart.js");
 app.use(user_cart_route);
 
+// Sitemap route
+const sitemap_route = require("./routes/sitemap.js");
+app.use("/sitemap.xml", sitemap_route);
+
 // Page Not Found route
 // This should always be at bottom
 const page_not_found_route = require("./routes/page_not_found.js");
