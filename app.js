@@ -21,6 +21,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const MongoStore = require('connect-mongo');
 const wrapAsync = require("./utils/WrapAsync");
 const helmet = require('helmet');
+const compression = require('compression');
 
 // TODO :Implement a method to send email that they logged in from another device
 // TODO: If they know it then ok, otherwise tell them to change password, probably someone else accessed their account
@@ -103,12 +104,12 @@ const connectSrcUrls = [
 app.use(
     helmet.contentSecurityPolicy({
         directives: {
-            defaultSrc: [],
+            defaultSrc: ["'self'"],
             connectSrc: ["'self'", ...connectSrcUrls],
-            scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+            scriptSrc: [ "'self'", "'unsafe-inline'", ...scriptSrcUrls],
             styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
             workerSrc: ["'self'", "blob:"],
-            objectSrc: [],
+            objectSrc: ["'self'"],
             imgSrc: [
                 "'self'",
                 "blob:",
@@ -120,6 +121,20 @@ app.use(
         },
     })
 );
+
+// Enabling compression middleware to compress files
+app.use(compression({
+    // Use Brotli as the preferred compression method
+    brotli: {
+        // Enable Brotli compression
+        enabled: true
+    },
+    // Use Gzip as the fallback compression method
+    gzip: {
+        // Enable Gzip compression
+        enabled: true
+    }
+}));
 
 // Using manogo-sanitize middleware to tackle mongo injection attacks from get request query strings
 app.use(mongoSanitize());
@@ -201,6 +216,10 @@ app.use(user_cart_route);
 // Sitemap route
 const sitemap_route = require("./routes/sitemap.js");
 app.use("/sitemap.xml", sitemap_route);
+
+// Manifest route
+const manifest_route = require("./routes/manifest.js");
+app.use("/manifest.json", manifest_route);
 
 // Page Not Found route
 // This should always be at bottom

@@ -1,0 +1,32 @@
+{
+    "name": "Campus Book Drop",
+    "short_name": "CBD",
+    "start_url": "/",
+    "display": "standalone",
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "icons": [
+        {
+            "src": "/images/books_collection_x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "/images/CampusBookDrop_Icon_Cropped.png",
+            "sizes": "113x109",
+            "type": "image/png"
+        },
+        {
+            "src": "/images/books_collection.png",
+            "sizes": "1920x1080",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/images/maskable_icon_x128.png",
+            "sizes": "128x128",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}
