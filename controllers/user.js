@@ -843,8 +843,8 @@ const sendThankYouEmail = async (req, res) => {
             port: 465,
             secure: true, // true for 465, false for other ports
             auth: {
-                user: process.env.HOSTINGER_FOUNDER_EMAIL,
-                pass: process.env.HOSTINGER_FOUNDER_PASSWORD
+                user: process.env.HOSTINGER_INFO_EMAIL,
+                pass: process.env.HOSTINGER_INFO_PASSWORD
             },
         });
         const emailBody = `<p>Dear ${req.user.firstname + " " + req.user.lastname},</p>` +
@@ -963,7 +963,7 @@ const sendOtpToEmail = async (req, res) => {
         const emailBody = "<h1>Campus Book Drop</h1>" +
             "<p>Here is your OTP to verify your email. It is valid only for 5 minutes</p>" +
             `<h3">${otp}</h3>` +
-            "<p>-Team Campus Book Drop</p>";
+            "<p>-Campus Book Drop</p>";
 
         // send mail with defined transport object
         const info = await transporter.sendMail({
