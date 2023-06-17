@@ -851,13 +851,11 @@ const sendThankYouEmail = async (req, res) => {
             "<p>As a registered user, you'll have access to a variety of features and benefits that make it easy to buy and sell used textbooks with ease. Whether you're looking to save money on required course materials or earn some extra cash by selling your old books, we're here to help every step of the way.</p>" +
             "<p>If you ever have any questions or feedback, don't hesitate to reach out to us. We're always eager to hear from our users and improve our services based on their needs.</p>" +
             "<p>Thanks again for joining Campus Book Drop! We look forward to helping you make the most of your college experience.</p>" +
-            "<p>Best regards,</p>" +
-            "<p>Ankur Pratap Singh<br>" +
-            "Founder, Campus Book Drop</p>";
+            "<p>-Campus Book Drop</p>";
 
         // send mail with defined transport object
         let info = await transporter.sendMail({
-            from: "Campus Book Drop founder@campusbookdrop.store", // sender address
+            from: "Campus Book Drop info@campusbookdrop.store", // sender address
             to: email, // list of receivers
             subject: "Thank You for Registering with Campus Book Drop!",
             html: emailBody, // html body
