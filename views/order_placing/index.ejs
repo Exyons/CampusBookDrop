@@ -1,16 +1,36 @@
-<% layout("layouts/boilerplate") -%>
-    <h2 class="text-center mb-3">Place Order</h2>
+<% layout("layouts/boilerplate") -%> <% const isTakingOrder = false%> <% if
+(isTakingOrder) { %>
+<h2 class="text-center mb-3">Place Order</h2>
 <div class="container-fluid bg-body-tertiary">
-    <div class="container position-content-container d-flex justify-content-center mb-3">
-        <div class="address-position-container row my-3 w-75 p-3">
-            <%- include("partials/address") %>
-        </div>
-        <div class="payment-postion-container container my-3 p-3">
-            <%- include("partials/payment") %>
-        </div>
-        <div class="confirmation-postion-container container my-3">
-            <%- include("partials/confirmation") %>
-        </div>
+  <div
+    class="container position-content-container d-flex justify-content-center mb-3"
+  >
+    <div class="address-position-container row my-3 w-75 p-3">
+      <%- include("partials/address") %>
     </div>
+    <div class="payment-postion-container container my-3 p-3">
+      <%- include("partials/payment") %>
+    </div>
+    <div class="confirmation-postion-container container my-3">
+      <%- include("partials/confirmation") %>
+    </div>
+  </div>
 </div>
 <script src="/js/order_placing.min.js"></script>
+<% } else { %>
+<div class="container-fluid bg-body-tertiary">
+  <div
+    class="container mb-3 fs-3"
+  >
+    <p>
+      Thank you for considering us! At the moment, we are temporarily unable to
+      accept new orders. We apologize for any inconvenience this may cause and
+      appreciate your understanding.
+    </p>
+    <p>
+      Please feel free to check back with us in the near future. We look forward
+      to serving you when we resume taking orders.
+    </p>
+  </div>
+</div>
+<% } %>
