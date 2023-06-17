@@ -40,7 +40,7 @@ const checkIfProductsAreInCart = (cartArray, productsArray) => {
 const renderBooksPage = async (req, res) => {
     // Taking note of how many chunks are sent
     res.app.locals.bookChunkSentCount = 0;
-    res.setHeader('Cache-Control', 'public, max-age=3600');
+    // res.setHeader('Cache-Control', 'public, max-age=3600');
     res.render("products_page/books", { title: "Books | CampusBookDrop", page_styles: "books.css" });
 }
 

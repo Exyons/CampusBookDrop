@@ -64,7 +64,7 @@ const validatePassword = (password) => {
 const renderForgotPasswordPage = (req, res) => {
     const title = "Forgot Password";
     const page_styles = "";
-    res.setHeader('Cache-Control', 'public, max-age=3600');
+    // res.setHeader('Cache-Control', 'public, max-age=3600');
     res.render("user/forgot_password", { title, page_styles });
 }
 
@@ -76,7 +76,7 @@ const renderSignUpForm = (req, res) => {
         // req.flash("error", "You Are Already Logged In!");
         return res.redirect("/")
     }
-    res.setHeader('Cache-Control', 'private, max-age=3600');
+    // res.setHeader('Cache-Control', 'private, max-age=3600');
     res.render("user/sign_up", { title, page_styles });
 }
 
@@ -253,7 +253,7 @@ const renderLogInForm = (req, res) => {
         // req.flash("error", "You Are Already Logged In!");
         return res.redirect("/")
     }
-    res.setHeader('Cache-Control', 'public, max-age=3600');
+    // res.setHeader('Cache-Control', 'public, max-age=3600');
     res.render("user/log_in", { title, page_styles });
 }
 
@@ -379,7 +379,6 @@ const renderUserDashboard = async (req, res) => {
                 }
             })
         }
-        res.setHeader('Cache-Control', 'private, max-age=3600');
         res.render("user/dashboard/user_dashboard", { title, page_styles: "user_dashboard_styles.css", user, sellerBooks, userDeliveryOrders, sellerOrders, sellerUpiId });
     } catch (error) {
         console.log(error)
