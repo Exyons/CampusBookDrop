@@ -1,15 +1,42 @@
 {
-  "name": "lazyread",
+  "name": "campusbookdrop",
   "version": "1.0.0",
-  "description": "",
+  "description": "A three-sided marketplace for used college textbooks: students list books, other students buy them, and volunteer couriers deliver between hostel rooms.",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "marketplace",
+    "textbooks",
+    "used-books",
+    "book-exchange",
+    "campus",
+    "students",
+    "express",
+    "nodejs",
+    "mongodb",
+    "mongoose",
+    "ejs",
+    "passport",
+    "cloudinary",
+    "server-side-rendering",
+    "pwa",
+    "startup"
+  ],
+  "author": "Ankur Singh (Exyons)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Exyons/CampusBookDrop.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Exyons/CampusBookDrop/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
     "bcrypt": "^5.1.0",
     "cloudinary": "^1.36.2",
