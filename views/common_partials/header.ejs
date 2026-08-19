@@ -59,15 +59,15 @@
 
     <% } %>
 
-    <% if (process.env.NODE_ENV==="production" ) { %>
-        <link rel="preconnect" href="https://www.googletagmanager.com/gtag/js?id=REDACTED">
-        <script async src="https://www.googletagmanager.com/gtag/js?id=REDACTED"
+    <% if (process.env.NODE_ENV==="production" && process.env.GA_MEASUREMENT_ID) { %>
+        <link rel="preconnect" href="https://www.googletagmanager.com/gtag/js?id=<%= process.env.GA_MEASUREMENT_ID %>">
+        <script async src="https://www.googletagmanager.com/gtag/js?id=<%= process.env.GA_MEASUREMENT_ID %>"
             fetchpriority="low"></script>
         <script fetchpriority="low">
             window.dataLayer = window.dataLayer || [];
             function gtag() { dataLayer.push(arguments); }
             gtag('js', new Date());
-            gtag('config', 'REDACTED');
+            gtag('config', '<%= process.env.GA_MEASUREMENT_ID %>');
         </script>
     <% } %>
 

@@ -27,31 +27,6 @@ const compression = require('compression');
 // TODO: If they know it then ok, otherwise tell them to change password, probably someone else accessed their account
 
 
-// TODO: Implement firebase analytics
-// **************************************************************
-// Import the functions you need from the SDKs you need
-// import { initializeApp } from "firebase/app";
-// import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-// const firebaseConfig = {
-//   apiKey: "REDACTED",
-//   authDomain: "campusbookdrop.firebaseapp.com",
-//   projectId: "campusbookdrop",
-//   storageBucket: "campusbookdrop.appspot.com",
-//   messagingSenderId: "REDACTED",
-//   appId: "REDACTED",
-//   measurementId: "REDACTED"
-// };
-
-// Initialize Firebase
-// const app = initializeApp(firebaseConfig);
-// const analytics = getAnalytics(app);
-// ****************************************************************
-
 // Connecting MongoDB database
 mongoose.connect(dbUrl)
     .then(() => {
